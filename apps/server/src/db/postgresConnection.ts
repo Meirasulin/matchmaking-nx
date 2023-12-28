@@ -1,8 +1,8 @@
-import { Sequelize } from "sequelize";
-import "dotenv/config";
+import { Sequelize } from 'sequelize';
+import 'dotenv/config';
+export const sequelize = new Sequelize(process.env.POSTGRES_URL as string);
 
 const connectToPG = async () => {
-  const sequelize = new Sequelize(process.env.POSTGRES_URL as string);
   try {
     await sequelize.authenticate();
     return true;

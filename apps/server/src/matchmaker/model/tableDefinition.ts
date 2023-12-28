@@ -1,9 +1,14 @@
-import { hash } from "bcrypt";
-import { Sequelize, DataTypes } from "sequelize";
-const sequelize = new Sequelize("sqlite::memory:");
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../../db/postgresConnection';
+// export const sequelize = new Sequelize('sqlite::memory:', {
+//   logging: console.log,
+//   dialectOptions: {
+//     keepConnectionAcrossTransactions: true,
+//   },
+// });
 
 const Matchmakers = sequelize.define(
-  "Matchmakers",
+  'Matchmakers',
   {
     firstName: {
       type: DataTypes.STRING,
@@ -14,7 +19,7 @@ const Matchmakers = sequelize.define(
       allowNull: false,
     },
     birthDate: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     credential: {
@@ -31,11 +36,11 @@ const Matchmakers = sequelize.define(
       unique: true,
     },
     gender: {
-      type: DataTypes.ENUM("male", "female"),
+      type: DataTypes.ENUM('male', 'female'),
       allowNull: false,
-      validate: {
-        isIn: [["male", "female"]],
-      },
+      // validate: {
+      //   isIn: [['male', 'female']],
+      // },
     },
     specialization: {
       type: DataTypes.STRING,
@@ -44,23 +49,26 @@ const Matchmakers = sequelize.define(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
-      set(value) {
-        this.setDataValue("password", hash(value as string, 10));
-      },
     },
   },
   {
-    tableName: "Matchmakers",
+    tableName: 'Matchmakers',
   }
 );
+export default Matchmakers;
+
 export const createMatchmakersTable = async () => {
   try {
-    await Matchmakers.sync().then(() => {
-      console.log("Table Matchmakers created successfully");
+    const tableExists = await sequelize.getQueryInterface().showAllTables();
+    const isExsits = tableExists.includes('Matchmakers');
+    console.log(isExsits);
+    if (isExsits === true) return;
+    Matchmakers.sync().then((res) => {
+      console.log('Table Matchmakers created successfully', res);
     });
+    return;
   } catch (error) {
-    console.log("Unable to create Table: Matchmakers");
+    console.log('Unable to create Table: Matchmakers');
     return Promise.reject(error);
   }
 };
-export default Matchmakers;

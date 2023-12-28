@@ -5,7 +5,11 @@ export type MatchmakerType = {
   credential?: string;
   phoneNumber: string;
   email: string;
-  gender: "male" | "female";
+  gender: 'male' | 'female';
   specialization: string;
+  password: string;
+};
+export type LoginMatchmakerType = {
+  email: string;
   password: string;
 };

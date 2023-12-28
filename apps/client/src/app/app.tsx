@@ -1,53 +1,89 @@
+// import { Route, Routes, Link } from 'react-router-dom';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.css';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import trpc from '../trpc/trpcClient';
+// import { SyntheticEvent, useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
 
-import NxWelcome from './nx-welcome';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {
+  LoginMatchmakerType,
+  MatchmakerType,
+} from 'apps/server/src/matchmaker/types/matchmakerType';
 
-import { Route, Routes, Link } from 'react-router-dom';
+export const App = () => {
+  const login = trpc.matchmaker.login.query;
+  const signup = trpc.matchmaker.signup.mutate;
 
-export function App() {
+  const {
+    register,
+    handleSubmit,
+    // reset,
+    // formState: { errors, isValid },
+  } = useForm();
+
+  const onSubmit = (formData: FieldValues) => {
+    console.log(formData);
+    signup(formData as MatchmakerType);
+    // reset();
+  };
+  const handleLoginMatchmakers = async (formData: FieldValues) => {
+    const res = await login(formData as LoginMatchmakerType);
+    console.log(res);
+  };
+
   return (
     <div>
-      <NxWelcome title="client" />
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
-      </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
-      </Routes>
-      {/* END: routes */}
+      <form onSubmit={handleSubmit(onSubmit)} className="form-container">
+        <h4>SignUp</h4>
+        <label htmlFor="fname"></label>
+        <br />
+        <input type="text" {...register('firstName')} />
+        <br />
+        <label htmlFor="lastName"></label>
+        <br />
+        <input type="text" {...register('lastName')} />
+        <br />
+        <label htmlFor="birthDate"></label>
+        <br />
+        <input type="text" {...register('birthDate')} />
+        <br />
+        <label htmlFor="phoneNumber"></label>
+        <br />
+        <input type="text" {...register('phoneNumber')} />
+        <br />
+        <label htmlFor="email"></label>
+        <br />
+        <input type="text" {...register('email')} />
+        <br />
+        <label htmlFor="gender"></label>
+        <br />
+        <input type="text" {...register('gender')} placeholder="male" />
+        <br />
+        <label htmlFor="specialization"></label>
+        <br />
+        <input type="text" {...register('specialization')} />
+        <br />
+        <label htmlFor="password"></label>
+        <br />
+        <input type="text" {...register('password')} />
+        <br />
+        <button type="submit">SignUp</button>
+      </form>
+      <form onSubmit={handleSubmit(handleLoginMatchmakers)}>
+        <h4>LogIn</h4>
+        <label htmlFor="email"></label>
+        <br />
+        <input type="text" {...register('email')} />
+        <br />
+        <label htmlFor="password"></label>
+        <br />
+        <input type="text" {...register('password')} />
+        <button type="submit">LogIn</button>
+      </form>
     </div>
   );
-}
+};
 
 export default App;
