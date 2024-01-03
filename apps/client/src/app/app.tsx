@@ -1,41 +1,37 @@
-// import { Route, Routes, Link } from 'react-router-dom';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import trpc from '../trpc/trpcClient';
-// import { SyntheticEvent, useState } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
-
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import {
-  LoginMatchmakerType,
-  MatchmakerType,
-} from 'apps/server/src/matchmaker/types/matchmakerType';
+import SignupForm from './matchmakers/component/signup/SiginupForm';
 
 export const App = () => {
-  const login = trpc.matchmaker.login.query;
-  const signup = trpc.matchmaker.signup.mutate;
-
-  const {
-    register,
-    handleSubmit,
-    // reset,
-    // formState: { errors, isValid },
-  } = useForm();
-
-  const onSubmit = (formData: FieldValues) => {
-    console.log(formData);
-    signup(formData as MatchmakerType);
-    // reset();
-  };
-  const handleLoginMatchmakers = async (formData: FieldValues) => {
-    const res = await login(formData as LoginMatchmakerType);
-    console.log(res);
-  };
-
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="form-container">
+    <div className="mt-10 mb-">
+      <SignupForm />
+    </div>
+  );
+};
+
+export default App;
+
+// const login = trpc.matchmaker.login.query;
+// const signup = trpc.matchmaker.signup.mutate;
+
+// const {
+//   register,
+//   handleSubmit,
+//   // reset,
+//   // formState: { errors, isValid },
+// } = useForm();
+
+// const onSubmit = (formData: FieldValues) => {
+//   console.log(formData);
+//   signup(formData as MatchmakerType);
+//   // reset();
+// };
+// const handleLoginMatchmakers = async (formData: FieldValues) => {
+//   const res = await login(formData as LoginMatchmakerType);
+//   console.log(res);
+// };
+
+// {
+/* <form onSubmit={handleSubmit(onSubmit)} className="form-container">
         <h4>SignUp</h4>
         <label htmlFor="fname"></label>
         <br />
@@ -81,9 +77,5 @@ export const App = () => {
         <br />
         <input type="text" {...register('password')} />
         <button type="submit">LogIn</button>
-      </form>
-    </div>
-  );
-};
-
-export default App;
+      </form> */
+// }

@@ -25,18 +25,14 @@ export const matchmakersLogin = async ({
     console.error('test', email, password);
 
     const findMatchmaker = (await Matchmakers.findOne({
-      where: { email: email },
+      where: { email },
       raw: true,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    })) as MatchmakerType | any;
+    })) as unknown as MatchmakerType;
     if (!findMatchmaker) throw new Error('The email or password is incorrect');
     const match = await compare(password, findMatchmaker.password);
     if (!match) throw new Error('The email or password is incorrect');
-    console.log(findMatchmaker);
-
     return findMatchmaker;
   } catch (error) {
-    console.log(error);
     return Promise.reject(error);
   }
 };

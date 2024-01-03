@@ -1,5 +1,4 @@
 import 'dotenv/config';
-// import chalk from "chalk";
 import cors from 'cors';
 import { createHTTPServer } from '@trpc/server/adapters/standalone';
 import appRouter from './router/appRouter';

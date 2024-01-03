@@ -10,10 +10,7 @@ export const matchmakersRouter = router({
   signup: publicProcedure
     .input(z.object(MatchmakerValidetion))
     .mutation(async (ops) => {
-      console.log(ops.input);
       ops.input.password = await hash(ops.input.password as string, 10);
-      console.log(ops.input.password);
-
       matchmakersSignin(ops.input as MatchmakerType);
     }),
   login: publicProcedure
