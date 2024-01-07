@@ -1,9 +1,11 @@
-import SignupForm from './matchmakers/component/signup/SiginupForm';
+import Header from './layout/component/Header';
+import SignupStepper from './matchmakers/signup/component/SignupStepper';
 
 export const App = () => {
   return (
-    <div className="mt-10 mb-">
-      <SignupForm />
+    <div>
+      <Header />
+      <SignupStepper />
     </div>
   );
 };
