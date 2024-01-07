@@ -2,15 +2,21 @@ import Matchmakers from '../model/tableDefinition';
 import { LoginMatchmakerType, MatchmakerType } from '../types/matchmakerType';
 import { compare } from 'bcrypt';
 
+export const findUser = async (email: string) => {
+  try {
+    const findMatchmaker = await Matchmakers.findOne({
+      where: { email },
+      raw: true,
+    });
+    if (!findMatchmaker) throw new Error ('user not found')
+  } catch (error) {}
+};
 export const matchmakersSignin = async (matchmaker: MatchmakerType) => {
   try {
     const newMatchmaker = await Matchmakers.create(matchmaker);
-    const saveNewMatchmaker = await newMatchmaker.save();
+    // const saveNewMatchmaker = await newMatchmaker.save();
     if (!newMatchmaker) throw new Error('Error in saveing new Matchmaker');
-    console.log(
-      'signup of new matchmaker as been saved - ' + saveNewMatchmaker.dataValues
-    );
-    return saveNewMatchmaker;
+    return newMatchmaker;
   } catch (error) {
     console.log(error);
     return Promise.reject(error);

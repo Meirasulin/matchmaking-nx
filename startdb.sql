@@ -174,11 +174,6 @@ SELECT * FROM pg_extension WHERE extname = 'pgcrypto';
 
 
 
-
-
-
-
-
 SELECT n.nspname, p.proname, pg_catalog.pg_get_function_arguments(p.oid) as params
 FROM   pg_catalog.pg_proc p
 JOIN   pg_catalog.pg_namespace n ON n.oid = p.pronamespace

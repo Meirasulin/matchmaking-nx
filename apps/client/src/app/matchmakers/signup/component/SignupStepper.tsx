@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import '../../style/signupStepper.css';
+import '../style/signupStepper.css';
 import { TiTick } from 'react-icons/ti';
+import SignupContainer from './SignupContainer';
 
 const SignupStepper = () => {
   const steps = ['פרטיים אישיים', 'דרכי התקשרות', 'תשלום'];
@@ -8,9 +9,9 @@ const SignupStepper = () => {
   const [complete, setComplete] = useState(false);
 
   const handleNextButton = () => {
-      currentStep === steps.length
-        ? setComplete(true)
-        : setCurrentStep((prev) => prev + 1);
+    currentStep === steps.length +1 
+      ? setComplete(true)
+      : setCurrentStep((prev) => prev + 1);
   };
   return (
     <>
@@ -30,10 +31,12 @@ const SignupStepper = () => {
         ))}
       </div>
       {!complete && (
-
-        <button className="btn" onClick={() => handleNextButton}>
-          {currentStep === steps.length ? 'Finish' : 'Next'}
-        </button>
+        <>
+          <SignupContainer page={currentStep} />
+          <button className="btn m-1" onClick={() => handleNextButton}>
+            {currentStep === steps.length ? 'Finish' : 'Next'}
+          </button>
+        </>
       )}
     </>
   );
