@@ -2,16 +2,19 @@ import Matchmakers from '../model/tableDefinition';
 import { LoginMatchmakerType, MatchmakerType } from '../types/matchmakerType';
 import { compare } from 'bcrypt';
 
-export const findUser = async (email: string) => {
-  try {
-    const findMatchmaker = await Matchmakers.findOne({
-      where: { email },
-      raw: true,
-    });
-    if (!findMatchmaker) throw new Error ('user not found')
-  } catch (error) {}
-};
-export const matchmakersSignin = async (matchmaker: MatchmakerType) => {
+// export const findUser = async (email: string) => {
+//   try {
+//     const findMatchmaker = await Matchmakers.findOne({
+//       where: { email },
+//       raw: true,
+//     });
+//     if (findMatchmaker) throw new Error ('user not found')
+    
+//   } catch (error) {}
+// };
+
+
+export const matchmakersSignUp = async (matchmaker: MatchmakerType) => {
   try {
     const newMatchmaker = await Matchmakers.create(matchmaker);
     // const saveNewMatchmaker = await newMatchmaker.save();
@@ -19,7 +22,7 @@ export const matchmakersSignin = async (matchmaker: MatchmakerType) => {
     return newMatchmaker;
   } catch (error) {
     console.log(error);
-    return Promise.reject(error);
+    throw error
   }
 };
 

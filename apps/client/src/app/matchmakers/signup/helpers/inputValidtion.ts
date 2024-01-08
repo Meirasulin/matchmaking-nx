@@ -1,63 +1,78 @@
+import { atom } from "jotai";
+
 export const passwordValidet = {
-    required: "⚠ Required field",
-    pattern: {
-      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/,
-      message:
-        "⚠ Password must contain an uppercase letter, a lowercase letter, a digit, a special character, and be 8-20 characters long.",
-    },
-  };
-  export const emailValidet = {
-    required: "⚠ Required field",
-    pattern: {
-      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-      message: "⚠ Invalid email address",
-    },
-  };
-  export const nameValidet = {
-    required: "⚠ Required field",
-    minLength: {
-      value: 2,
-      message: "⚠ Must be at least two characters",
-    },
-    pattern: {
-      value: /^[A-Za-z]+$/,
-      message: "⚠ Please enter correct values",
-    },
-  };
-  
-  export const middelName = {
-    minLength: {
-      value: 2,
-      message: "⚠ Must be at least two characters",
-    },
-    pattern: {
-      value: /^[A-Za-z]+$/,
-      message: "⚠ Please enter correct values",
-    },
-  };
-  
-  export const phoneValidet = {
-    required: "⚠ Required field",
-    pattern: {
-      value: /^\d{7}$/,
-      message: "⚠ Invalid Phone Number",
-    },
-  };
-  export const requiredValidet = {
-    required: true
-  };
-  export const houseValidet = {
-    required: "⚠ Required field",
-    pattern: {
-      value: /^[0-9]+$/,
-      message: "⚠ Invalid House Number",
-    },
-  };
-  
-  export const idValidet = {
-    required: "⚠ Required field",
-    pattern: {
-      value: /^\w{5,10}$/,
-      message: "⚠ Invalid Personal ID",
-    },
-  };
+  required: 'שדה נדרש!',
+  pattern: {
+    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/,
+    message:
+      'הסיסמה חייבת להכיל אות גדולה, אות קטנה, ספרה, תו מיוחד, ולהיות באורך 8-20 תווים.',
+  },
+};
+
+export const emailValidet = {
+  required: 'שדה נדרש!',
+  pattern: {
+    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    message: 'כתובת מייל לא חוקית',
+  },
+};
+export const nameValidet = {
+  required: 'שם פרטי - שדה נדרש!',
+  minLength: {
+    value: 2,
+    message: 'שם לא חוקי',
+  },
+  pattern: {
+    value: /^[a-zA-Z\u0590-\u05FF]+$/,
+    message: 'יש להזין אותיות בלבד',
+  },
+};
+
+export const lastName = {
+  required: 'שם משפחה - שדה נדרש!',
+  minLength: {
+    value: 2,
+    message: 'שם לא חוקי',
+  },
+  pattern: {
+    value: /^[a-zA-Z\u0590-\u05FF]+$/,
+    message: 'יש להזין אותיות בלבד',
+  },
+};
+
+export const requiredValidet = {
+  required: 'שדה נדרש!',
+};
+
+export const phoneValidet = {
+  required: 'שדה נדרש!',
+  pattern: {
+    value: /^\d{9,10}$/,
+    message: 'מספר נייד/נייח לא חוקי',
+  },
+};
+
+export const genderValidet = {
+  required: 'שדה נדרש!',
+  validate: (value: unknown) => {
+    if (value !== 'male' && value !== 'female') {
+      return 'שדה נדרש!';
+    }
+  },
+};
+export const page = atom(1)
+// export const idValidet = {
+//   required: "⚠ Required field",
+//   pattern: {
+//     value: /^\w{5,10}$/,
+//     message: "⚠ Invalid Personal ID",
+//   },
+// };
+
+// export const houseValidet = {
+//   required: "⚠ Required field",
+//   pattern: {
+//     value: /^[0-9]+$/,
+//     message: "⚠ Invalid House Number",
+//   },
+// };

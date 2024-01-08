@@ -1,7 +1,7 @@
 import { publicProcedure, router } from '../../trpcServer/initTRPC';
 import { z } from 'zod';
 import { MatchmakerValidetion } from '../utils/matchmakerValidetion';
-import { matchmakersSignin, matchmakersLogin } from '../dal/matchmakersDAL';
+import { matchmakersSignUp, matchmakersLogin } from '../dal/matchmakersDAL';
 import { LoginMatchmakerType, MatchmakerType } from '../types/matchmakerType';
 import { hash } from 'bcrypt';
 // import { randomUUID } from "crypto";
@@ -11,7 +11,7 @@ export const matchmakersRouter = router({
     .input(z.object(MatchmakerValidetion))
     .mutation(async (ops) => {
       ops.input.password = await hash(ops.input.password as string, 10);
-      matchmakersSignin(ops.input as MatchmakerType);
+      matchmakersSignUp(ops.input as MatchmakerType);
     }),
   login: publicProcedure
     .input(z.object({ password: z.string(), email: z.string() }))
