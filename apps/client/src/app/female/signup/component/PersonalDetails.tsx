@@ -3,13 +3,13 @@ import {
   genderValidet,
   nameValidet,
   requiredValidet,
-} from '../helpers/inputValidtion';
+} from '../../../matchmakers/signup/helpers/inputValidtion';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../style/inputs.css';
 import { useAtom } from 'jotai';
-import { stepAtom , userInfoAtom} from '../helpers/initalAtom';
-import { TypePersonalDetails } from '../types/userInfoType';
+import { stepAtom , userInfoAtom} from '../helpers/initialAtom';
+import { TypePersonalDetails } from '../types/userTypes';
 
 const PersonalDetails = () => {
   const [personalInfo, setPersonalInfo] = useAtom(userInfoAtom)
@@ -98,47 +98,69 @@ const PersonalDetails = () => {
           </div>
           <div>
             <label
-              htmlFor="specialty"
+              htmlFor="maritalStatus"
+              className={errors.maritalStatus?.message ? 'lableError' : 'lableSuccess'}
+            >
+              {errors.maritalStatus?.message
+                ? (errors.maritalStatus?.message as string)
+                : 'מצב משפחתי'}
+            </label>
+
+            <select
+              id="countries"
+              className={errors.maritalStatus?.message ? 'inputError' : 'inputSuccess'}
+              {...register('maritalStatus', requiredValidet)}
+            >
+              <option className="font-bold absolute text-center"> </option>
+              <option value="single" className="text-center">
+                רווקה
+              </option>
+              <option value="divorcee" className="text-center">
+                גרושה
+              </option>
+              <option value="widow" className="text-center">
+                אלמנה
+              </option>
+            </select>
+          </div>
+          <div>
+            <label
+              htmlFor="fatherName"
               className={
-                errors.specialty?.message ? 'lableError' : 'lableSuccess'
+                errors.fatherName?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.specialty?.message
-                ? (errors.specialty?.message as string)
-                : 'תחום התמחות'}
+              {errors.fatherName?.message
+                ? (errors.fatherName?.message as string)
+                : 'שם האב'}
             </label>
             <input
               type="text"
-              {...register('specialty', requiredValidet)}
+              {...register('fatherName', nameValidet)}
               className={
-                errors.specialty?.message ? 'inputError' : 'inputSuccess'
+                errors.fatherName?.message ? 'inputError' : 'inputSuccess'
               }
             />
           </div>
           <div>
             <label
-              htmlFor="gender"
-              className={errors.gender?.message ? 'lableError' : 'lableSuccess'}
+              htmlFor="motherName"
+              className={
+                errors.motherName?.message ? 'lableError' : 'lableSuccess'
+              }
             >
-              {errors.gender?.message
-                ? (errors.gender?.message as string)
-                : 'מגדר'}
+              {errors.motherName?.message
+                ? (errors.lastName?.message as string)
+                : 'שם האם'}
             </label>
-
-            <select
-              id="countries"
-              className={errors.gender?.message ? 'inputError' : 'inputSuccess'}
-              // className="col-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              {...register('gender', genderValidet)}
-            >
-              <option className="font-bold absolute text-center"> </option>
-              <option value="male" className="text-center">
-                גבר
-              </option>
-              <option value="female" className="text-center">
-                אישה
-              </option>
-            </select>
+            <input
+              type="text"
+              id='motherName'
+              {...register('motherName', nameValidet)}
+              className={
+                errors.motherName?.message ? 'inputError' : 'inputSuccess'
+              }
+            />
           </div>
           <button
             className={!isValid ? 'disableButton' : 'btn m-1 w-max'}

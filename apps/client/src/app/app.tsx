@@ -1,11 +1,13 @@
+import Router from './Router/Routes';
+import Footer from './layout/component/Footer';
 import Header from './layout/component/Header';
-import SignupStepper from './matchmakers/signup/component/SignupStepper';
 
 export const App = () => {
   return (
     <div>
       <Header />
-      <SignupStepper />
+      <Router />
+
     </div>
   );
 };

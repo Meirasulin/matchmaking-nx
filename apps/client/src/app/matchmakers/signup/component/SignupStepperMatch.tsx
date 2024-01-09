@@ -3,20 +3,16 @@ import '../style/signupStepper.css';
 import { TiTick } from 'react-icons/ti';
 import SignupContainer from './SignupContainer';
 import { atom, useAtom } from 'jotai'
-import { page } from '../helpers/inputValidtion';
+import { stepAtom } from '../helpers/initalAtom';
 
 
 
-const SignupStepper = () => {
+const SignupStepperMatch = () => {
   const steps = ['פרטיים אישיים', 'דרכי התקשרות', 'תשלום'];
   const [complete, setComplete] = useState(false);
-  const [currentStep] = useAtom(page)
+  const [currentStep] = useAtom(stepAtom)
 
-  // const handleNextButton = () => {
-  //   currentStep === steps.length
-  //     ? setComplete(true)
-  //     : setCurrentStep((prev) => prev + 1);
-  // };
+
   return (
     <>
       <h1 className="flex justify-center font-bold"> הרשמה למשדכים</h1>
@@ -43,5 +39,5 @@ const SignupStepper = () => {
     </>
   );
 };
-export default SignupStepper;
+export default SignupStepperMatch;
 

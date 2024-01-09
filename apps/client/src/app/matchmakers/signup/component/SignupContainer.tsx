@@ -1,4 +1,5 @@
 import ContactInfo from "./ContactInfo";
+import Payment from "./Payment";
 import PersonalDetails from "./PersonalDetails"
 
 type Prop = {
@@ -7,12 +8,12 @@ type Prop = {
 }
 
 const SignupContainer = ({page}: Prop) => {
-console.log(page);
 
     return (
         <>
         {page === 1 && <PersonalDetails />}
         {page === 2 && <ContactInfo  />}
+        {page === 3 && <Payment/>}
         </>
     )
 }

@@ -60,19 +60,4 @@ export const genderValidet = {
     }
   },
 };
-export const page = atom(1)
-// export const idValidet = {
-//   required: "⚠ Required field",
-//   pattern: {
-//     value: /^\w{5,10}$/,
-//     message: "⚠ Invalid Personal ID",
-//   },
-// };
 
-// export const houseValidet = {
-//   required: "⚠ Required field",
-//   pattern: {
-//     value: /^[0-9]+$/,
-//     message: "⚠ Invalid House Number",
-//   },
-// };

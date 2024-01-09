@@ -20,23 +20,24 @@ DROP TABLE matching.Female
 CREATE TABLE matching.Female(
 matchFemaleId serial PRIMARY KEY NOT NULL,
 firstName TEXT NOT NULL,
-lastDate TEXT NOT NULL,
+lastName TEXT NOT NULL,
 birthDate TEXT NOT NULL,
 email text Unique NOT NULL,
 phoneNumber TEXT NOT NULL Unique,
 password TEXT NOT NULL,
 currentAddress TEXT ,
-socialReference TEXT NOT NULL,
+origin TEXT NOT NULL,
 height NUMERIC NOT NULL,
 higherEducation TEXT,
+educationName TEXT
 higherEducationAcademy TEXT,
 jobStatus TEXT NOT NULL,
-jobCompany TEXT NOT NULL,
+jobCompany TEXT,
 seminar TEXT NOT NULL,
 headwear TEXT NOT NULL,
 pelKoshers TEXT NOT NULL,
 fatherName TEXT,
-mother TEXT,
+motherName TEXT,
 maritalStatus TEXT NOT NULL,
 imgLink TEXT);
 

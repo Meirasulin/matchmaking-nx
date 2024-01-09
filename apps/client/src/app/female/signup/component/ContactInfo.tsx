@@ -3,11 +3,11 @@ import {
   emailValidet,
   passwordValidet,
   phoneValidet,
-} from '../helpers/inputValidtion';
+} from '../../../matchmakers/signup//helpers/inputValidtion';
 import '../style/inputs.css';
 import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../helpers/initalAtom';
-import { TypeContactInfo, TypePersonalDetails } from '../types/userInfoType';
+import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
+import { TypeContactInfo } from '../types/userTypes';
 
 const ContactInfo = () => {
   const [currentStep, setCurrentStep] = useAtom(stepAtom);
