@@ -17,7 +17,8 @@ export type TypeMatchInfo = {
 };
 
 export type TypeJobAndEdu = {
-  seminar: string;
+  torahStudyStatus: string;
+  yeshiva: string;
   higherEducation: string;
   educationName: string;
   higherEducationAcademy: string;

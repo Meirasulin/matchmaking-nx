@@ -4,7 +4,7 @@ import { stepAtom } from '../helpers/initialAtom';
 import SignupContainer from './SignupContainer.js';
 import { TiTick } from 'react-icons/ti';
 
-const SignupStepperFemale = () => {
+const SignupStepperMale = () => {
   const steps = [
     'פרטיים אישיים',
     'שאלון התאמות',
@@ -16,7 +16,7 @@ const SignupStepperFemale = () => {
   const [currentStep] = useAtom(stepAtom);
   return (
     <>
-      <h1 className="text-center font-bold"> הרשמה למשודכות</h1>
+      <h1 className="text-center font-bold"> הרשמה למשודכים</h1>
       <div className="flex justify-between mt-1">
         {steps?.map((step, i) => (
           <div
@@ -41,4 +41,4 @@ const SignupStepperFemale = () => {
   );
 };
 
-export default SignupStepperFemale;
+export default SignupStepperMale;

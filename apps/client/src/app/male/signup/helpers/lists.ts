@@ -35,7 +35,7 @@ export const eduList = [
   },
   {
     type: 'after',
-    hebrew: 'בעלת תואר',
+    hebrew: 'בעל תואר',
   },
 ];
 export const jobStatusList = [
@@ -51,6 +51,25 @@ export const jobStatusList = [
     type: 'temporary',
     hebrew: 'משרה זמנית',
   },
+  {
+    type: 'without',
+    hebrew: 'ללא',
+  },
+];
+export const torahStudyStatusList = [
+  {
+    type: 'fullDay',
+    hebrew: 'יום שלם',
+  },
+  {
+    type: 'setsTimes',
+    hebrew: 'קובע עיתים',
+  },
+  {
+    type: 'halfDay',
+    hebrew: 'חצי יום',
+  },
+
   {
     type: 'without',
     hebrew: 'ללא',

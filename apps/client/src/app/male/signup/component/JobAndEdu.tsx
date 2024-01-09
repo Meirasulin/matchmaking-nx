@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
 import { requiredValidet } from '../../../matchmakers/signup/helpers/inputValidtion';
 import { useState } from 'react';
-import { eduList, jobStatusList } from '../helpers/lists';
+import { eduList, jobStatusList, torahStudyStatusList } from '../helpers/lists';
 
 const JobAndEdu = () => {
   const [personalInfo, setPersonalInfo] = useAtom(userInfoAtom);
@@ -34,25 +34,50 @@ const JobAndEdu = () => {
         <form action="/" onSubmit={handleSubmit(handleClickSubmit)}>
           <div>
             <label
-              htmlFor="seminar"
+              htmlFor="yeshiva"
               className={
-                errors.seminar?.message ? 'lableError' : 'lableSuccess'
+                errors.yeshiva?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.seminar?.message
-                ? (errors.seminar?.message as string)
-                : 'סמינר'}
+              {errors.yeshiva?.message
+                ? (errors.yeshiva?.message as string)
+                : 'ישיבה'}
             </label>
             <input
               type="text"
               id="seminar"
-              {...register('seminar', requiredValidet)}
+              {...register('yeshiva', requiredValidet)}
               className={
-                errors.seminar?.message ? 'inputError' : 'inputSuccess'
+                errors.yeshiva?.message ? 'inputError' : 'inputSuccess'
               }
             />
           </div>
-
+          <div>
+            <label
+              htmlFor="torahStudyStatus"
+              className={
+                errors.torahStudyStatus?.message ? 'lableError' : 'lableSuccess'
+              }
+            >
+              {errors.torahStudyStatus?.message
+                ? (errors.torahStudyStatus?.message as string)
+                : 'לימוד תורה'}
+            </label>
+            <select
+              id="torahStudyStatus"
+              className={
+                errors.torahStudyStatus?.message ? 'inputError' : 'inputSuccess'
+              }
+              {...register('torahStudyStatus')}
+            >
+              <option className="text-center"> </option>
+              {torahStudyStatusList.map((item, i) => (
+                <option value={item.type} className="text-center">
+                  {item.hebrew}
+                </option>
+              ))}
+            </select>
+          </div>
           <div>
             <label
               htmlFor="higherEducation"

@@ -6,7 +6,7 @@ CREATE SCHEMA matching
 CREATE TABLE matching.Matchmakers (
 matchmakerId serial PRIMARY KEY NOT NULL,
 firstName TEXT NOT NULL,
-lastDate TEXT NOT NULL,
+lastName TEXT NOT NULL,
 birthDate TEXT NOT NULL,
 email text Unique NOT NULL,
 phoneNumber TEXT NOT NULL Unique,
@@ -16,6 +16,8 @@ password TEXT NOT NULL);
 
 
 DROP TABLE matching.Female
+
+
 
 CREATE TABLE matching.Female(
 matchFemaleId serial PRIMARY KEY NOT NULL,
@@ -28,7 +30,7 @@ password TEXT NOT NULL,
 currentAddress TEXT ,
 origin TEXT NOT NULL,
 height NUMERIC NOT NULL,
-higherEducation TEXT,
+higherEducation TEXT NOT NULL,
 educationName TEXT
 higherEducationAcademy TEXT,
 jobStatus TEXT NOT NULL,
@@ -44,25 +46,25 @@ imgLink TEXT);
 CREATE TABLE matching.Male(
 matchMaleId serial PRIMARY KEY NOT NULL,
 firstName TEXT NOT NULL,
-lastDate TEXT NOT NULL,
+lastName TEXT NOT NULL,
 birthDate TEXT NOT NULL,
 email text Unique NOT NULL,
 phoneNumber TEXT NOT NULL Unique,
 password TEXT NOT NULL,
 currentAddress TEXT ,
-socialReference TEXT NOT NULL,
+origin TEXT NOT NULL,
 height NUMERIC NOT NULL,
 yeshiva TEXT NOT NULL,
 torahStudyStatus TEXT NOT NULL,
-higherEducation TEXT,
+higherEducation TEXT NOT NULL,
+educationName TEXT
 higherEducationAcademy TEXT,
 jobStatus TEXT NOT NULL,
 jobCompany TEXT NOT NULL,
-seminar TEXT NOT NULL,
 headwear TEXT NOT NULL,
 pelKoshers TEXT NOT NULL,
 fatherName TEXT,
-mother TEXT,
+motherName TEXT,
 maritalStatus TEXT NOT NULL,
 imgLink TEXT);
 
