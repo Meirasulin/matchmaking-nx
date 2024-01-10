@@ -7,7 +7,7 @@ import {
   requiredValidet,
 } from '../../../matchmakers/signup/helpers/inputValidtion';
 import { headwearList, pelKoshersList } from '../helpers/lists';
-import citysListJSON from '../../../utils/citysList';
+import citysListJSON from '../../../../utils/citysList';
 
 const MatchInfo = () => {
   const [personalInfo, setPersonalInfo] = useAtom(userInfoAtom);
