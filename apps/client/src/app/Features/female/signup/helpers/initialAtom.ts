@@ -3,4 +3,4 @@ import { TypeUserInfo, TypeContactInfo, TypePersonalDetails, TypeMatchInfo, Type
 
 export const stepAtom = atom(1)
 
-export const userInfoAtom = atom<null  |TypeJobAndEdu | TypeUserInfo | TypeContactInfo | TypePersonalDetails | TypeMatchInfo>(null)
+export const userInfoAtom = atom<undefined  |TypeJobAndEdu | TypeUserInfo | TypeContactInfo | TypePersonalDetails | TypeMatchInfo>(undefined)

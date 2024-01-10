@@ -7,8 +7,8 @@ import { useState } from 'react';
 import { eduList, jobStatusList } from '../helpers/lists';
 
 const JobAndEdu = () => {
-  const [personalInfo, setPersonalInfo] = useAtom(userInfoAtom);
-  const [matchInfo, setMatchInfo] = useAtom(stepAtom);
+  const [userInfo, setUserInfo] = useAtom(userInfoAtom);
+  const [step, setStep] = useAtom(stepAtom);
   const [showEduOption, setShowEduOption] = useState<undefined | string>(
     undefined
   );
@@ -25,13 +25,13 @@ const JobAndEdu = () => {
   });
 
   const handleClickSubmit = (data: TypeJobAndEdu) => {
-    setPersonalInfo({ ...personalInfo, ...data });
-    setMatchInfo((prev) => prev + 1);
+    setUserInfo({ ...userInfo, ...data });
+    setStep((prev) => prev + 1);
   };
   return (
     <>
       <div className="flex ">
-        <form action="/" onSubmit={handleSubmit(handleClickSubmit)}>
+        <form  onSubmit={handleSubmit(handleClickSubmit)}>
           <div>
             <label
               htmlFor="seminar"
@@ -55,26 +55,26 @@ const JobAndEdu = () => {
 
           <div>
             <label
-              htmlFor="higherEducation"
+              htmlFor="highereducation"
               className={
-                errors.higherEducation?.message ? 'lableError' : 'lableSuccess'
+                errors.highereducation?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.higherEducation?.message
-                ? (errors.higherEducation?.message as string)
+              {errors.highereducation?.message
+                ? (errors.highereducation?.message as string)
                 : 'השכלה גבוהה'}
             </label>
             <select
-              id="higherEducation"
+              id="highereducation"
               className={
-                errors.higherEducation?.message ? 'inputError' : 'inputSuccess'
+                errors.highereducation?.message ? 'inputError' : 'inputSuccess'
               }
-              {...register('higherEducation', requiredValidet)}
+              {...register('highereducation', requiredValidet)}
               onChange={(e) => setShowEduOption(e.target.value)}
             >
               <option className="text-center"> </option>
               {eduList.map((item, i) => (
-                <option value={item.type} className="text-center">
+                <option key={i} value={item.type} className="text-center">
                   {item.hebrew}
                 </option>
               ))}
@@ -84,24 +84,24 @@ const JobAndEdu = () => {
             <>
               <div>
                 <label
-                  htmlFor="educationName"
+                  htmlFor="educationname"
                   className={
-                    errors.educationName?.message
+                    errors.educationname?.message
                       ? 'lableError'
                       : 'lableSuccess'
                   }
                 >
-                  {errors.educationName?.message
-                    ? (errors.educationName?.message as string)
+                  {errors.educationname?.message
+                    ? (errors.educationname?.message as string)
                     : 'שם התואר או התעודה'}
                 </label>
 
                 <input
                   type="text"
                   id="educationName"
-                  {...register('educationName', requiredValidet)}
+                  {...register('educationname', requiredValidet)}
                   className={
-                    errors.educationName?.message
+                    errors.educationname?.message
                       ? 'inputError'
                       : 'inputSuccess'
                   }
@@ -111,21 +111,21 @@ const JobAndEdu = () => {
                 <label
                   htmlFor="higherEducationAcademy"
                   className={
-                    errors.higherEducationAcademy?.message
+                    errors.highereducationacademy?.message
                       ? 'lableError'
                       : 'lableSuccess'
                   }
                 >
-                  {errors.higherEducationAcademy?.message
-                    ? (errors.higherEducationAcademy?.message as string)
+                  {errors.highereducationacademy?.message
+                    ? (errors.highereducationacademy?.message as string)
                     : 'שם המוסד להשכלה'}
                 </label>
                 <input
                   type="text"
                   id="higherEducationAcademy"
-                  {...register('higherEducationAcademy', requiredValidet)}
+                  {...register('highereducationacademy', requiredValidet)}
                   className={
-                    errors.higherEducationAcademy?.message
+                    errors.highereducationacademy?.message
                       ? 'inputError'
                       : 'inputSuccess'
                   }
@@ -137,20 +137,20 @@ const JobAndEdu = () => {
             <label
               htmlFor="jobStatus"
               className={
-                errors.jobStatus?.message ? 'lableError' : 'lableSuccess'
+                errors.jobstatus?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.jobStatus?.message
-                ? (errors.jobStatus?.message as string)
+              {errors.jobstatus?.message
+                ? (errors.jobstatus?.message as string)
                 : 'משרה'}
             </label>
 
             <select
               id="jobStatus"
               className={
-                errors.jobStatus?.message ? 'inputError' : 'inputSuccess'
+                errors.jobstatus?.message ? 'inputError' : 'inputSuccess'
               }
-              {...register('jobStatus')}
+              {...register('jobstatus')}
               onChange={(e) => setShowJobOption(e.target.value)}
             >
               <option className="text-center"> </option>
@@ -166,19 +166,19 @@ const JobAndEdu = () => {
               <label
                 htmlFor="jobCompany"
                 className={
-                  errors.jobCompany?.message ? 'lableError' : 'lableSuccess'
+                  errors.jobcompany?.message ? 'lableError' : 'lableSuccess'
                 }
               >
-                {errors.jobCompany?.message
-                  ? (errors.jobCompany?.message as string)
+                {errors.jobcompany?.message
+                  ? (errors.jobcompany?.message as string)
                   : 'שם מקום העבודה'}
               </label>
               <input
                 type="text"
                 id="jobCompany"
-                {...register('jobCompany')}
+                {...register('jobcompany')}
                 className={
-                  errors.jobCompany?.message ? 'inputError' : 'inputSuccess'
+                  errors.jobcompany?.message ? 'inputError' : 'inputSuccess'
                 }
               />
             </div>

@@ -5,7 +5,7 @@
   "scripts": {},
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.8.8",
+    "@apollo/client": "^3.8.9",
     "@nrwl/express": "^17.2.7",
     "@nrwl/react": "^17.2.7",
     "@nrwl/vite": "^17.2.7",

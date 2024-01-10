@@ -44,21 +44,21 @@ const ContactInfo = () => {
         >
           <div>
             <label
-              htmlFor="phoneNumber"
+              htmlFor="phonenumber"
               className={
-                errors.phoneNumber?.message ? 'lableError' : 'lableSuccess'
+                errors.phonenumber?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.phoneNumber?.message
-                ? (errors.phoneNumber?.message as string)
+              {errors.phonenumber?.message
+                ? (errors.phonenumber?.message as string)
                 : 'מספר נייד/נייח'}
             </label>
             <input
               type="text"
-              id="phoneNumber"
-              {...register('phoneNumber', phoneValidet)}
+              id="phonenumber"
+              {...register('phonenumber', phoneValidet)}
               className={
-                errors.phoneNumber?.message ? 'inputError' : 'inputSuccess'
+                errors.phonenumber?.message ? 'inputError' : 'inputSuccess'
               }
             />
           </div>

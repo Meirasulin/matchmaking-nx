@@ -1,15 +1,27 @@
 import { useAtom } from 'jotai';
 import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
 import { useNavigate } from 'react-router-dom';
+import { gql, useMutation } from '@apollo/client';
+import { SIGNUP_FEMALE } from '../../../../Graphql/querys/femaleQuerys';
+// import { TypeUserInfo } from '../types/userTypes';
 
 const Payment = () => {
   const navigate = useNavigate();
   const [contactInfo] = useAtom(userInfoAtom);
   const [currentStep, setCurrentStep] = useAtom(stepAtom);
+  const [femaleSignup, { data, loading, error }] = useMutation(SIGNUP_FEMALE);
+
   const handleClickFinish = () => {
+    // const {birthDate, currentAddress, email, fatherName, firstName, headwear, height, lastName, maritalStatus, motherName, origin, password, pelKoshers, phoneNumber, imgLink} = contactInfo as TypeUserInfo
     setCurrentStep((prev) => prev + 1);
-    console.log(contactInfo);
+    femaleSignup({
+      variables: { input: { female: { ...contactInfo } } },
+    });
+    console.log('data', data);
   };
+  if (loading) return <p>Loading...</p>;
+  if (error) console.log('my error', error);
+
   return (
     <div className="flex flex-col items-center">
       <div className="block text-center max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">

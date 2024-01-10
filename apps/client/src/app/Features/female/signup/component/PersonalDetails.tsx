@@ -34,52 +34,52 @@ const PersonalDetails = () => {
         <form action="/" onSubmit={handleSubmit(handleClickSubmit)}>
           <div>
             <label
-              htmlFor="firstName"
+              htmlFor="firstname"
               className={
-                errors.firstName?.message ? 'lableError' : 'lableSuccess'
+                errors.firstname?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.firstName?.message
-                ? (errors.firstName?.message as string)
+              {errors.firstname?.message
+                ? (errors.firstname?.message as string)
                 : 'שם פרטי'}
             </label>
             <input
               type="text"
-              id="firstName"
-              {...register('firstName', nameValidet)}
+              id="firstname"
+              {...register('firstname', nameValidet)}
               className={
-                errors.firstName?.message ? 'inputError' : 'inputSuccess'
+                errors.firstname?.message ? 'inputError' : 'inputSuccess'
               }
             />
           </div>
           <div>
             <label
-              htmlFor="lastName"
+              htmlFor="lastname"
               className={
-                errors.lastName?.message ? 'lableError' : 'lableSuccess'
+                errors.lastname?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.lastName?.message
-                ? (errors.lastName?.message as string)
+              {errors.lastname?.message
+                ? (errors.lastname?.message as string)
                 : 'שם משפחה'}
             </label>
             <input
               type="text"
-              {...register('lastName', nameValidet)}
+              {...register('lastname', nameValidet)}
               className={
-                errors.lastName?.message ? 'inputError' : 'inputSuccess'
+                errors.lastname?.message ? 'inputError' : 'inputSuccess'
               }
             />
           </div>
           <div>
             <label
-              htmlFor="birthDate"
+              htmlFor="birthdate"
               className={
-                errors.birthDate?.message ? 'lableError' : 'lableSuccess'
+                errors.birthdate?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.birthDate?.message
-                ? (errors.birthDate?.message as string)
+              {errors.birthdate?.message
+                ? (errors.birthdate?.message as string)
                 : 'תאריך לידה'}
             </label>
             <Controller
@@ -89,27 +89,27 @@ const PersonalDetails = () => {
                   onChange={(date) => field.onChange(date)}
                   selected={field.value}
                   className={
-                    errors.birthDate?.message ? 'inputError' : 'inputSuccess'
+                    errors.birthdate?.message ? 'inputError' : 'inputSuccess'
                   }
                 />
               )}
-              {...register('birthDate', requiredValidet)}
+              {...register('birthdate', requiredValidet)}
             />
           </div>
           <div>
             <label
-              htmlFor="maritalStatus"
-              className={errors.maritalStatus?.message ? 'lableError' : 'lableSuccess'}
+              htmlFor="maritalstatus"
+              className={errors.maritalstatus?.message ? 'lableError' : 'lableSuccess'}
             >
-              {errors.maritalStatus?.message
-                ? (errors.maritalStatus?.message as string)
+              {errors.maritalstatus?.message
+                ? (errors.maritalstatus?.message as string)
                 : 'מצב משפחתי'}
             </label>
 
             <select
               id="countries"
-              className={errors.maritalStatus?.message ? 'inputError' : 'inputSuccess'}
-              {...register('maritalStatus', requiredValidet)}
+              className={errors.maritalstatus?.message ? 'inputError' : 'inputSuccess'}
+              {...register('maritalstatus', requiredValidet)}
             >
               <option className="font-bold absolute text-center"> </option>
               <option value="single" className="text-center">
@@ -125,40 +125,40 @@ const PersonalDetails = () => {
           </div>
           <div>
             <label
-              htmlFor="fatherName"
+              htmlFor="fathername"
               className={
-                errors.fatherName?.message ? 'lableError' : 'lableSuccess'
+                errors.fathername?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.fatherName?.message
-                ? (errors.fatherName?.message as string)
+              {errors.fathername?.message
+                ? (errors.fathername?.message as string)
                 : 'שם האב'}
             </label>
             <input
               type="text"
-              {...register('fatherName', nameValidet)}
+              {...register('fathername', nameValidet)}
               className={
-                errors.fatherName?.message ? 'inputError' : 'inputSuccess'
+                errors.fathername?.message ? 'inputError' : 'inputSuccess'
               }
             />
           </div>
           <div>
             <label
-              htmlFor="motherName"
+              htmlFor="mothername"
               className={
-                errors.motherName?.message ? 'lableError' : 'lableSuccess'
+                errors.mothername?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.motherName?.message
-                ? (errors.lastName?.message as string)
+              {errors.mothername?.message
+                ? (errors.lastname?.message as string)
                 : 'שם האם'}
             </label>
             <input
               type="text"
-              id='motherName'
-              {...register('motherName', nameValidet)}
+              id='mothername'
+              {...register('mothername', nameValidet)}
               className={
-                errors.motherName?.message ? 'inputError' : 'inputSuccess'
+                errors.mothername?.message ? 'inputError' : 'inputSuccess'
               }
             />
           </div>

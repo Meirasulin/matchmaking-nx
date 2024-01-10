@@ -8,6 +8,7 @@ import {
 } from '../../../matchmakers/signup/helpers/inputValidtion';
 import { headwearList, pelKoshersList } from '../helpers/lists';
 import citysListJSON from '../../../../utils/citysList';
+import { parse } from 'path';
 
 const MatchInfo = () => {
   const [personalInfo, setPersonalInfo] = useAtom(userInfoAtom);
@@ -23,8 +24,11 @@ const MatchInfo = () => {
   });
 
   const handleClickSubmit = (data: TypeMatchInfo) => {
-    setPersonalInfo({ ...personalInfo, ...data });
+    data.height = parseInt(data.height as unknown as string)
+    setPersonalInfo({ ...personalInfo, ...data, height: data.height});
     setMatchInfo((prev) => prev + 1);
+    console.log(typeof data.height, data.height);
+    
   };
   return (
     <>
@@ -56,9 +60,9 @@ const MatchInfo = () => {
                 : 'גובה'}
             </label>
             <input
-              type="text"
+              type="number"
               id="height"
-              {...register('height', nameValidet)}
+              {...register('height', requiredValidet)}
               className={errors.height?.message ? 'inputError' : 'inputSuccess'}
             />
           </div>
@@ -91,22 +95,22 @@ const MatchInfo = () => {
           </div>
           <div>
             <label
-              htmlFor="pelKoshers"
+              htmlFor="pelkoshers"
               className={
-                errors.pelKoshers?.message ? 'lableError' : 'lableSuccess'
+                errors.pelkoshers?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.pelKoshers?.message
-                ? (errors.pelKoshers?.message as string)
+              {errors.pelkoshers?.message
+                ? (errors.pelkoshers?.message as string)
                 : 'אופי פלאפון'}
             </label>
 
             <select
-              id="pelKoshers"
+              id="pelkoshers"
               className={
-                errors.pelKoshers?.message ? 'inputError' : 'inputSuccess'
+                errors.pelkoshers?.message ? 'inputError' : 'inputSuccess'
               }
-              {...register('pelKoshers', requiredValidet)}
+              {...register('pelkoshers', requiredValidet)}
             >
               <option className="text-center"> </option>
               {pelKoshersList.map((item, i) => (
@@ -119,22 +123,22 @@ const MatchInfo = () => {
 
           <div>
             <label
-              htmlFor="currentAddress"
+              htmlFor="currentaddress"
               className={
-                errors.currentAddress?.message ? 'lableError' : 'lableSuccess'
+                errors.currentaddress?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.currentAddress?.message
-                ? (errors.currentAddress?.message as string)
+              {errors.currentaddress?.message
+                ? (errors.currentaddress?.message as string)
                 : 'עיר מגורים'}
             </label>
 
             <select
-              id="currentAddress"
+              id="currentaddress"
               className={
-                errors.currentAddress?.message ? 'inputError' : 'inputSuccess'
+                errors.currentaddress?.message ? 'inputError' : 'inputSuccess'
               }
-              {...register('currentAddress', requiredValidet)}
+              {...register('currentaddress', requiredValidet)}
             >
               <option className="font-bold absolute text-center"> </option>
               {citysListJSON.map((item, i) => (
@@ -147,21 +151,21 @@ const MatchInfo = () => {
 
           <div>
             <label
-              htmlFor="imgLink"
+              htmlFor="imglink"
               className={
-                errors.imgLink?.message ? 'lableError' : 'lableSuccess'
+                errors.imglink?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.imgLink?.message
-                ? (errors.imgLink?.message as string)
+              {errors.imglink?.message
+                ? (errors.imglink?.message as string)
                 : 'תמונה'}
             </label>
             <input
               type="text"
-              id="imgLink"
-              {...register('imgLink', { required: false })}
+              id="imglink"
+              {...register('imglink', { required: false })}
               className={
-                errors.imgLink?.message ? 'inputError' : 'inputSuccess'
+                errors.imglink?.message ? 'inputError' : 'inputSuccess'
               }
             />
           </div>

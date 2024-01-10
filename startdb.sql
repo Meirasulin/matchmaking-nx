@@ -1,6 +1,6 @@
 -- Active: 1704277540574@@127.0.0.1@5432@Matching
 
-CREATE DATABASE  "Matching"
+CREATE DATABASE "Matching"
 
 CREATE SCHEMA matching
 
@@ -92,7 +92,7 @@ DECLARE
    decrypted_password text;
 BEGIN
   
-  SELECT matching.pgp_sym_decrypt(encrypted_password::bytea, '10')
+  SELECT matching.pgp_sym_decrypt(encrypted_password::bytea, 'secret_key')
   INTO decrypted_password;
   
   IF decrypted_password IS NULL THEN
@@ -128,7 +128,7 @@ BEGIN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  RETURN (matching.female.email, hashed_password)::user_login_info;
+  RETURN (matching.female.email, hashed_password)::matching.user_login_info;
 
 END;
 $$ LANGUAGE plpgsql;
@@ -154,7 +154,7 @@ BEGIN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  RETURN (matching.male.email, hashed_password)::user_info_for_login;
+  RETURN (matching.male.email, hashed_password)::user_login_info;
 
 END;
 $$ LANGUAGE plpgsql;
@@ -183,18 +183,35 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto SCHEMA matching;
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE EXTENSION pgcrypto;
 
-SELECT pgp_sym_encrypt('test', 'key');
-SELECT pgp_sym_decrypt('\xC30D040703027D952C91FB3674E675D2350172E6A19737360EA7C1CF8382825DE1FA43071360D93F471801A9EF4DC077BA3935270BAD6ED1FE5C1B44261C2F91BC3758BD36FF', 'key');
+SELECT matching.pgp_sym_encrypt('test', 'key');
+SELECT matching.pgp_sym_decrypt('\xC30D040703027D952C91FB3674E675D2350172E6A19737360EA7C1CF8382825DE1FA43071360D93F471801A9EF4DC077BA3935270BAD6ED1FE5C1B44261C2F91BC3758BD36FF', 'key');
 
 
 
 
+CREATE FUNCTION matching.password_encrypt() 
+RETURNS trigger AS $$
+BEGIN
+  NEW.password = matching.pgp_sym_encrypt(NEW.password, 'secret_key');
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER password_encrypt 
+BEFORE INSERT ON matching.female
+FOR EACH ROW 
+EXECUTE PROCEDURE matching.password_encrypt();
 
 
+CREATE TRIGGER password_encrypt 
+BEFORE INSERT ON matching.male
+FOR EACH ROW 
+EXECUTE PROCEDURE matching.password_encrypt();
 
-
-
-
+CREATE TRIGGER password_encrypt 
+BEFORE INSERT ON matching.matchmakers
+FOR EACH ROW 
+EXECUTE PROCEDURE matching.password_encrypt();
 
 
 

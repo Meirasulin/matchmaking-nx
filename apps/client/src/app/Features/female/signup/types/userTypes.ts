@@ -1,32 +1,32 @@
 export type TypePersonalDetails = {
-  firstName: string;
-  lastName: string;
-  birthDate: Date;
-  maritalStatus: 'single' | 'divorcee' | 'widow';
-  fatherName: string;
-  motherName: string;
+  firstname: string;
+  lastname: string;
+  birthdate: Date;
+  maritalstatus: 'single' | 'divorcee' | 'widow';
+  fathername: string;
+  mothername: string;
 };
 
 export type TypeMatchInfo = {
   origin: string;
-  height: string;
+  height: number;
   headwear: string;
-  pelKoshers: string;
-  currentAddress: string;
-  imgLink?: string;
+  pelkoshers: string;
+  currentaddress: string;
+  imglink?: string;
 };
 
 export type TypeJobAndEdu = {
   seminar: string;
-  higherEducation: string;
-  educationName: string;
-  higherEducationAcademy: string;
-  jobStatus: string;
-  jobCompany?: string;
+  highereducation: string;
+  educationname: string;
+  highereducationacademy: string;
+  jobstatus: string;
+  jobcompany?: string;
 };
 
 export type TypeContactInfo = {
-  phoneNumber: string;
+  phonenumber: string;
   email: string;
   password: string;
   passwordConfirm?: string;

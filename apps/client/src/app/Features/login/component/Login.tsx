@@ -19,7 +19,7 @@ const Login = () => {
 
   const handleClickSubmit = (data: TypeLoginInput) => {
     console.log(data);
-
+    
     return;
   };
   if (!userTypeParams) return <Navigate replace to={'/'} />;
