@@ -10,7 +10,7 @@ import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
 import { TypeContactInfo } from '../types/userTypes';
 
 const ContactInfo = () => {
-  const [currentStep, setCurrentStep] = useAtom(stepAtom);
+  const [, setCurrentStep] = useAtom(stepAtom);
   const [contactInfo, setContactInfo] = useAtom(userInfoAtom);
   const {
     register,

@@ -58,7 +58,7 @@ const MatchInfo = () => {
             <input
               type="text"
               id="height"
-              {...register('height', nameValidet)}
+              {...register('height', requiredValidet)}
               className={errors.height?.message ? 'inputError' : 'inputSuccess'}
             />
           </div>

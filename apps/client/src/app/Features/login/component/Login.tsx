@@ -2,10 +2,13 @@ import { useForm } from 'react-hook-form';
 import TypeLoginInput from '../types/loginInputType';
 import { emailValidet, passwordValidet } from '../helpers/inputValidtion';
 import { Navigate, useSearchParams } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { LOGIN_MUTATION } from '../../../Graphql/mutation/loginMutate';
 
 const Login = () => {
   const [searchParams] = useSearchParams();
   const userTypeParams = searchParams.get('user');
+  const [LoginToken, { data, loading, error }] = useMutation(LOGIN_MUTATION);
 
   const {
     register,
@@ -16,13 +19,22 @@ const Login = () => {
   } = useForm<TypeLoginInput>({
     mode: 'onChange',
   });
-
-  const handleClickSubmit = (data: TypeLoginInput) => {
-    console.log(data);
-    
-    return;
+  console.log(userTypeParams);
+  
+  const handleClickSubmit = async (payload: TypeLoginInput) => {
+    await LoginToken({
+      variables: { input: { ...payload, tablename: userTypeParams } },
+    });
+    localStorage.setItem('TOKEN', data.loginToken.userLoginInfo);
   };
-  if (!userTypeParams) return <Navigate replace to={'/'} />;
+  if (
+    userTypeParams !== 'female' &&
+    userTypeParams !== 'male' &&
+    userTypeParams !== 'matchmakers'
+  )
+    return <Navigate replace to={'/'} />;
+  if (loading) return <div>loading</div>; //hadnle loading...
+  if (error) return <div>error</div>; //hadnle error...
 
   return (
     <div>

@@ -107,7 +107,7 @@ $$ LANGUAGE plpgsql;
 
 
 
-CREATE FUNCTION matching.female_login_token(email text, password text) 
+CREATE FUNCTION matching.login_token(email text, password text, tablename text) 
 RETURNS matching.user_login_info AS $$
 
 DECLARE
@@ -115,23 +115,61 @@ DECLARE
 
 BEGIN
 
+IF login_token.tablename = 'female' THEN
   SELECT matching.decrypt_password_function(matching.female.password) 
   INTO hashed_password
   FROM matching.female 
-  WHERE matching.female.email = female_login_token.email;
+  WHERE matching.female.email = login_token.email;
   
   IF hashed_password IS NULL THEN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  IF NOT hashed_password =  female_login_token.password THEN
+  IF NOT hashed_password =  login_token.password THEN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  RETURN (matching.female.email, hashed_password)::matching.user_login_info;
+  RETURN (login_token.email, hashed_password)::matching.user_login_info;
+  END IF;
+
+  IF matching.tablename = 'male' THEN
+  SELECT matching.decrypt_password_function(matching.male.password) 
+  INTO hashed_password
+  FROM matching.male 
+  WHERE matching.male.email = login_token.email;
+  
+  IF hashed_password IS NULL THEN
+    RAISE EXCEPTION 'Invalid email or password';
+  END IF;
+
+  IF NOT hashed_password =  login_token.password THEN
+    RAISE EXCEPTION 'Invalid email or password';
+  END IF;
+
+  RETURN (login_token.email, hashed_password)::matching.user_login_info;
+  END IF;
+
+  IF matching.tablename = 'matchmaker' THEN
+  SELECT matching.decrypt_password_function(matching.matchmaker.password) 
+  INTO hashed_password
+  FROM matching.matchmaker 
+  WHERE matching.matchmaker.email = login_token.email;
+  
+  IF hashed_password IS NULL THEN
+    RAISE EXCEPTION 'Invalid email or password';
+  END IF;
+
+  IF NOT hashed_password =  login_token.password THEN
+    RAISE EXCEPTION 'Invalid email or password';
+  END IF;
+
+  RETURN (login_token.email, hashed_password)::matching.user_login_info;
+  END IF;
 
 END;
 $$ LANGUAGE plpgsql;
+
+
 
 CREATE FUNCTION matching.male_login_token(email text, password text) 
 RETURNS matching.user_login_info AS $$
@@ -154,7 +192,7 @@ BEGIN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  RETURN (matching.male.email, hashed_password)::user_login_info;
+  RETURN (male_login_token.email, hashed_password)::matching.user_login_info;
 
 END;
 $$ LANGUAGE plpgsql;
@@ -162,7 +200,31 @@ $$ LANGUAGE plpgsql;
 
 
 
+CREATE FUNCTION matching.maker_login_token(email text, password text) 
+RETURNS matching.user_login_info AS $$
 
+DECLARE
+  hashed_password text;
+
+BEGIN
+
+  SELECT matching.decrypt_password_function(matching.matchmakers.password) 
+  INTO hashed_password
+  FROM matching.matchmakers 
+  WHERE matching.matchmakers.email = maker_login_token.email;
+  
+  IF hashed_password IS NULL THEN
+    RAISE EXCEPTION 'Invalid email or password';
+  END IF;
+
+  IF NOT hashed_password =  maker_login_token.password THEN
+    RAISE EXCEPTION 'Invalid email or password';
+  END IF;
+
+  RETURN (maker_login_token.email, hashed_password)::matching.user_login_info;
+
+END;
+$$ LANGUAGE plpgsql;
 
 
 
