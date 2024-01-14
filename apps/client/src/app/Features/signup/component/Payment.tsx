@@ -2,8 +2,10 @@ import { useAtom } from 'jotai';
 import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
 import { useNavigate } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
-import { SIGNUP_FEMALE } from '../../../../Graphql/querys/femaleQuerys';
+import { SIGNUP_FEMALE } from '../../../Graphql/querys/femaleQuerys';
 // import { TypeUserInfo } from '../types/userTypes';
+import '../style/inputs.css'
+import '../style/signupStepper.css'
 
 const Payment = () => {
   const navigate = useNavigate();

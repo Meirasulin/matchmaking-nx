@@ -1,14 +1,16 @@
 import { useForm } from 'react-hook-form';
 import TypeLoginInput from '../types/loginInputType';
 import { emailValidet, passwordValidet } from '../helpers/inputValidtion';
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '../../../Graphql/mutation/loginMutate';
+import ButtonLoading from '../../loading/component/ButtonLoading';
 
 const Login = () => {
   const [searchParams] = useSearchParams();
   const userTypeParams = searchParams.get('user');
   const [LoginToken, { data, loading, error }] = useMutation(LOGIN_MUTATION);
+  const navigate = useNavigate()
 
   const {
     register,
@@ -19,13 +21,15 @@ const Login = () => {
   } = useForm<TypeLoginInput>({
     mode: 'onChange',
   });
-  console.log(userTypeParams);
-  
+
   const handleClickSubmit = async (payload: TypeLoginInput) => {
     await LoginToken({
       variables: { input: { ...payload, tablename: userTypeParams } },
     });
-    localStorage.setItem('TOKEN', data.loginToken.userLoginInfo);
+    if (data) {
+      localStorage.setItem('TOKEN', data.loginToken.userLoginInfo);
+      navigate('/')
+    }
   };
   if (
     userTypeParams !== 'female' &&
@@ -33,8 +37,9 @@ const Login = () => {
     userTypeParams !== 'matchmakers'
   )
     return <Navigate replace to={'/'} />;
-  if (loading) return <div>loading</div>; //hadnle loading...
   if (error) return <div>error</div>; //hadnle error...
+
+  console.log(localStorage.getItem('TOKEN'));
 
   return (
     <div>
@@ -72,13 +77,17 @@ const Login = () => {
             className={errors.password?.message ? 'inputError' : 'inputSuccess'}
           />
         </div>
-        <button
-          className={!isValid ? 'disableButton' : 'btn m-1 w-max'}
-          disabled={!isValid}
-          type="submit"
-        >
-          Login
-        </button>
+        {loading ? (
+          <ButtonLoading />
+        ) :  (
+          <button
+            className={!isValid ? 'disableButton' : 'btn m-1 w-max'}
+            disabled={!isValid}
+            type="submit"
+          >
+            Login
+          </button>
+        ) }
       </form>
     </div>
   );

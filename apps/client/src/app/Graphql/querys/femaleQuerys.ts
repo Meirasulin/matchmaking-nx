@@ -14,3 +14,18 @@ export const SIGNUP_FEMALE = gql`
     }
   }
 `;
+
+export const SIGNUP_MALE = gql`
+  mutation MyMutation($input: CreateMaleInput!) {
+    createMale (input: $input) {
+      male {
+        fathername
+        firstname
+        birthdate
+        currentaddress
+        educationname
+        email
+      }
+    }
+  }
+`;
