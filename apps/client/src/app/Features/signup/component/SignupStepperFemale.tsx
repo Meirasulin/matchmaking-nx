@@ -4,8 +4,8 @@ import { stepAtom } from '../helpers/initialAtom';
 import SignupContainer from './SignupContainer.js';
 import { TiTick } from 'react-icons/ti';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import '../style/inputs.css'
-import '../style/signupStepper.css'
+import '../style/inputs.css';
+import '../style/signupStepper.css';
 
 const SignupStepperFemale = () => {
   const steps = [
@@ -19,8 +19,15 @@ const SignupStepperFemale = () => {
   const [currentStep] = useAtom(stepAtom);
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
-  // if (!signupTypeParams) return <Navigate replace to={'/'} />;
-  const userTypeName = signupTypeParams === 'female' ? 'משודכות' : signupTypeParams === 'male' ? 'משודכים' : 'משדכים/ות'
+  const userTypeName =
+    signupTypeParams === 'female'
+      ? 'משודכות'
+      : signupTypeParams === 'male'
+      ? 'משודכים'
+      : null;
+
+  if (signupTypeParams !== 'male' && signupTypeParams !== 'female')
+    return <Navigate replace to={'/'} />;
   return (
     <>
       <h1 className="text-center font-bold">הרשמה ל{userTypeName}</h1>

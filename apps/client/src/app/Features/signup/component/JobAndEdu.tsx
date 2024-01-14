@@ -2,13 +2,8 @@ import { useForm } from 'react-hook-form';
 import { TypeJobAndEdu } from '../types/userTypes';
 import { useAtom } from 'jotai';
 import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
-import { requiredValidet } from '../helpers/inputValidtion';
 import { useState } from 'react';
-import {
-  eduList,
-  jobStatusList,
-  torahStudyStatusList,
-} from '../helpers/selectOptionLists';
+import { torahStudyStatusList } from '../helpers/selectOptionLists';
 import '../style/inputs.css';
 import '../style/signupStepper.css';
 import { Navigate, useSearchParams } from 'react-router-dom';

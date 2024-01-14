@@ -1,26 +1,37 @@
 import { useAtom } from 'jotai';
 import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
-import { useNavigate } from 'react-router-dom';
-import { gql, useMutation } from '@apollo/client';
-import { SIGNUP_FEMALE } from '../../../Graphql/querys/femaleQuerys';
-// import { TypeUserInfo } from '../types/userTypes';
-import '../style/inputs.css'
-import '../style/signupStepper.css'
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import {
+  SIGNUP_FEMALE,
+  SIGNUP_MALE,
+} from '../../../Graphql/querys/femaleQuerys';
+import '../style/inputs.css';
+import '../style/signupStepper.css';
+import ButtonLoading from '../../loading/component/ButtonLoading';
 
 const Payment = () => {
   const navigate = useNavigate();
   const [contactInfo] = useAtom(userInfoAtom);
-  const [currentStep, setCurrentStep] = useAtom(stepAtom);
-  const [femaleSignup, { data, loading, error }] = useMutation(SIGNUP_FEMALE);
+  const [_, setCurrentStep] = useAtom(stepAtom);
+  const [searchParams] = useSearchParams();
+  const signupTypeParams = searchParams.get('signup');
 
-  const handleClickFinish = () => {
+  const SIGNUP = signupTypeParams === 'male' ? SIGNUP_MALE : SIGNUP_FEMALE;
+  const [signupMutation, { data, loading, error }] = useMutation(SIGNUP);
+
+  const handleClickFinish = async () => {
     setCurrentStep((prev) => prev + 1);
-    femaleSignup({
-      variables: { input: { female: { ...contactInfo } } },
-    });
+    if (signupTypeParams) {
+      const testss = await signupMutation({
+        variables: { input: { [signupTypeParams]: { ...contactInfo } } },
+      });
+      console.log('test', testss);
+    }
+
     console.log('data', data);
   };
-  if (loading) return <p>Loading...</p>;
+
   if (error) console.log('my error', error);
 
   return (
@@ -33,13 +44,17 @@ const Payment = () => {
           כעת ניתן להירשם ללא תשלום
         </h2>
       </div>
-      <button
-        className="btn m-1 w-max"
-        type="button"
-        onClick={handleClickFinish}
-      >
-        Finish
-      </button>
+      {loading ? (
+        <ButtonLoading />
+      ) : (
+        <button
+          className="btn m-1 w-max"
+          type="button"
+          onClick={handleClickFinish}
+        >
+          Finish
+        </button>
+      )}
     </div>
   );
 };
