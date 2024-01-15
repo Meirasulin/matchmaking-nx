@@ -8,7 +8,7 @@ import ButtonLoading from '../../loading/component/ButtonLoading';
 
 const Login = () => {
   const [searchParams] = useSearchParams();
-  const userTypeParams = searchParams.get('user');
+  const userTypeParams = searchParams.get('login');
   const [LoginToken, { data, loading, error }] = useMutation(LOGIN_MUTATION);
   const navigate = useNavigate()
 

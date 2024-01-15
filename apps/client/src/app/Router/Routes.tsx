@@ -5,7 +5,7 @@ import SignupStepperMale from '../Features/male/signup/component/SignupStepperMa
 import HomePage from '../Features/homePage/component/HomePage';
 import Login from '../Features/login/component/Login';
 import SignupStepperFemale from '../Features/signup/component/SignupStepperFemale';
-import Card from '../Features/initMatch/component/Card';
+import InitMatchPage from '../Features/initMatch/component/InitMatchPage';
 
 const Router = () => {
   return (
@@ -13,7 +13,7 @@ const Router = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignupStepperFemale />} />
-      <Route path="/card" element={<Card />} />
+      <Route path="/card" element={<InitMatchPage />} />
       {/* <Route path="/signupfemale" element={<SignupStepperFemale />} />
       <Route path="/signupmale" element={<SignupStepperFemale />} /> */}
     </Routes>

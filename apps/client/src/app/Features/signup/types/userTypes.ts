@@ -1,3 +1,4 @@
+
 export type TypePersonalDetails = {
   firstname: string;
   lastname: string;

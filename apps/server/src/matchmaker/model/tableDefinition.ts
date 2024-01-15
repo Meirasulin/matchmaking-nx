@@ -3,29 +3,29 @@ import { sequelize } from '../../db/postgresConnection';
 import { MatchmakerType } from '../types/matchmakerType';
 
 const Matchmakers = sequelize.define<
-  Model<MatchmakerType & { createdAt?: Date; updatedAt?: Date }, MatchmakerType>
+  Model<MatchmakerType & {matchmakerId?:  Number, createdAt?: Date; updatedAt?: Date }, MatchmakerType>
 >(
-  'Matchmakers',
+  'matchmakers',
   {
     firstName: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     lastName: {
-      type: DataTypes.STRING,
+      type:  DataTypes.TEXT,
       allowNull: false,
     },
     birthDate: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     phoneNumber: {
-      type: DataTypes.STRING,
+      type:  DataTypes.TEXT,
       allowNull: false,
       unique: true,
     },
     email: {
-      type: DataTypes.STRING,
+      type:  DataTypes.TEXT,
       allowNull: false,
       unique: true,
       validate: {
@@ -39,27 +39,28 @@ const Matchmakers = sequelize.define<
         isIn: [['male', 'female']],
       },
     },
-    specialization: {
-      type: DataTypes.STRING,
+    specialty: {
+      type:  DataTypes.TEXT,
       allowNull: false,
     },
     password: {
-      type: DataTypes.STRING,
+      type:  DataTypes.TEXT,
       allowNull: false,
     },
   },
   {
-    tableName: 'Matchmakers',
+    tableName: 'matchmakers',
+    schema: 'matching'
   }
 );
 export default Matchmakers;
 
 export const createMatchmakersTable = async () => {
   try {
-    const tableExists = await sequelize.getQueryInterface().showAllTables();
-    const isExsits = tableExists.includes('Matchmakers');
-    if (isExsits === true) return;
-    Matchmakers.sync().then((res) => {
+    // const tableExists = await sequelize.getQueryInterface().showAllTables();
+    // const isExsits = tableExists.includes('Matchmakers');
+    // if (isExsits === true) return;
+    Matchmakers.sync({alter: true}).then((res) => {
       console.log('Table Matchmakers created successfully', res);
     });
     return;
