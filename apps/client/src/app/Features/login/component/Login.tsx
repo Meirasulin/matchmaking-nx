@@ -27,8 +27,10 @@ const Login = () => {
       variables: { input: { ...payload, tablename: userTypeParams } },
     });
     if (data) {
-      localStorage.setItem('TOKEN', data.loginToken.userLoginInfo);
+      // localStorage.setItem('TOKEN', data.loginToken.userLoginInfo);
       navigate('/')
+      console.log(data);
+      
     }
   };
   if (
@@ -37,9 +39,10 @@ const Login = () => {
     userTypeParams !== 'matchmakers'
   )
     return <Navigate replace to={'/'} />;
-  if (error) return <div>error</div>; //hadnle error...
+  if (error) console.log(error);
+   //hadnle error...
 
-  console.log(localStorage.getItem('TOKEN'));
+  // console.log(localStorage.getItem('TOKEN'));
 
   return (
     <div>

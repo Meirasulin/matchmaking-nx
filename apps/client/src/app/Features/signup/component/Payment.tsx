@@ -12,7 +12,7 @@ import ButtonLoading from '../../loading/component/ButtonLoading';
 
 const Payment = () => {
   const navigate = useNavigate();
-  const [contactInfo] = useAtom(userInfoAtom);
+  const [contactInfo, setContactInfo] = useAtom(userInfoAtom);
   const [_, setCurrentStep] = useAtom(stepAtom);
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
@@ -24,7 +24,7 @@ const Payment = () => {
     setCurrentStep((prev) => prev + 1);
     if (signupTypeParams) {
       const testss = await signupMutation({
-        variables: { input: { [signupTypeParams]: { ...contactInfo } } },
+        variables: { input: { [signupTypeParams]: { ...contactInfo, gender:  signupTypeParams} } },
       });
       console.log('test', testss);
     }

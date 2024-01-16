@@ -12,7 +12,7 @@ app.use(
     graphiql: true,
     enhanceGraphiql: true,
     jwtSecret: 'secret-jwt-matchmakers-web_1221-@#%&',
-    jwtPgTypeIdentifier: 'matching.user_login_info',
+    jwtPgTypeIdentifier: 'matching.token',
   })
 );
 

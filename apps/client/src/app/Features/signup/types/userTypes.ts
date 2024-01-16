@@ -38,7 +38,8 @@ export type TypeContactInfo = {
 export type TypeUserInfo = TypePersonalDetails &
   TypeContactInfo &
   TypeMatchInfo &
-  TypeJobAndEdu;
+  TypeJobAndEdu &
+  {gender: 'male' | 'female'}
 
 
 export type TypeAtomUserInfo =

@@ -17,7 +17,7 @@ specialty TEXT NOT NULL,
 password TEXT NOT NULL);
 
 
-DROP TABLE matching.Female
+DROP TABLE matching.male
 
 
 
@@ -43,6 +43,7 @@ pelKoshers TEXT NOT NULL,
 fatherName TEXT,
 motherName TEXT,
 maritalStatus TEXT NOT NULL,
+gender TEXT NOT NULL CHECK (gender = 'male' OR gender = 'female'),
 imgLink TEXT);
 
 CREATE TABLE matching.Male(
@@ -68,21 +69,20 @@ pelKoshers TEXT NOT NULL,
 fatherName TEXT,
 motherName TEXT,
 maritalStatus TEXT NOT NULL,
+gender TEXT NOT NULL CHECK (gender = 'male' OR gender = 'female'),
 imgLink TEXT);
 
 
-CREATE TYPE matching.user_login_info AS (
+CREATE TYPE matching.token AS (
  password TEXT, email TEXT
 );
 
+CREATE TYPE matching.login_response AS (
+  jwt_token matching.token,
+  user_details  json
+);
 
--- CREATE FUNCTION login_female(email text, password text)
--- RETURNS user_info_for_login AS $$
---     IF NOT EXISTS (SELECT * FROM female WHERE email = login_female.email AND password = login_female.password) THEN
---         RAISE EXCEPTION 'Invalid email or password';
---     END IF;
---   RETURN (email, password)::user_info;
--- $$ LANGUAGE sql;
+
 
 
 
@@ -107,63 +107,169 @@ $$ LANGUAGE plpgsql;
 
 
 
-CREATE FUNCTION matching.login_token(email text, password text, tablename text) 
-RETURNS matching.user_login_info AS $$
+
+
+
+
+
+
+
+
+
+
+CREATE FUNCTION matching.login(email text, password text, tablename text) 
+RETURNS matching.login_response AS $$
 
 DECLARE
   hashed_password text;
-
+  male matching.Male;
+  female matching.Female;
+  matchmakers matching.Matchmakers;
+  user_json json;
 BEGIN
-
-IF login_token.tablename = 'female' THEN
-  SELECT matching.decrypt_password_function(matching.female.password) 
+-- 
+IF login.tablename = 'female' THEN
+  SELECT matching.decrypt_password_function(matching.Female.password) 
   INTO hashed_password
-  FROM matching.female 
-  WHERE matching.female.email = login_token.email;
+  FROM matching.Female 
+  WHERE matching.Female.email = login.email;
+
+  SELECT a.*
+  INTO female
+  FROM matching.Female as a
+  WHERE a.email = login.email;
+
   
   IF hashed_password IS NULL THEN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  IF NOT hashed_password =  login_token.password THEN
+  IF NOT hashed_password =  login.password THEN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  RETURN (login_token.email, hashed_password)::matching.user_login_info;
+   user_json = json_build_object(
+    'matchfemaleid', female.matchFemaleId,
+'firstname', female.firstName,
+'lastname', female.lastName,
+'birthdate', female.birthDate,
+'email', female.email,
+'phonenumber', female.phoneNumber,
+'currentaddress', female.currentAddress,
+'origin', female.origin,
+'height', female.height,
+'highereducation', female.higherEducation,
+'educationname', female.educationName,
+'highereducationacademy', female.higherEducationAcademy,
+'jobstatus', female.jobStatus,
+'jobcompany', female.jobCompany,
+'seminar', female.seminar,
+'headwear', female.headwear,
+'pelkoshers', female.pelKoshers,
+'fathername', female.fatherName,
+'mothername', female.motherName,
+'maritalstatus', female.maritalStatus,
+'gender', female.gender,
+'imglink', female.imgLink
+   );
+   RETURN ROW(
+    ROW(female.email,
+      female.password)::matching.token,
+      user_json
+    )::matching.login_response;
   END IF;
-
+--  ----------------------------------------------------------
   IF matching.tablename = 'male' THEN
-  SELECT matching.decrypt_password_function(matching.male.password) 
+  SELECT matching.decrypt_password_function(matching.Male.password) 
   INTO hashed_password
-  FROM matching.male 
-  WHERE matching.male.email = login_token.email;
+  FROM matching.Male 
+  WHERE matching.Male.email = login.email;
+
+  SELECT a.*
+  INTO male
+  FROM matching.Male as a
+  WHERE a.email = login.email;
+
   
   IF hashed_password IS NULL THEN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  IF NOT hashed_password =  login_token.password THEN
+  IF NOT hashed_password =  login.password THEN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  RETURN (login_token.email, hashed_password)::matching.user_login_info;
+   user_json = json_build_object(
+    'matchmaleid', male.matchMaleId
+'firstname', male.firstName,
+'lastname', male.lastName
+'birthdate', male.birthDate
+'email', male.email
+'phonenumber', male.phoneNumber
+'currentaddress', male.currentAddress
+'origin', male.origin
+'height', male.height
+'yeshiva', male.yeshiva
+'torahstudystatus', male.torahStudyStatus
+'highereducation', male.higherEducation
+'educationname', male.educationName
+'highereducationacademy', male.higherEducationAcademy
+'jobstatus', male.jobStatus
+'jobcompany', male.jobCompany
+'headwear', male.headwear
+'pelkoshers', male.pelKoshers
+'fathername', male.fatherName
+'mothername', male.motherName
+'maritalstatus', male.maritalStatus
+'gender', male.gender,
+'imglink', male.imgLink
+   );
+   RETURN ROW(
+    ROW(male.email,
+      male.password)::matching.token,
+      user_json
+    )::matching.login_response;
   END IF;
 
-  IF matching.tablename = 'matchmaker' THEN
-  SELECT matching.decrypt_password_function(matching.matchmaker.password) 
-  INTO hashed_password
-  FROM matching.matchmaker 
-  WHERE matching.matchmaker.email = login_token.email;
+
+
+-- -------------------------------------------
+  IF matching.tablename = 'matchmakers' THEN
+  SELECT matching.decrypt_password_function(matching.Matchmakers.password) 
+    INTO hashed_password
+  FROM matching.Matchmakers 
+  WHERE matching.Matchmakers.email = login.email;
+
+  SELECT a.*
+  INTO matchmakers
+  FROM matching.Matchmakers as a
+  WHERE a.email = login.email;
+
   
   IF hashed_password IS NULL THEN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  IF NOT hashed_password =  login_token.password THEN
+  IF NOT hashed_password =  login.password THEN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
 
-  RETURN (login_token.email, hashed_password)::matching.user_login_info;
+   user_json = json_build_object(
+    'matchmakerid', matchmakers.matchmakerId
+'firstname', matchmakers.firstName,
+'lastname', matchmakers.lastName
+'birthdate', matchmakers.birthDate
+'email', matchmakers.email
+'phonenumber', matchmakers.phoneNumber
+'specialty', matchmakers.specialty
+'gender', matchmakers.gender
+
+   );
+   RETURN ROW(
+    ROW(matchmakers.email,
+      matchmakers.password)::matching.token,
+      user_json
+    )::matching.login_response;
   END IF;
 
 END;
@@ -171,60 +277,9 @@ $$ LANGUAGE plpgsql;
 
 
 
-CREATE FUNCTION matching.male_login_token(email text, password text) 
-RETURNS matching.user_login_info AS $$
-
-DECLARE
-  hashed_password text;
-
-BEGIN
-
-  SELECT matching.decrypt_password_function(matching.male.password) 
-  INTO hashed_password
-  FROM matching.male 
-  WHERE matching.male.email = male_login_token.email;
-  
-  IF hashed_password IS NULL THEN
-    RAISE EXCEPTION 'Invalid email or password';
-  END IF;
-
-  IF NOT hashed_password =  male_login_token.password THEN
-    RAISE EXCEPTION 'Invalid email or password';
-  END IF;
-
-  RETURN (male_login_token.email, hashed_password)::matching.user_login_info;
-
-END;
-$$ LANGUAGE plpgsql;
 
 
 
-
-CREATE FUNCTION matching.maker_login_token(email text, password text) 
-RETURNS matching.user_login_info AS $$
-
-DECLARE
-  hashed_password text;
-
-BEGIN
-
-  SELECT matching.decrypt_password_function(matching.matchmakers.password) 
-  INTO hashed_password
-  FROM matching.matchmakers 
-  WHERE matching.matchmakers.email = maker_login_token.email;
-  
-  IF hashed_password IS NULL THEN
-    RAISE EXCEPTION 'Invalid email or password';
-  END IF;
-
-  IF NOT hashed_password =  maker_login_token.password THEN
-    RAISE EXCEPTION 'Invalid email or password';
-  END IF;
-
-  RETURN (maker_login_token.email, hashed_password)::matching.user_login_info;
-
-END;
-$$ LANGUAGE plpgsql;
 
 
 
@@ -260,7 +315,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER password_encrypt 
-BEFORE INSERT ON matching.female
+BEFORE INSERT ON matching.Female
 FOR EACH ROW 
 EXECUTE PROCEDURE matching.password_encrypt();
 
