@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
-import { TypeMatchInfo } from '../types/userTypes';
+import { TypeMatchInfo } from '../../types/userTypes';
 import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
-import { nameValidet, requiredValidet } from '../helpers/inputValidtion';
-import { headwearList, pelKoshersList } from '../helpers/selectOptionLists';
-import citysListJSON from '../helpers/citysList';
-import { MatchinfoInputs, MatchinfoLists } from '../helpers/inputLists';
-import '../style/inputs.css'
-import '../style/signupStepper.css'
+import { stepAtom, userInfoAtom } from '../../helpers/initialAtom';
+import { nameValidet, requiredValidet } from '../../helpers/inputValidtion';
+import { headwearList, pelKoshersList } from '../../helpers/selectOptionLists';
+import citysListJSON from '../../helpers/citysList';
+import { MatchinfoInputs, MatchinfoLists } from '../../helpers/inputLists';
+import '../../style/inputs.css';
+import '../../style/signupStepper.css';
 
 const MatchInfo = () => {
   const [personalInfo, setPersonalInfo] = useAtom(userInfoAtom);

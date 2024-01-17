@@ -3,16 +3,14 @@ import {
   emailValidet,
   passwordValidet,
   phoneValidet,
-} from '../helpers/inputValidtion';
-import '../style/inputs.css'
+} from '../../helpers/inputValidtion';
+import '../../style/inputs.css';
 import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
-import { TypeContactInfo } from '../types/userTypes';
-import '../style/inputs.css'
-import '../style/signupStepper.css'
+import { stepAtom, userInfoAtom } from '../../helpers/initialAtom';
+import { TypeContactInfoMatchmakers } from '../../types/userTypes';
 
-const ContactInfo = () => {
-  const [, setCurrentStep] = useAtom(stepAtom);
+const MatchmakersContactInfo = () => {
+  const [currentStep, setCurrentStep] = useAtom(stepAtom);
   const [contactInfo, setContactInfo] = useAtom(userInfoAtom);
   const {
     register,
@@ -20,7 +18,7 @@ const ContactInfo = () => {
     reset,
     control,
     formState: { errors, isValid },
-  } = useForm<TypeContactInfo>({
+  } = useForm<TypeContactInfoMatchmakers>({
     mode: 'onChange',
   });
   const password = useWatch({
@@ -28,8 +26,8 @@ const ContactInfo = () => {
     name: 'password',
   });
 
-  const handleClickSubmit = (data: TypeContactInfo) => {
-    const { passwordConfirm, ...filteredData } = data;
+  const handleClickSubmit = (data: TypeContactInfoMatchmakers) => {
+    const { passwordconfirm, ...filteredData } = data;
     setCurrentStep((prev) => prev + 1);
     setContactInfo({
       ...contactInfo,
@@ -40,13 +38,12 @@ const ContactInfo = () => {
     <>
       <div className="flex">
         <form
-          action="/"
-          className="flex  flex-col items-center"
+          className="flex flex-col items-center"
           onSubmit={handleSubmit(handleClickSubmit)}
         >
           <div>
             <label
-              htmlFor="phonenumber"
+              htmlFor="phoneNumber"
               className={
                 errors.phonenumber?.message ? 'lableError' : 'lableSuccess'
               }
@@ -57,7 +54,7 @@ const ContactInfo = () => {
             </label>
             <input
               type="text"
-              id="phonenumber"
+              id="phoneNumber"
               {...register('phonenumber', phoneValidet)}
               className={
                 errors.phonenumber?.message ? 'inputError' : 'inputSuccess'
@@ -102,23 +99,23 @@ const ContactInfo = () => {
             <label
               htmlFor="passwordConfirm"
               className={
-                errors.passwordConfirm?.message ? 'lableError' : 'lableSuccess'
+                errors.passwordconfirm?.message ? 'lableError' : 'lableSuccess'
               }
             >
-              {errors.passwordConfirm?.message
-                ? (errors.passwordConfirm?.message as string)
+              {errors.passwordconfirm?.message
+                ? (errors.passwordconfirm?.message as string)
                 : 'אימות סיסמא'}
             </label>
             <input
               type="text"
-              {...register('passwordConfirm', {
+              {...register('passwordconfirm', {
                 required: 'שדה נדרש!',
                 validate: (value: unknown) => {
                   if (value !== password) return 'יש להזין סיסמא זהה';
                 },
               })}
               className={
-                errors.passwordConfirm?.message ? 'inputError' : 'inputSuccess'
+                errors.passwordconfirm?.message ? 'inputError' : 'inputSuccess'
               }
             />
           </div>
@@ -135,4 +132,4 @@ const ContactInfo = () => {
   );
 };
 
-export default ContactInfo;
+export default MatchmakersContactInfo;

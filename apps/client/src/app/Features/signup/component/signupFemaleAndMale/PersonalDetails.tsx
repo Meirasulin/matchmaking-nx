@@ -3,16 +3,16 @@ import {
   genderValidet,
   nameValidet,
   requiredValidet,
-} from '../helpers/inputValidtion';
+} from '../../helpers/inputValidtion';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import '../style/inputs.css';
-import '../style/signupStepper.css';
+import '../../style/inputs.css';
+import '../../style/signupStepper.css';
 import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
-import { TypePersonalDetails } from '../types/userTypes';
-import { PersonalInputs } from '../helpers/inputLists';
-import { maritalstatusList } from '../helpers/selectOptionLists';
+import { stepAtom, userInfoAtom } from '../../helpers/initialAtom';
+import { TypePersonalDetails } from '../../types/userTypes';
+import { PersonalInputs } from '../../helpers/inputLists';
+import { maritalstatusList } from '../../helpers/selectOptionLists';
 
 const PersonalDetails = () => {
   const [personalInfo, setPersonalInfo] = useAtom(userInfoAtom);
@@ -28,7 +28,7 @@ const PersonalDetails = () => {
   });
 
   const handleClickSubmit = (data: TypePersonalDetails) => {
-    setPersonalInfo({ ...data});
+    setPersonalInfo({ ...data });
     setCurrentStep((prev) => prev + 1);
   };
   return (
@@ -49,9 +49,9 @@ const PersonalDetails = () => {
                     : item.labelName}
                 </label>
                 <input
-                className={
-                  errors[item.name]?.message ? 'inputError' : 'inputSuccess'
-                }
+                  className={
+                    errors[item.name]?.message ? 'inputError' : 'inputSuccess'
+                  }
                   type="text"
                   id={item.name}
                   {...register(item.name, item.validatoin)}

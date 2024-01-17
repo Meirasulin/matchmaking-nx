@@ -1,11 +1,11 @@
--- Active: 1704277540574@@127.0.0.1@5432@Matching
+-- Active: 1705519118446@@127.0.0.1@5432@matching
 
 CREATE DATABASE "Matching"
 
 CREATE SCHEMA matching
 
 
-CREATE TABLE matching.Matchmakers (
+CREATE TABLE matching.Matchmaker (
 matchmakerId serial PRIMARY KEY NOT NULL,
 firstName TEXT NOT NULL,
 lastName TEXT NOT NULL,
@@ -14,10 +14,15 @@ email text Unique NOT NULL,
 phoneNumber TEXT NOT NULL Unique,
 gender TEXT NOT NULL CHECK (gender = 'male' OR gender = 'female'),
 specialty TEXT NOT NULL,
-password TEXT NOT NULL);
+password TEXT NOT NULL,
+createdAt DATE DEFAULT CURRENT_TIMESTAMP,
+updatedAt DATE DEFAULT CURRENT_TIMESTAMP
+);
 
 
-DROP TABLE matching.male
+DROP TABLE matching.Male;
+DROP TABLE matching.female;
+DROP TABLE matching.matchmaker;
 
 
 
@@ -44,7 +49,10 @@ fatherName TEXT,
 motherName TEXT,
 maritalStatus TEXT NOT NULL,
 gender TEXT NOT NULL CHECK (gender = 'male' OR gender = 'female'),
-imgLink TEXT);
+imgLink TEXT,
+createdAt DATE DEFAULT CURRENT_TIMESTAMP,
+updatedAt DATE DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE matching.Male(
 matchMaleId serial PRIMARY KEY NOT NULL,
@@ -70,7 +78,10 @@ fatherName TEXT,
 motherName TEXT,
 maritalStatus TEXT NOT NULL,
 gender TEXT NOT NULL CHECK (gender = 'male' OR gender = 'female'),
-imgLink TEXT);
+imgLink TEXT,
+createdAt DATE DEFAULT CURRENT_TIMESTAMP,
+updatedAt DATE DEFAULT CURRENT_TIMESTAMP
+);
 
 
 CREATE TYPE matching.token AS (
@@ -114,14 +125,14 @@ $$ LANGUAGE plpgsql;
 
 
 
-CREATE FUNCTION matching.login(email text, password text, tablename text) 
+CREATE OR REPLACE FUNCTION matching.login(email text, password text, tablename text) 
 RETURNS matching.login_response AS $$
 
 DECLARE
   hashed_password text;
   currentmale matching.Male;
   currentfemale matching.Female;
-  currentmatchmakers matching.Matchmakers;
+  currentmatchmakers matching.Matchmaker;
   user_json json;
 BEGIN
 -- 
@@ -166,7 +177,9 @@ IF login.tablename = 'female' THEN
 'mothername', currentfemale.motherName,
 'maritalstatus', currentfemale.maritalStatus,
 'gender', currentfemale.gender,
-'imglink', currentfemale.imgLink
+'imglink', currentfemale.imgLink,
+"createdAt", currentfemale.createdAt,
+"updatedAt", currentfemale, updatedAt
    );
    RETURN ROW(
     ROW(currentfemale.email,
@@ -218,7 +231,9 @@ IF login.tablename = 'female' THEN
 'mothername', currentmale.motherName,
 'maritalstatus', currentmale.maritalStatus,
 'gender', currentmale.gender,
-'imglink', currentmale.imgLink
+'imglink', currentmale.imgLink,
+"createdAt", currentmale.createdAt,
+"updatedAt", currentmale, updatedAt
    );
    RETURN ROW(
     ROW(currentmale.email,
@@ -227,15 +242,15 @@ IF login.tablename = 'female' THEN
     )::matching.login_response;
  END IF;
 -- -------------------------------------------
-  IF login.tablename = 'matchmakers' THEN
-  SELECT matching.decrypt_password_function(matching.Matchmakers.password) 
+  IF login.tablename = 'matchmaker' THEN
+  SELECT matching.decrypt_password_function(matching.Matchmaker.password) 
     INTO hashed_password
-  FROM matching.Matchmakers 
-  WHERE matching.Matchmakers.email = login.email;
+  FROM matching.Matchmaker 
+  WHERE matching.Matchmaker.email = login.email;
 
   SELECT a.*
   INTO currentmatchmakers
-  FROM matching.Matchmakers as a
+  FROM matching.Matchmaker as a
   WHERE a.email = login.email;
 
   
@@ -255,7 +270,9 @@ IF login.tablename = 'female' THEN
 'email', currentmatchmakers.email,
 'phonenumber', currentmatchmakers.phoneNumber,
 'specialty', currentmatchmakers.specialty,
-'gender', currentmatchmakers.gender
+'gender', currentmatchmakers.gender,
+"createdAt", currentmatchmakers.createdAt,
+"updatedAt", currentmatchmakers, updatedAt
    );
    RETURN ROW(
     ROW(currentmatchmakers.email,
@@ -322,7 +339,7 @@ FOR EACH ROW
 EXECUTE PROCEDURE matching.password_encrypt();
 
 CREATE TRIGGER password_encrypt 
-BEFORE INSERT ON matching.matchmakers
+BEFORE INSERT ON matching.Matchmaker
 FOR EACH ROW 
 EXECUTE PROCEDURE matching.password_encrypt();
 

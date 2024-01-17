@@ -2,32 +2,43 @@ import { useAtom } from 'jotai';
 import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import {
-  SIGNUP_FEMALE,
-  SIGNUP_MALE,
-} from '../../../Graphql/querys/femaleQuerys';
+import { allSignupMutation } from '../../../Graphql/mutation/signupMutate';
 import '../style/inputs.css';
 import '../style/signupStepper.css';
 import ButtonLoading from '../../loading/component/ButtonLoading';
 
 const Payment = () => {
-  const navigate = useNavigate();
-  const [contactInfo, setContactInfo] = useAtom(userInfoAtom);
+  // const navigate = useNavigate();
+  const [currentInfo, setCurrentInfo] = useAtom(userInfoAtom);
   const [_, setCurrentStep] = useAtom(stepAtom);
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
+  if (
+    signupTypeParams !== 'male' &&
+    signupTypeParams !== 'female' &&
+    signupTypeParams !== 'matchmaker'
+  )
+    return <Navigate replace to={'/'} />;
 
-  const SIGNUP = signupTypeParams === 'male' ? SIGNUP_MALE : SIGNUP_FEMALE;
+  const variables =
+    signupTypeParams === 'male' || signupTypeParams === 'female'
+      ? {
+          input: {
+            [signupTypeParams]: { ...currentInfo, gender: signupTypeParams },
+          },
+        }
+      : { input: { [signupTypeParams]: { ...currentInfo } } };
+
+  const SIGNUP = allSignupMutation[signupTypeParams];
   const [signupMutation, { data, loading, error }] = useMutation(SIGNUP);
 
   const handleClickFinish = async () => {
     setCurrentStep((prev) => prev + 1);
     if (signupTypeParams) {
-      const testss = await signupMutation({
-        variables: { input: { [signupTypeParams]: { ...contactInfo} } },
+      await signupMutation({
+        variables,
       });
     }
-
   };
 
   if (error) console.log('my error', error);

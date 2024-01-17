@@ -1,10 +1,12 @@
-import ContactInfo from './ContactInfo';
-import JobAndEdu from './JobAndEdu';
-import MatchInfo from './MatchInfo';
+import ContactInfo from './signupFemaleAndMale/ContactInfo';
+import JobAndEdu from './signupFemaleAndMale/JobAndEdu';
+import MatchInfo from './signupFemaleAndMale/MatchInfo';
 import Payment from './Payment';
-import PersonalDetails from './PersonalDetails';
+import PersonalDetails from './signupFemaleAndMale/PersonalDetails';
 import '../style/inputs.css';
 import '../style/signupStepper.css';
+import MatchmakersPersonalDetails from './signupMatchmakers/MatchmakersPersonalDetails';
+import MatchmakersContactInfo from './signupMatchmakers/MatchmakersContactInfo';
 
 type Prop = {
   page: number;
@@ -22,13 +24,14 @@ const SignupContainer = ({ page, userType }: Prop) => {
         {page === 5 && <Payment />}
       </>
     );
-    
-  }else if (userType === 'matchmakers') {
+  } else if (userType === 'matchmaker') {
     return (
       <>
-      
+        {page === 1 && <MatchmakersPersonalDetails />}
+        {page === 2 && <MatchmakersContactInfo />}
+        {page === 3 && <Payment />}
       </>
-    )
+    );
   }
 };
 export default SignupContainer;

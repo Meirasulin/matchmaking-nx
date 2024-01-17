@@ -3,4 +3,4 @@ import { TypeUserInfo, TypeContactInfo, TypePersonalDetails } from "../types/use
 
 export const stepAtom = atom(1)
 
-export const userInfoAtom = atom<null | TypeUserInfo | TypeContactInfo | TypePersonalDetails>(null)
+export const userInfoAtomMatchmaker = atom<null | TypeUserInfo | TypeContactInfo | TypePersonalDetails>(null)

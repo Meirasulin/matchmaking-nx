@@ -1,4 +1,3 @@
-
 export type TypePersonalDetails = {
   firstname: string;
   lastname: string;
@@ -38,14 +37,31 @@ export type TypeContactInfo = {
 export type TypeUserInfo = TypePersonalDetails &
   TypeContactInfo &
   TypeMatchInfo &
-  TypeJobAndEdu &
-  {gender: 'male' | 'female'}
+  TypeJobAndEdu & { gender: 'male' | 'female' };
 
+export type TypePersonalDetailsMatchmakers = {
+  firstname: string;
+  lastname: string;
+  birthdate: Date;
+  specialty: string;
+  gender: 'male' | 'female';
+};
+export type TypeContactInfoMatchmakers = {
+  phonenumber: string;
+  email: string;
+  password: string;
+  passwordconfirm?: string;
+};
+
+export type TypeMatchmakerInfo = TypePersonalDetailsMatchmakers &
+  TypeContactInfoMatchmakers;
 
 export type TypeAtomUserInfo =
   | TypeJobAndEdu
   | TypeUserInfo
   | TypeContactInfo
   | TypePersonalDetails
-  | TypeMatchInfo;
-
+  | TypeMatchInfo
+  | TypeMatchmakerInfo
+  | TypeContactInfoMatchmakers
+  | TypePersonalDetailsMatchmakers;

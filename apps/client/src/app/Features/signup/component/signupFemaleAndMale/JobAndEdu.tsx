@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
-import { TypeJobAndEdu } from '../types/userTypes';
+import { TypeJobAndEdu } from '../../types/userTypes';
 import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
+import { stepAtom, userInfoAtom } from '../../helpers/initialAtom';
 import { useState } from 'react';
-import { torahStudyStatusList } from '../helpers/selectOptionLists';
-import '../style/inputs.css';
-import '../style/signupStepper.css';
+import { torahStudyStatusList } from '../../helpers/selectOptionLists';
+import '../../style/inputs.css';
+import '../../style/signupStepper.css';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import { JobAndEduLists, maleOrFeamle } from '../helpers/inputLists';
+import { JobAndEduLists, maleOrFeamle } from '../../helpers/inputLists';
 
 const JobAndEdu = () => {
   const [userInfo, setUserInfo] = useAtom(userInfoAtom);

@@ -9,7 +9,6 @@ import '../style/signupStepper.css';
 import steps from '../helpers/tabsLists';
 
 const SignupStepperFemale = () => {
-
   const [complete, setComplete] = useState(false);
   const [currentStep] = useAtom(stepAtom);
   const [searchParams] = useSearchParams();
@@ -19,14 +18,14 @@ const SignupStepperFemale = () => {
       ? 'משודכות'
       : signupTypeParams === 'male'
       ? 'משודכים'
-      : signupTypeParams === 'matchmakers'
+      : signupTypeParams === 'matchmaker'
       ? 'משדכים'
       : null;
 
   if (
     signupTypeParams !== 'male' &&
     signupTypeParams !== 'female' &&
-    signupTypeParams !== 'matchmakers'
+    signupTypeParams !== 'matchmaker'
   ) {
     return <Navigate replace to={'/'} />;
   }

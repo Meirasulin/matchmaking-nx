@@ -10,7 +10,7 @@ const Login = () => {
   const [searchParams] = useSearchParams();
   const userTypeParams = searchParams.get('login');
   const [LoginToken, { data, loading, error }] = useMutation(LOGIN_MUTATION);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const {
     register,
@@ -28,13 +28,13 @@ const Login = () => {
     });
     if (data) {
       localStorage.setItem('TOKEN', data.login.loginResponse.jwtToken);
-      navigate('/card')
+      navigate('/card');
     }
   };
   if (
     userTypeParams !== 'female' &&
     userTypeParams !== 'male' &&
-    userTypeParams !== 'matchmakers'
+    userTypeParams !== 'matchmaker'
   )
     return <Navigate replace to={'/'} />;
   if (error) console.log(error); // handle errors
@@ -77,7 +77,7 @@ const Login = () => {
         </div>
         {loading ? (
           <ButtonLoading />
-        ) :  (
+        ) : (
           <button
             className={!isValid ? 'disableButton' : 'btn m-1 w-max'}
             disabled={!isValid}
@@ -85,7 +85,7 @@ const Login = () => {
           >
             Login
           </button>
-        ) }
+        )}
       </form>
     </div>
   );
