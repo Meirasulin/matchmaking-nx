@@ -178,8 +178,8 @@ IF login.tablename = 'female' THEN
 'maritalstatus', currentfemale.maritalStatus,
 'gender', currentfemale.gender,
 'imglink', currentfemale.imgLink,
-"createdAt", currentfemale.createdAt,
-"updatedAt", currentfemale, updatedAt
+"createdAt", currentfemale.createdat,
+"updatedAt", currentfemale, updatedat
    );
    RETURN ROW(
     ROW(currentfemale.email,
@@ -232,8 +232,8 @@ IF login.tablename = 'female' THEN
 'maritalstatus', currentmale.maritalStatus,
 'gender', currentmale.gender,
 'imglink', currentmale.imgLink,
-"createdAt", currentmale.createdAt,
-"updatedAt", currentmale, updatedAt
+"createdAt", currentmale.createdat,
+"updatedAt", currentmale, updatedat
    );
    RETURN ROW(
     ROW(currentmale.email,
@@ -270,9 +270,7 @@ IF login.tablename = 'female' THEN
 'email', currentmatchmakers.email,
 'phonenumber', currentmatchmakers.phoneNumber,
 'specialty', currentmatchmakers.specialty,
-'gender', currentmatchmakers.gender,
-"createdAt", currentmatchmakers.createdAt,
-"updatedAt", currentmatchmakers, updatedAt
+'gender', currentmatchmakers.gender
    );
    RETURN ROW(
     ROW(currentmatchmakers.email,

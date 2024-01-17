@@ -22,14 +22,14 @@ const Login = () => {
     mode: 'onChange',
   });
 
-  const handleClickSubmit = async (payload: TypeLoginInput) => {
-    await LoginToken({
+  const handleClickSubmit = (payload: TypeLoginInput) => {
+    LoginToken({
       variables: { input: { ...payload, tablename: userTypeParams } },
-    });
-    if (data) {
-      localStorage.setItem('TOKEN', data.login.loginResponse.jwtToken);
+    }).then((res) => {
+      localStorage.setItem('TOKEN', res.data.login.loginResponse.jwtToken);
+      console.log(data);
       navigate('/card');
-    }
+    });
   };
   if (
     userTypeParams !== 'female' &&
