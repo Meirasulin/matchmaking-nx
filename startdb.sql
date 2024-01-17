@@ -86,6 +86,7 @@ CREATE TYPE matching.login_response AS (
 
 
 
+
 CREATE FUNCTION matching.decrypt_password_function(encrypted_password text) 
 RETURNS text AS $$
 DECLARE 
@@ -113,18 +114,14 @@ $$ LANGUAGE plpgsql;
 
 
 
-
-
-
-
 CREATE FUNCTION matching.login(email text, password text, tablename text) 
 RETURNS matching.login_response AS $$
 
 DECLARE
   hashed_password text;
-  male matching.Male;
-  female matching.Female;
-  matchmakers matching.Matchmakers;
+  currentmale matching.Male;
+  currentfemale matching.Female;
+  currentmatchmakers matching.Matchmakers;
   user_json json;
 BEGIN
 -- 
@@ -135,11 +132,10 @@ IF login.tablename = 'female' THEN
   WHERE matching.Female.email = login.email;
 
   SELECT a.*
-  INTO female
+  INTO currentfemale
   FROM matching.Female as a
   WHERE a.email = login.email;
 
-  
   IF hashed_password IS NULL THEN
     RAISE EXCEPTION 'Invalid email or password';
   END IF;
@@ -149,44 +145,44 @@ IF login.tablename = 'female' THEN
   END IF;
 
    user_json = json_build_object(
-    'matchfemaleid', female.matchFemaleId,
-'firstname', female.firstName,
-'lastname', female.lastName,
-'birthdate', female.birthDate,
-'email', female.email,
-'phonenumber', female.phoneNumber,
-'currentaddress', female.currentAddress,
-'origin', female.origin,
-'height', female.height,
-'highereducation', female.higherEducation,
-'educationname', female.educationName,
-'highereducationacademy', female.higherEducationAcademy,
-'jobstatus', female.jobStatus,
-'jobcompany', female.jobCompany,
-'seminar', female.seminar,
-'headwear', female.headwear,
-'pelkoshers', female.pelKoshers,
-'fathername', female.fatherName,
-'mothername', female.motherName,
-'maritalstatus', female.maritalStatus,
-'gender', female.gender,
-'imglink', female.imgLink
+    'matchfemaleid', currentfemale.matchFemaleId,
+'firstname', currentfemale.firstName,
+'lastname', currentfemale.lastName,
+'birthdate', currentfemale.birthDate,
+'email', currentfemale.email,
+'phonenumber', currentfemale.phoneNumber,
+'currentaddress', currentfemale.currentAddress,
+'origin', currentfemale.origin,
+'height', currentfemale.height,
+'highereducation', currentfemale.higherEducation,
+'educationname', currentfemale.educationName,
+'highereducationacademy', currentfemale.higherEducationAcademy,
+'jobstatus', currentfemale.jobStatus,
+'jobcompany', currentfemale.jobCompany,
+'seminar', currentfemale.seminar,
+'headwear', currentfemale.headwear,
+'pelkoshers', currentfemale.pelKoshers,
+'fathername', currentfemale.fatherName,
+'mothername', currentfemale.motherName,
+'maritalstatus', currentfemale.maritalStatus,
+'gender', currentfemale.gender,
+'imglink', currentfemale.imgLink
    );
    RETURN ROW(
-    ROW(female.email,
-      female.password)::matching.token,
+    ROW(currentfemale.email,
+      currentfemale.password)::matching.token,
       user_json
     )::matching.login_response;
   END IF;
 --  ----------------------------------------------------------
-  IF matching.tablename = 'male' THEN
+  IF login.tablename = 'male' THEN
   SELECT matching.decrypt_password_function(matching.Male.password) 
   INTO hashed_password
   FROM matching.Male 
   WHERE matching.Male.email = login.email;
 
   SELECT a.*
-  INTO male
+  INTO currentmale
   FROM matching.Male as a
   WHERE a.email = login.email;
 
@@ -200,48 +196,45 @@ IF login.tablename = 'female' THEN
   END IF;
 
    user_json = json_build_object(
-    'matchmaleid', male.matchMaleId
-'firstname', male.firstName,
-'lastname', male.lastName
-'birthdate', male.birthDate
-'email', male.email
-'phonenumber', male.phoneNumber
-'currentaddress', male.currentAddress
-'origin', male.origin
-'height', male.height
-'yeshiva', male.yeshiva
-'torahstudystatus', male.torahStudyStatus
-'highereducation', male.higherEducation
-'educationname', male.educationName
-'highereducationacademy', male.higherEducationAcademy
-'jobstatus', male.jobStatus
-'jobcompany', male.jobCompany
-'headwear', male.headwear
-'pelkoshers', male.pelKoshers
-'fathername', male.fatherName
-'mothername', male.motherName
-'maritalstatus', male.maritalStatus
-'gender', male.gender,
-'imglink', male.imgLink
+    'matchmaleid', currentmale.matchMaleId,
+'firstname', currentmale.firstName,
+'lastname', currentmale.lastName,
+'birthdate', currentmale.birthDate,
+'email', currentmale.email,
+'phonenumber', currentmale.phoneNumber,
+'currentaddress', currentmale.currentAddress,
+'origin', currentmale.origin,
+'height', currentmale.height,
+'yeshiva', currentmale.yeshiva,
+'torahstudystatus', currentmale.torahStudyStatus,
+'highereducation', currentmale.higherEducation,
+'educationname', currentmale.educationName,
+'highereducationacademy', currentmale.higherEducationAcademy,
+'jobstatus', currentmale.jobStatus,
+'jobcompany', currentmale.jobCompany,
+'headwear', currentmale.headwear,
+'pelkoshers', currentmale.pelKoshers,
+'fathername', currentmale.fatherName,
+'mothername', currentmale.motherName,
+'maritalstatus', currentmale.maritalStatus,
+'gender', currentmale.gender,
+'imglink', currentmale.imgLink
    );
    RETURN ROW(
-    ROW(male.email,
-      male.password)::matching.token,
+    ROW(currentmale.email,
+      currentmale.password)::matching.token,
       user_json
     )::matching.login_response;
-  END IF;
-
-
-
+ END IF;
 -- -------------------------------------------
-  IF matching.tablename = 'matchmakers' THEN
+  IF login.tablename = 'matchmakers' THEN
   SELECT matching.decrypt_password_function(matching.Matchmakers.password) 
     INTO hashed_password
   FROM matching.Matchmakers 
   WHERE matching.Matchmakers.email = login.email;
 
   SELECT a.*
-  INTO matchmakers
+  INTO currentmatchmakers
   FROM matching.Matchmakers as a
   WHERE a.email = login.email;
 
@@ -255,19 +248,18 @@ IF login.tablename = 'female' THEN
   END IF;
 
    user_json = json_build_object(
-    'matchmakerid', matchmakers.matchmakerId
-'firstname', matchmakers.firstName,
-'lastname', matchmakers.lastName
-'birthdate', matchmakers.birthDate
-'email', matchmakers.email
-'phonenumber', matchmakers.phoneNumber
-'specialty', matchmakers.specialty
-'gender', matchmakers.gender
-
+    'matchmakerid', currentmatchmakers.matchmakerId,
+'firstname', currentmatchmakers.firstName,
+'lastname', currentmatchmakers.lastName,
+'birthdate', currentmatchmakers.birthDate,
+'email', currentmatchmakers.email,
+'phonenumber', currentmatchmakers.phoneNumber,
+'specialty', currentmatchmakers.specialty,
+'gender', currentmatchmakers.gender
    );
    RETURN ROW(
-    ROW(matchmakers.email,
-      matchmakers.password)::matching.token,
+    ROW(currentmatchmakers.email,
+      currentmatchmakers.password)::matching.token,
       user_json
     )::matching.login_response;
   END IF;
@@ -278,6 +270,10 @@ $$ LANGUAGE plpgsql;
 
 
 
+UPDATE public.users 
+SET perfer_location = array_append((select perfer_location from public.users 
+where id=1), 'new value')
+WHERE id = 1;
 
 
 

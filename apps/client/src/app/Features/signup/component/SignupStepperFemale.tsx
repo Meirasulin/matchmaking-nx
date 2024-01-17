@@ -6,15 +6,10 @@ import { TiTick } from 'react-icons/ti';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import '../style/inputs.css';
 import '../style/signupStepper.css';
+import steps from '../helpers/tabsLists';
 
 const SignupStepperFemale = () => {
-  const steps = [
-    'פרטיים אישיים',
-    'שאלון התאמות',
-    'עבודה ולימודים',
-    'דרכי התקשרות',
-    'תשלום',
-  ];
+
   const [complete, setComplete] = useState(false);
   const [currentStep] = useAtom(stepAtom);
   const [searchParams] = useSearchParams();
@@ -24,15 +19,22 @@ const SignupStepperFemale = () => {
       ? 'משודכות'
       : signupTypeParams === 'male'
       ? 'משודכים'
+      : signupTypeParams === 'matchmakers'
+      ? 'משדכים'
       : null;
 
-  if (signupTypeParams !== 'male' && signupTypeParams !== 'female')
+  if (
+    signupTypeParams !== 'male' &&
+    signupTypeParams !== 'female' &&
+    signupTypeParams !== 'matchmakers'
+  ) {
     return <Navigate replace to={'/'} />;
+  }
   return (
     <>
       <h1 className="text-center font-bold">הרשמה ל{userTypeName}</h1>
       <div className="flex justify-between mt-1">
-        {steps?.map((step, i) => (
+        {steps[signupTypeParams]?.map((step, i) => (
           <div
             key={i}
             className={`step-item ${currentStep === i + 1 && 'active'} ${
@@ -48,7 +50,7 @@ const SignupStepperFemale = () => {
       </div>
       {!complete && (
         <div className="flex items-center flex-col">
-          <SignupContainer page={currentStep} />
+          <SignupContainer page={currentStep} userType={signupTypeParams} />
         </div>
       )}
     </>

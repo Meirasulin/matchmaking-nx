@@ -17,7 +17,6 @@ const Card = ({fakeUser}: Prop) => {
   const today = new Date();
   let age = today.getFullYear() - fakeUser.birthdate.getFullYear();
   age -= fakeUser.birthdate.getMonth() > today.getMonth() ? 1 : 0;
-  // let  randomHex = Math.floor(Math.random() * 0xffffff).toString(16)
   const randomNumber = Math.floor(Math.random() * colorsList.length)
   let bgColor = `#${colorsList[randomNumber].padStart(6, '0')}`
 

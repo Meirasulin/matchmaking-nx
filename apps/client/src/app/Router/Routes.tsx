@@ -1,7 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import SignupStepperMatch from '../Features/matchmakers/signup/component/SignupStepperMatch';
-// import SignupStepperFemale from '../Features/female/signup/component/SignupStepperFemale';
-import SignupStepperMale from '../Features/male/signup/component/SignupStepperMale';
 import HomePage from '../Features/homePage/component/HomePage';
 import Login from '../Features/login/component/Login';
 import SignupStepperFemale from '../Features/signup/component/SignupStepperFemale';

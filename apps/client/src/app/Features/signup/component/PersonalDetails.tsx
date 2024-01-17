@@ -28,7 +28,7 @@ const PersonalDetails = () => {
   });
 
   const handleClickSubmit = (data: TypePersonalDetails) => {
-    setPersonalInfo({ ...data });
+    setPersonalInfo({ ...data});
     setCurrentStep((prev) => prev + 1);
   };
   return (

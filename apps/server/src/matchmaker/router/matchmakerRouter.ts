@@ -20,7 +20,8 @@ export const matchmakersRouter = router({
         ops.input as LoginMatchmakerType
       );
       return matchmakers;
-    }),
+    })
+  
 });
 
 // login: publicProcedure

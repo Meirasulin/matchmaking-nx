@@ -11,7 +11,7 @@ import { useAtom } from 'jotai';
 import { stepAtom , userInfoAtom} from '../helpers/initalAtom';
 import { TypePersonalDetails } from '../types/userInfoType';
 
-const PersonalDetails = () => {
+const MatchmakersPersonalDetails = () => {
   const [personalInfo, setPersonalInfo] = useAtom(userInfoAtom)
   const [currentStep, setCurrentStep] = useAtom(stepAtom);
   const {
@@ -128,7 +128,6 @@ const PersonalDetails = () => {
             <select
               id="countries"
               className={errors.gender?.message ? 'inputError' : 'inputSuccess'}
-              // className="col-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               {...register('gender', genderValidet)}
             >
               <option className="font-bold absolute text-center"> </option>
@@ -153,4 +152,4 @@ const PersonalDetails = () => {
   );
 };
 
-export default PersonalDetails;
+export default MatchmakersPersonalDetails;

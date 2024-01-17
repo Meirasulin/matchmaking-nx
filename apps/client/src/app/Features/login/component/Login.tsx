@@ -27,10 +27,8 @@ const Login = () => {
       variables: { input: { ...payload, tablename: userTypeParams } },
     });
     if (data) {
-      // localStorage.setItem('TOKEN', data.loginToken.userLoginInfo);
-      navigate('/')
-      console.log(data);
-      
+      localStorage.setItem('TOKEN', data.login.loginResponse.jwtToken);
+      navigate('/card')
     }
   };
   if (
@@ -39,10 +37,7 @@ const Login = () => {
     userTypeParams !== 'matchmakers'
   )
     return <Navigate replace to={'/'} />;
-  if (error) console.log(error);
-   //hadnle error...
-
-  // console.log(localStorage.getItem('TOKEN'));
+  if (error) console.log(error); // handle errors
 
   return (
     <div>

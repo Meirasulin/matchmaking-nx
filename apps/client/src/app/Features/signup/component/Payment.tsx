@@ -24,12 +24,10 @@ const Payment = () => {
     setCurrentStep((prev) => prev + 1);
     if (signupTypeParams) {
       const testss = await signupMutation({
-        variables: { input: { [signupTypeParams]: { ...contactInfo, gender:  signupTypeParams} } },
+        variables: { input: { [signupTypeParams]: { ...contactInfo} } },
       });
-      console.log('test', testss);
     }
 
-    console.log('data', data);
   };
 
   if (error) console.log('my error', error);
