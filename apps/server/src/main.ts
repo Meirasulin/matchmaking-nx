@@ -3,7 +3,6 @@ import cors from 'cors';
 import { createHTTPServer } from '@trpc/server/adapters/standalone';
 import appRouter from './router/appRouter';
 import connectToPG from './db/postgresConnection';
-import { createMatchmakersTable } from './matchmaker/model/tableDefinition';
 
 
 
@@ -19,10 +18,6 @@ httpServer.server.on('listening', () => {
   connectToPG()
     .then(() => {
       console.log('Connection has been established successfully.');
-
-      createMatchmakersTable()
-        .then((res) => console.log(res))
-        .catch((error) => console.log(error));
     })
     .catch((error) =>
       console.error('Unable to connect to the database:', error)

@@ -1,9 +1,12 @@
--- Active: 1705519118446@@127.0.0.1@5432@matching
+-- Active: 1704277540574@@127.0.0.1@5432
 
 CREATE DATABASE "Matching"
 
 CREATE SCHEMA matching
 
+DROP TABLE matching.Male;
+DROP TABLE matching.female;
+DROP TABLE matching.matchmaker;
 
 CREATE TABLE matching.Matchmaker (
 matchmakerId serial PRIMARY KEY NOT NULL,
@@ -20,9 +23,6 @@ updatedAt DATE DEFAULT CURRENT_TIMESTAMP
 );
 
 
-DROP TABLE matching.Male;
-DROP TABLE matching.female;
-DROP TABLE matching.matchmaker;
 
 
 
@@ -285,34 +285,12 @@ $$ LANGUAGE plpgsql;
 
 
 
-UPDATE public.users 
-SET perfer_location = array_append((select perfer_location from public.users 
-where id=1), 'new value')
-WHERE id = 1;
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-CREATE EXTENSION IF NOT EXISTS pgcrypto SCHEMA matching;
-
-
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-CREATE EXTENSION pgcrypto;
-
-SELECT matching.pgp_sym_encrypt('test', 'key');
-SELECT matching.pgp_sym_decrypt('\xC30D040703027D952C91FB3674E675D2350172E6A19737360EA7C1CF8382825DE1FA43071360D93F471801A9EF4DC077BA3935270BAD6ED1FE5C1B44261C2F91BC3758BD36FF', 'key');
 
 
 
@@ -340,6 +318,38 @@ CREATE TRIGGER password_encrypt
 BEFORE INSERT ON matching.Matchmaker
 FOR EACH ROW 
 EXECUTE PROCEDURE matching.password_encrypt();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto SCHEMA matching;
+
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+CREATE EXTENSION pgcrypto;
+
+SELECT matching.pgp_sym_encrypt('test', 'key');
+SELECT matching.pgp_sym_decrypt('\xC30D040703027D952C91FB3674E675D2350172E6A19737360EA7C1CF8382825DE1FA43071360D93F471801A9EF4DC077BA3935270BAD6ED1FE5C1B44261C2F91BC3758BD36FF', 'key');
+
 
 
 

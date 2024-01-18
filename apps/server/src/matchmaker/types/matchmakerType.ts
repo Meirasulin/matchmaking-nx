@@ -1,8 +1,8 @@
 export type MatchmakerType = {
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  phoneNumber: string;
+  firstname: string;
+  lastname: string;
+  birthdate: string;
+  phonenumber: string;
   email: string;
   gender: 'male' | 'female';
   specialty: string;

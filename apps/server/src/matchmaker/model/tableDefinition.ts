@@ -3,23 +3,23 @@ import { sequelize } from '../../db/postgresConnection';
 import { MatchmakerType } from '../types/matchmakerType';
 
 const Matchmakers = sequelize.define<
-  Model<MatchmakerType & {matchmakerId?:  Number, createdAt?: Date; updatedAt?: Date }, MatchmakerType>
+  Model<MatchmakerType & {matchmakerid?:  Number, createdat?: Date; updatedat?: Date }, MatchmakerType>
 >(
-  'matchmakers',
+  'matchmaker',
   {
-    firstName: {
+    firstname: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    lastName: {
+    lastname: {
       type:  DataTypes.TEXT,
       allowNull: false,
     },
-    birthDate: {
+    birthdate: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    phoneNumber: {
+    phonenumber: {
       type:  DataTypes.TEXT,
       allowNull: false,
       unique: true,
@@ -49,23 +49,24 @@ const Matchmakers = sequelize.define<
     },
   },
   {
-    tableName: 'matchmakers',
+    tableName: 'matchmaker',
     schema: 'matching'
   }
 );
 export default Matchmakers;
 
-export const createMatchmakersTable = async () => {
-  try {
-    // const tableExists = await sequelize.getQueryInterface().showAllTables();
-    // const isExsits = tableExists.includes('Matchmakers');
-    // if (isExsits === true) return;
-    Matchmakers.sync({alter: true}).then((res) => {
-      console.log('Table Matchmakers created successfully', res);
-    });
-    return;
-  } catch (error) {
-    console.log('Unable to create Table: Matchmakers');
-    return Promise.reject(error);
-  }
-};
+
+// export const createMatchmakersTable = async () => {
+//   try {
+//     // const tableExists = await sequelize.getQueryInterface().showAllTables();
+//     // const isExsits = tableExists.includes('Matchmakers');
+//     // if (isExsits === true) return;
+//     Matchmakers.sync({alter: true}).then((res) => {
+//       console.log('Table Matchmakers created successfully', res);
+//     });
+//     return;
+//   } catch (error) {
+//     console.log('Unable to create Table: Matchmakers');
+//     return Promise.reject(error);
+//   }
+// };
