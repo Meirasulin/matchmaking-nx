@@ -1,6 +1,6 @@
 import Matchmakers from '../model/tableDefinition';
 import { LoginMatchmakerType, MatchmakerType } from '../types/matchmakerType';
-import { compare } from 'bcrypt';
+import { compare,  } from 'bcrypt';
 
 // export const findUser = async (email: string) => {
 //   try {
@@ -31,7 +31,6 @@ export const matchmakersLogin = async ({
   password,
 }: LoginMatchmakerType) => {
   try {
-    console.error('test', email, password);
 
     const findMatchmaker = (await Matchmakers.findOne({
       where: { email },

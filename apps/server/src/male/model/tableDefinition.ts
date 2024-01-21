@@ -5,8 +5,8 @@ import { MaleType } from '../types/maleTypes';
 
 const Male = sequelize.define<
   Model<
-  MaleType & { matchmaleid?: Number; createdAt?: Date; updatedAt?: Date },
-  MaleType
+    MaleType & { id?: Number },
+    MaleType
   >
 >(
   'male',
@@ -20,7 +20,7 @@ const Male = sequelize.define<
       allowNull: false,
     },
     birthdate: {
-      type: DataTypes.TEXT,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     maritalstatus: {
@@ -116,6 +116,7 @@ const Male = sequelize.define<
   {
     tableName: 'male',
     schema: 'matching',
+    timestamps: false,
   }
 );
 export default Male;

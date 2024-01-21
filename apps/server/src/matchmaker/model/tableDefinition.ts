@@ -1,9 +1,11 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../db/postgresConnection';
 import { MatchmakerType } from '../types/matchmakerType';
+import Female from '../../female/model/tableDefinition';
+import Male from '../../male/model/tableDefinition';
 
 const Matchmakers = sequelize.define<
-  Model<MatchmakerType & {matchmakerid?:  Number, createdat?: Date; updatedat?: Date }, MatchmakerType>
+  Model<MatchmakerType & {matchmakerid?:  Number, createdAt?: Date; updatedAt?: Date }, MatchmakerType>
 >(
   'matchmaker',
   {
@@ -16,7 +18,7 @@ const Matchmakers = sequelize.define<
       allowNull: false,
     },
     birthdate: {
-      type: DataTypes.TEXT,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     phonenumber: {
@@ -50,7 +52,9 @@ const Matchmakers = sequelize.define<
   },
   {
     tableName: 'matchmaker',
-    schema: 'matching'
+    schema: 'matching',
+    timestamps: false
+
   }
 );
 export default Matchmakers;
@@ -58,10 +62,14 @@ export default Matchmakers;
 
 // export const createMatchmakersTable = async () => {
 //   try {
-//     // const tableExists = await sequelize.getQueryInterface().showAllTables();
-//     // const isExsits = tableExists.includes('Matchmakers');
-//     // if (isExsits === true) return;
-//     Matchmakers.sync({alter: true}).then((res) => {
+//     Matchmakers.sync({force: true}).then((res) => {
+//       console.log('Table Matchmakers created successfully', res);
+//     });
+//     Female.sync({force: true}).then((res) => {
+//       console.log('Table Matchmakers created successfully', res);
+//     });
+    
+//     Male.sync({force: true}).then((res) => {
 //       console.log('Table Matchmakers created successfully', res);
 //     });
 //     return;

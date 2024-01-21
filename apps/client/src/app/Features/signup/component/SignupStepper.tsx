@@ -8,7 +8,7 @@ import '../style/inputs.css';
 import '../style/signupStepper.css';
 import steps from '../helpers/tabsLists';
 
-const SignupStepperFemale = () => {
+const SignupStepper = () => {
   const [complete, setComplete] = useState(false);
   const [currentStep] = useAtom(stepAtom);
   const [searchParams] = useSearchParams();
@@ -56,4 +56,4 @@ const SignupStepperFemale = () => {
   );
 };
 
-export default SignupStepperFemale;
+export default SignupStepper;

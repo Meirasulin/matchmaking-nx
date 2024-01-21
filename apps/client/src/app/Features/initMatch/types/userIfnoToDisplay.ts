@@ -9,5 +9,6 @@ export type userInfoTodisplayType = {
   headwear: string;
   pelkoshers: string;
   torahstudystatus: string;
-  matchmaleid: number;
+  id?: number;
+  gender: 'female' | 'male'
 };

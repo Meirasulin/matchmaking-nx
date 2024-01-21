@@ -3,6 +3,7 @@ import cors from 'cors';
 import { createHTTPServer } from '@trpc/server/adapters/standalone';
 import appRouter from './router/appRouter';
 import connectToPG from './db/postgresConnection';
+import { createContext } from './trpcServer/initTRPC';
 
 
 
@@ -10,6 +11,7 @@ import connectToPG from './db/postgresConnection';
 const httpServer = createHTTPServer({
   router: appRouter,
   middleware: cors(),
+  createContext,
 });
 
 httpServer.listen(3000);
@@ -18,6 +20,7 @@ httpServer.server.on('listening', () => {
   connectToPG()
     .then(() => {
       console.log('Connection has been established successfully.');
+      // createMatchmakersTable()
     })
     .catch((error) =>
       console.error('Unable to connect to the database:', error)

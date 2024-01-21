@@ -1,4 +1,5 @@
 import femaleRouter from '../female/router/femaleRouter';
+import { matchingRouter } from '../matching/router/matchingRouter';
 import { matchmakersRouter } from '../matchmaker/router/matchmakerRouter';
 import { router } from '../trpcServer/initTRPC';
 
@@ -10,7 +11,8 @@ import { router } from '../trpcServer/initTRPC';
 // }
 const appRouter = router({
   matchmaker: matchmakersRouter /*fix all routers*/,
-  female: femaleRouter
+  female: femaleRouter,
+  matching: matchingRouter
 })
 
 export default appRouter;

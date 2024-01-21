@@ -1,5 +1,4 @@
-// import { atom } from "jotai";
-// type userFromDB = {
-//     id: string
-// } 
-// const logedUserInfo = atom<undefined>(undefined)
+import { atom } from "jotai";
+import { userInfoTodisplayType } from "../Features/initMatch/types/userIfnoToDisplay";
+
+export const logedUserInfo = atom<undefined | userInfoTodisplayType>(undefined)

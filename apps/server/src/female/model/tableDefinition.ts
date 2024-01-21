@@ -1,15 +1,14 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../db/postgresConnection';
 import { FemaleType } from '../types/femaleType';
-// import { MatchmakerType } from '../types/matchmakerType';
 
 const Female = sequelize.define<
   Model<
-    FemaleType & { matchfemaleId?: Number; createdat?: Date; updatedat?: Date },
+    FemaleType & { id?: Number; },
     FemaleType
   >
 >(
-  'matchmaker',
+  'female',
   {
     firstname: {
       type: DataTypes.TEXT,
@@ -20,7 +19,7 @@ const Female = sequelize.define<
       allowNull: false,
     },
     birthdate: {
-      type: DataTypes.TEXT,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     maritalstatus: {
@@ -110,8 +109,9 @@ const Female = sequelize.define<
     },
   },
   {
-    tableName: 'matchmaker',
+    tableName: 'female',
     schema: 'matching',
+    timestamps: false
   }
 );
 export default Female;

@@ -11,7 +11,7 @@ app.use(
     watchPg: true,
     graphiql: true,
     enhanceGraphiql: true,
-    jwtSecret: 'secret-jwt-matchmakers-web_1221-@#%&',
+    jwtSecret: process.env.SECRET_KEY_TOKEN,
     jwtPgTypeIdentifier: 'matching.token',
   })
 );

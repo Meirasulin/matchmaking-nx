@@ -13,8 +13,11 @@ export const getAllMalefirstMatch = async () => {
       'torahstudystatus',
       'highereducation',
       'jobstatus',
-      'matchmaleid',
+      'id',
     ],
   });
-  return males;
+  const malesRes = males.map((user)=> {
+    return user.dataValues
+      });
+  return malesRes
 };

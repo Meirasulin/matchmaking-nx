@@ -5,13 +5,16 @@ import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '../../../Graphql/mutation/loginMutate';
 import ButtonLoading from '../../loading/component/ButtonLoading';
+import { logedUserInfo } from '../../../helpers/logedUserInfo';
+import { useAtom } from 'jotai';
+
 
 const Login = () => {
   const [searchParams] = useSearchParams();
   const userTypeParams = searchParams.get('login');
   const [LoginToken, { data, loading, error }] = useMutation(LOGIN_MUTATION);
   const navigate = useNavigate();
-
+  const [logedUser, setLogedUser] = useAtom(logedUserInfo)
   const {
     register,
     handleSubmit,
@@ -23,12 +26,14 @@ const Login = () => {
   });
 
   const handleClickSubmit = (payload: TypeLoginInput) => {
+
+    
     LoginToken({
       variables: { input: { ...payload, tablename: userTypeParams } },
     }).then((res) => {
       localStorage.setItem('TOKEN', res.data.login.loginResponse.jwtToken);
-      console.log(data);
-      navigate('/card');
+      setLogedUser(JSON.parse(res.data.login.loginResponse.userDetails))      
+      navigate('/initmatchcards');
     });
   };
   if (

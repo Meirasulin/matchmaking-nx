@@ -5,7 +5,13 @@ const tRPC = createTRPCProxyClient<AppRouter>({
   links: [
     httpBatchLink({
       url: 'http://localhost:3000',
+      headers() {
+        return {
+          Authorization: String(localStorage.getItem("TOKEN"))
+        }
+      }
     }),
+    
   ],
   transformer: undefined,
 });

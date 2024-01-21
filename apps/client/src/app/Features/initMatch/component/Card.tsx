@@ -1,4 +1,3 @@
-import { IoBagRemoveSharp } from 'react-icons/io5';
 import { IoBookOutline } from 'react-icons/io5';
 import { RiBriefcase4Fill } from 'react-icons/ri';
 import { IoSchoolSharp } from 'react-icons/io5';
@@ -7,15 +6,15 @@ import { userInfoTodisplayType } from '../types/userIfnoToDisplay';
 import { colorsList } from '../style/colorsList';
 
 type Prop = {
-  fakeUser: userInfoTodisplayType;
+  user: userInfoTodisplayType;
 };
 
-const Card = ({ fakeUser }: Prop) => {
+const Card = ({ user }: Prop) => {
   const randomNumber = Math.floor(Math.random() * colorsList.length);
   let bgColor = `#${colorsList[randomNumber].padStart(6, '0')}`;
 
 
-  const birthdate = new Date(fakeUser.birthdate)
+  const birthdate = new Date(user.birthdate)
     const today = new Date();
     let  age = today.getFullYear() - birthdate.getFullYear();
     age -= birthdate.getMonth() > today.getMonth() ? 1 : 0;
@@ -35,21 +34,21 @@ const Card = ({ fakeUser }: Prop) => {
       </div>
 
       <div className="font-bold text-xl mb-2 text-center ">
-        {fakeUser.firstname}
+        {user.firstname}
       </div>
       <div className="px-6 py-4 flex justify-between">
         <span className="text-gray-700 text-base inline-block">
-          גובה: {fakeUser.height}
+          גובה: {user.height}
         </span>
      <span className="text-gray-700 text-base inline-block">גיל: {age}</span>
       </div>
       <div className="px-6 py-4 flex justify-between">
         <span className="text-gray-700 text-base inline-block">
-          מוצא: {fakeUser.origin}
+          מוצא: {user.origin}
         </span>
         <span className="text-gray-700 text-base inline-block">
           מצב משפחתי:{' '}
-          {fakeUser.maritalstatus === 'single' ? 'רווק/ה' : 'גרוש/ה'}
+          {user.maritalstatus === 'single' ? 'רווק/ה' : 'גרוש/ה'}
         </span>
       </div>
       <div className="px-6 pt-4 pb-2">
@@ -66,7 +65,12 @@ const Card = ({ fakeUser }: Prop) => {
           <MdOutlinePhonelinkLock />
         </span>
       </div>
-      <button></button>
+      <div className='flex flex-col items-center'>
+              <button className='btn m-1 w-max '>
+        פרטים נוספים
+      </button>
+      </div>
+
     </div>
   );
 };

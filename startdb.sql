@@ -9,7 +9,7 @@ DROP TABLE matching.female;
 DROP TABLE matching.matchmaker;
 
 CREATE TABLE matching.Matchmaker (
-matchmakerId serial PRIMARY KEY NOT NULL,
+id serial PRIMARY KEY NOT NULL,
 firstName TEXT NOT NULL,
 lastName TEXT NOT NULL,
 birthDate TEXT NOT NULL,
@@ -17,9 +17,7 @@ email text Unique NOT NULL,
 phoneNumber TEXT NOT NULL Unique,
 gender TEXT NOT NULL CHECK (gender = 'male' OR gender = 'female'),
 specialty TEXT NOT NULL,
-password TEXT NOT NULL,
-createdAt DATE DEFAULT CURRENT_TIMESTAMP,
-updatedAt DATE DEFAULT CURRENT_TIMESTAMP
+password TEXT NOT NULL
 );
 
 
@@ -27,7 +25,7 @@ updatedAt DATE DEFAULT CURRENT_TIMESTAMP
 
 
 CREATE TABLE matching.Female(
-matchFemaleId serial PRIMARY KEY NOT NULL,
+id serial PRIMARY KEY NOT NULL,
 firstName TEXT NOT NULL,
 lastName TEXT NOT NULL,
 birthDate TEXT NOT NULL,
@@ -49,13 +47,11 @@ fatherName TEXT,
 motherName TEXT,
 maritalStatus TEXT NOT NULL,
 gender TEXT NOT NULL CHECK (gender = 'male' OR gender = 'female'),
-imgLink TEXT,
-createdAt DATE DEFAULT CURRENT_TIMESTAMP,
-updatedAt DATE DEFAULT CURRENT_TIMESTAMP
+imgLink TEXT
 );
 
 CREATE TABLE matching.Male(
-matchMaleId serial PRIMARY KEY NOT NULL,
+id serial PRIMARY KEY NOT NULL,
 firstName TEXT NOT NULL,
 lastName TEXT NOT NULL,
 birthDate TEXT NOT NULL,
@@ -78,14 +74,12 @@ fatherName TEXT,
 motherName TEXT,
 maritalStatus TEXT NOT NULL,
 gender TEXT NOT NULL CHECK (gender = 'male' OR gender = 'female'),
-imgLink TEXT,
-createdAt DATE DEFAULT CURRENT_TIMESTAMP,
-updatedAt DATE DEFAULT CURRENT_TIMESTAMP
+imgLink TEXT
 );
 
 
 CREATE TYPE matching.token AS (
- password TEXT, email TEXT
+ password TEXT, email TEXT, usertype TEXT
 );
 
 CREATE TYPE matching.login_response AS (
@@ -156,7 +150,7 @@ IF login.tablename = 'female' THEN
   END IF;
 
    user_json = json_build_object(
-    'matchfemaleid', currentfemale.matchFemaleId,
+    'id', currentfemale.id,
 'firstname', currentfemale.firstName,
 'lastname', currentfemale.lastName,
 'birthdate', currentfemale.birthDate,
@@ -177,13 +171,11 @@ IF login.tablename = 'female' THEN
 'mothername', currentfemale.motherName,
 'maritalstatus', currentfemale.maritalStatus,
 'gender', currentfemale.gender,
-'imglink', currentfemale.imgLink,
-"createdAt", currentfemale.createdat,
-"updatedAt", currentfemale, updatedat
+'imglink', currentfemale.imgLink
    );
    RETURN ROW(
-    ROW(currentfemale.email,
-      currentfemale.password)::matching.token,
+    ROW(currentfemale.password,
+      currentfemale.email, 'female')::matching.token,
       user_json
     )::matching.login_response;
   END IF;
@@ -209,7 +201,7 @@ IF login.tablename = 'female' THEN
   END IF;
 
    user_json = json_build_object(
-    'matchmaleid', currentmale.matchMaleId,
+    'id', currentmale.id,
 'firstname', currentmale.firstName,
 'lastname', currentmale.lastName,
 'birthdate', currentmale.birthDate,
@@ -231,13 +223,11 @@ IF login.tablename = 'female' THEN
 'mothername', currentmale.motherName,
 'maritalstatus', currentmale.maritalStatus,
 'gender', currentmale.gender,
-'imglink', currentmale.imgLink,
-"createdAt", currentmale.createdat,
-"updatedAt", currentmale, updatedat
+'imglink', currentmale.imgLink
    );
    RETURN ROW(
-    ROW(currentmale.email,
-      currentmale.password)::matching.token,
+    ROW(currentmale.password,
+      currentmale.email, 'male')::matching.token,
       user_json
     )::matching.login_response;
  END IF;
@@ -263,7 +253,7 @@ IF login.tablename = 'female' THEN
   END IF;
 
    user_json = json_build_object(
-    'matchmakerid', currentmatchmakers.matchmakerId,
+    'id', currentmatchmakers.id,
 'firstname', currentmatchmakers.firstName,
 'lastname', currentmatchmakers.lastName,
 'birthdate', currentmatchmakers.birthDate,
@@ -273,8 +263,8 @@ IF login.tablename = 'female' THEN
 'gender', currentmatchmakers.gender
    );
    RETURN ROW(
-    ROW(currentmatchmakers.email,
-      currentmatchmakers.password)::matching.token,
+    ROW(currentmatchmakers.password,
+      currentmatchmakers.email, 'matchmaker')::matching.token,
       user_json
     )::matching.login_response;
   END IF;
@@ -284,14 +274,15 @@ $$ LANGUAGE plpgsql;
 
 
 
+SELECT * FROM matching.male WHERE email = 'TEST@TEST.COM'
 
 
 
 
 
-
-
-
+UPDATE public.users 
+SET locations = array_remove(SELECT locations from public.users WHERE email = email, 'valueToRemove')
+WHERE  email = email;
 
 
 

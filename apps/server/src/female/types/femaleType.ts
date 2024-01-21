@@ -12,8 +12,6 @@ export type FemaleType = {
     currentaddress: string;
     imglink?: string;
     seminar?: string;
-    // torahstudystatus?: string;
-    // yeshiva?: string;
     highereducation: string;
     educationname: string;
     highereducationacademy: string;
