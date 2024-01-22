@@ -4,6 +4,8 @@ import { IoSchoolSharp } from 'react-icons/io5';
 import { MdOutlinePhonelinkLock } from 'react-icons/md';
 import { userInfoTodisplayType } from '../types/userIfnoToDisplay';
 import { colorsList } from '../style/colorsList';
+import MorDetailsButton from './MorDetailsButton';
+import { useState } from 'react';
 
 type Prop = {
   user: userInfoTodisplayType;
@@ -12,6 +14,7 @@ type Prop = {
 const Card = ({ user }: Prop) => {
   const randomNumber = Math.floor(Math.random() * colorsList.length);
   let bgColor = `#${colorsList[randomNumber].padStart(6, '0')}`;
+  const [open, setOpen] = useState(false)
 
 
   const birthdate = new Date(user.birthdate)
@@ -66,11 +69,12 @@ const Card = ({ user }: Prop) => {
         </span>
       </div>
       <div className='flex flex-col items-center'>
-              <button className='btn m-1 w-max '>
-        פרטים נוספים
+      <button className="btn btn-danger" onClick={() => setOpen(true)}>        פרטים נוספים
       </button>
       </div>
+      <MorDetailsButton open={open} onClose={() => setOpen(false)}>
 
+      </MorDetailsButton>
     </div>
   );
 };

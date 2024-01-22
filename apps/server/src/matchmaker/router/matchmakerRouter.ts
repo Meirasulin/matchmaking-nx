@@ -1,7 +1,15 @@
-import { publicProcedure, router } from '../../trpcServer/initTRPC';
+import {
+  privateProcedure,
+  publicProcedure,
+  router,
+} from '../../trpcServer/initTRPC';
 import { z } from 'zod';
 import { MatchmakerValidetion } from '../utils/matchmakerValidetion';
-import { matchmakersSignUp, matchmakersLogin } from '../dal/matchmakersDAL';
+import {
+  matchmakersSignUp,
+  matchmakersLogin,
+  getAllMatchmakersForInitMatch,
+} from '../dal/matchmakersDAL';
 import { LoginMatchmakerType, MatchmakerType } from '../types/matchmakerType';
 import { hash } from 'bcrypt';
 // import { randomUUID } from "crypto";
@@ -20,8 +28,17 @@ export const matchmakersRouter = router({
         ops.input as LoginMatchmakerType
       );
       return matchmakers;
-    })
-  
+    }),
+  getAllMatchmakersForinitMatch: privateProcedure.query(async () => {
+    try {
+      const matchmakerFromDAL = await getAllMatchmakersForInitMatch();
+      const res = matchmakerFromDAL.map((matchmaker) => matchmaker.dataValues);
+      return res;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }),
 });
 
 // login: publicProcedure

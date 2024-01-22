@@ -12,6 +12,19 @@ import { compare,  } from 'bcrypt';
     
 //   } catch (error) {}
 // };
+export const getAllMatchmakersForInitMatch = async () => {
+  const matchmakers = await Matchmakers.findAll({
+    attributes: [
+      'firstname',
+      'lastname',
+      'email',
+      'phonenumber',
+      'gender',
+      'specialty',
+    ]
+  })
+  return matchmakers
+}
 
 
 export const matchmakersSignUp = async (matchmaker: MatchmakerType) => {

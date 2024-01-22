@@ -1,11 +1,13 @@
-import express from 'express';
+import express, { Request, NextFunction } from 'express';
 import postgraphile from 'postgraphile';
 import 'dotenv/config';
-import cors from 'cors'
+import cors from 'cors';
+import 'dotenv/config';
 
 const app = express();
 
-app.use(cors())
+
+app.use(cors());
 app.use(
   postgraphile(process.env.LOCAL_PG, 'matching', {
     watchPg: true,

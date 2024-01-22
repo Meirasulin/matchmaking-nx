@@ -8,6 +8,10 @@ DROP TABLE matching.Male;
 DROP TABLE matching.female;
 DROP TABLE matching.matchmaker;
 
+
+
+
+
 CREATE TABLE matching.Matchmaker (
 id serial PRIMARY KEY NOT NULL,
 firstName TEXT NOT NULL,
@@ -245,7 +249,7 @@ IF login.tablename = 'female' THEN
 
   
   IF hashed_password IS NULL THEN
-    RAISE EXCEPTION 'Invalid email or password';
+    RAISE EXCEPTION 'password null Invalid email or password';
   END IF;
 
   IF NOT hashed_password =  login.password THEN

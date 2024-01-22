@@ -1,5 +1,6 @@
 import Female from '../../female/model/tableDefinition';
 import Male from '../../male/model/tableDefinition';
+import Matchmakers from '../../matchmaker/model/tableDefinition';
 
 export const getInitMatchCards = async (userType: string) => {
   if (userType === 'female') {
@@ -45,3 +46,8 @@ export const getInitMatchCards = async (userType: string) => {
     return females;
   }
 };
+
+
+
+
+

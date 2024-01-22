@@ -4,6 +4,7 @@ import { createHTTPServer } from '@trpc/server/adapters/standalone';
 import appRouter from './router/appRouter';
 import connectToPG from './db/postgresConnection';
 import { createContext } from './trpcServer/initTRPC';
+// import { initDB } from './utils/initalDemoDB';
 
 
 
@@ -21,6 +22,7 @@ httpServer.server.on('listening', () => {
     .then(() => {
       console.log('Connection has been established successfully.');
       // createMatchmakersTable()
+      // initDB()
     })
     .catch((error) =>
       console.error('Unable to connect to the database:', error)
