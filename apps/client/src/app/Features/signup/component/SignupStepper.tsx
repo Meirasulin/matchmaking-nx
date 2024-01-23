@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SignupContainer from './SignupContainer.js';
 import { TiTick } from 'react-icons/ti';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import '../style/inputs.css';
 import '../style/signupStepper.css';
 import steps from '../helpers/tabsLists';
-import { useSelector } from 'react-redux';
+import store from '../../../redux/initRedux.js';
 
 const SignupStepper = () => {
   const [complete] = useState(false);
-  const currentStep = useSelector((state: any) => state.signup.stepper);
+  const [currentStep, setCurrentStep] = useState(
+    store.getState().signup.stepper
+  );
+
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
 
@@ -30,6 +33,12 @@ const SignupStepper = () => {
     return <Navigate replace to={'/'} />;
   }
 
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      setCurrentStep(store.getState().signup.stepper);
+    });
+    return unsubscribe;
+  }, []);
   return (
     <>
       <h1 className="text-center font-bold">הרשמה ל{userTypeName}</h1>

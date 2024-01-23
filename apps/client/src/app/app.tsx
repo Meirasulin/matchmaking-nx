@@ -1,17 +1,12 @@
-import { Provider } from 'react-redux';
 import Router from './Router/Routes';
 import Footer from './layout/component/Footer';
 import Header from './layout/component/Header';
-import store from './redux/initRedux';
-import ErrorAlert from './Features/errorAlert/component/ErrorAlert';
 
 export const App = () => {
   return (
     <div>
-      <Provider store={store}>
-        <Header />
-        <Router />
-      </Provider>
+      <Header />
+      <Router />
     </div>
   );
 };
