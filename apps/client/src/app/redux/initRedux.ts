@@ -1,16 +1,12 @@
-import { legacy_createStore as createStore} from 'redux'
+import { legacy_createStore as createStore, combineReducers } from 'redux';
+import logedUserReducer from '../Features/login/redux/loginReducer';
+import signupReducer from '../Features/signup/redux/signupReducer';
 
+const rootReducer = combineReducers({
+  login: logedUserReducer,
+  signup: signupReducer,
+});
 
+const store = createStore(rootReducer);
 
-const counterReducer = (state = { value: 0 }, action: any) => {
-    switch (action.type) {
-      case 'counter/incremented':
-        return { value: state.value + 1 }
-      case 'counter/decremented':
-        return { value: state.value - 1 }
-      default:
-        return state
-    }
-  }
-  
-let store = createStore(counterReducer)
+export default store;

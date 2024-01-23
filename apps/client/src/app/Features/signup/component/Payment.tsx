@@ -1,16 +1,15 @@
-import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../helpers/initialAtom';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { allSignupMutation } from '../../../Graphql/mutation/signupMutate';
 import '../style/inputs.css';
 import '../style/signupStepper.css';
 import ButtonLoading from '../../loading/component/ButtonLoading';
+import store from '../../../redux/initRedux';
+
 
 const Payment = () => {
-  // const navigate = useNavigate();
-  const [currentInfo, setCurrentInfo] = useAtom(userInfoAtom);
-  const [_, setCurrentStep] = useAtom(stepAtom);
+  const currentInfo = store.getState().signup.inputsValue;
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
   if (
@@ -33,15 +32,20 @@ const Payment = () => {
   const [signupMutation, { data, loading, error }] = useMutation(SIGNUP);
 
   const handleClickFinish = async () => {
-    setCurrentStep((prev) => prev + 1);
+    store.dispatch({
+      type: 'signup/stepper_incremente',
+    });
     if (signupTypeParams) {
       await signupMutation({
         variables,
+      }).then(() => {
+        navigate('/');
       });
     }
   };
+  console.log(currentInfo);
 
-  if (error) console.log('my error', error);
+  if (error) return <Navigate replace to={'/errorAlert'} />;
 
   return (
     <div className="flex flex-col items-center">
@@ -49,10 +53,11 @@ const Payment = () => {
         <h1 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           האתר בהרצה
         </h1>
-        <h2 className=" font-normal text-gray-700 dark:text-gray-400">
+        <h2 className="font-normal text-gray-700 dark:text-gray-400">
           כעת ניתן להירשם ללא תשלום
         </h2>
       </div>
+
       {loading ? (
         <ButtonLoading />
       ) : (

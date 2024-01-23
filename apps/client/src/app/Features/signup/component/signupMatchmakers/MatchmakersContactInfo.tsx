@@ -5,13 +5,11 @@ import {
   phoneValidet,
 } from '../../helpers/inputValidtion';
 import '../../style/inputs.css';
-import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../../helpers/initialAtom';
 import { TypeContactInfoMatchmakers } from '../../types/userTypes';
+import store from '../../../../redux/initRedux';
 
 const MatchmakersContactInfo = () => {
-  const [currentStep, setCurrentStep] = useAtom(stepAtom);
-  const [contactInfo, setContactInfo] = useAtom(userInfoAtom);
+  const currentStep = store.getState().signup.stepper;
   const {
     register,
     handleSubmit,
@@ -28,10 +26,13 @@ const MatchmakersContactInfo = () => {
 
   const handleClickSubmit = (data: TypeContactInfoMatchmakers) => {
     const { passwordconfirm, ...filteredData } = data;
-    setCurrentStep((prev) => prev + 1);
-    setContactInfo({
-      ...contactInfo,
-      ...filteredData,
+    store.dispatch({
+      type: 'signup/stepper_incremente',
+    });
+
+    store.dispatch({
+      type: 'signup/update_user_input_values',
+      payload: { ...filteredData },
     });
   };
   return (

@@ -47,7 +47,3 @@ export const getInitMatchCards = async (userType: string) => {
   }
 };
 
-
-
-
-

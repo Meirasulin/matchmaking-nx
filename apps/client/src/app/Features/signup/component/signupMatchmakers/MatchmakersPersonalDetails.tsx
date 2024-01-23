@@ -1,4 +1,4 @@
-import { Controller, useForm, FieldValues } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import {
   genderValidet,
   nameValidet,
@@ -7,13 +7,10 @@ import {
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../style/inputs.css';
-import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../../helpers/initialAtom';
 import { TypePersonalDetailsMatchmakers } from '../../types/userTypes';
+import store from '../../../../redux/initRedux';
 
 const MatchmakersPersonalDetails = () => {
-  const [_, setPersonalInfo] = useAtom(userInfoAtom);
-  const [currentStep, setCurrentStep] = useAtom(stepAtom);
   const {
     register,
     handleSubmit,
@@ -25,8 +22,13 @@ const MatchmakersPersonalDetails = () => {
   });
 
   const handleClickSubmit = (data: TypePersonalDetailsMatchmakers) => {
-    setPersonalInfo(data);
-    setCurrentStep((prev) => prev + 1);
+    store.dispatch({
+      type: 'signup/update_user_input_values',
+      payload: { ...data },
+    });
+    store.dispatch({
+      type: 'signup/stepper_incremente',
+    });
   };
   return (
     <>

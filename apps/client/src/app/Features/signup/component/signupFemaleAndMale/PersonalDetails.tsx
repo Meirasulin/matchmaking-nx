@@ -1,26 +1,18 @@
 import { Controller, useForm, FieldValues } from 'react-hook-form';
-import {
-  genderValidet,
-  nameValidet,
-  requiredValidet,
-} from '../../helpers/inputValidtion';
+import { requiredValidet } from '../../helpers/inputValidtion';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../style/inputs.css';
 import '../../style/signupStepper.css';
-import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../../helpers/initialAtom';
 import { TypePersonalDetails } from '../../types/userTypes';
 import { PersonalInputs } from '../../helpers/inputLists';
 import { maritalstatusList } from '../../helpers/selectOptionLists';
+import store from '../../../../redux/initRedux';
 
 const PersonalDetails = () => {
-  const [personalInfo, setPersonalInfo] = useAtom(userInfoAtom);
-  const [currentStep, setCurrentStep] = useAtom(stepAtom);
   const {
     register,
     handleSubmit,
-    reset,
     control,
     formState: { errors, isValid },
   } = useForm<TypePersonalDetails>({
@@ -28,9 +20,16 @@ const PersonalDetails = () => {
   });
 
   const handleClickSubmit = (data: TypePersonalDetails) => {
-    setPersonalInfo({ ...data });
-    setCurrentStep((prev) => prev + 1);
+
+    store.dispatch({
+      type: 'signup/update_user_input_values',
+      payload: { ...data },
+    });
+    store.dispatch({
+      type: 'signup/stepper_incremente',
+    });
   };
+
   return (
     <>
       <div className="flex ">

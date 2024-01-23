@@ -1,22 +1,17 @@
 import { useForm } from 'react-hook-form';
 import { TypeMatchInfo } from '../../types/userTypes';
-import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../../helpers/initialAtom';
-import { nameValidet, requiredValidet } from '../../helpers/inputValidtion';
-import { headwearList, pelKoshersList } from '../../helpers/selectOptionLists';
+import {  requiredValidet } from '../../helpers/inputValidtion';
 import citysListJSON from '../../helpers/citysList';
 import { MatchinfoInputs, MatchinfoLists } from '../../helpers/inputLists';
 import '../../style/inputs.css';
 import '../../style/signupStepper.css';
+import store from '../../../../redux/initRedux';
 
 const MatchInfo = () => {
-  const [personalInfo, setPersonalInfo] = useAtom(userInfoAtom);
-  const [matchInfo, setMatchInfo] = useAtom(stepAtom);
+
   const {
     register,
     handleSubmit,
-    reset,
-    control,
     formState: { errors, isValid },
   } = useForm<TypeMatchInfo>({
     mode: 'onChange',
@@ -24,8 +19,13 @@ const MatchInfo = () => {
 
   const handleClickSubmit = (data: TypeMatchInfo) => {
     data.height = parseInt(data.height as unknown as string);
-    setPersonalInfo({ ...personalInfo, ...data, height: data.height });
-    setMatchInfo((prev) => prev + 1);
+    store.dispatch({
+      type: 'signup/update_user_input_values',
+      payload: { ...data, height: data.height },
+    });
+    store.dispatch({
+      type: 'signup/stepper_incremente',
+    });
   };
   return (
     <>

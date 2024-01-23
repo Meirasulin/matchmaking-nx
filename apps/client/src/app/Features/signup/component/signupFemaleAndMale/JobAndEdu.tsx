@@ -1,17 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { TypeJobAndEdu } from '../../types/userTypes';
-import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../../helpers/initialAtom';
 import { useState } from 'react';
 import { torahStudyStatusList } from '../../helpers/selectOptionLists';
 import '../../style/inputs.css';
 import '../../style/signupStepper.css';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import { JobAndEduLists, maleOrFeamle } from '../../helpers/inputLists';
+import store from '../../../../redux/initRedux';
 
 const JobAndEdu = () => {
-  const [userInfo, setUserInfo] = useAtom(userInfoAtom);
-  const [_, setStep] = useAtom(stepAtom);
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
   const [showOption, setShowOption] = useState<
@@ -27,8 +24,13 @@ const JobAndEdu = () => {
   });
 
   const handleClickSubmit = (data: TypeJobAndEdu) => {
-    setUserInfo({ ...userInfo, ...data });
-    setStep((prev) => prev + 1);
+    store.dispatch({
+      type: 'signup/update_user_input_values',
+      payload: { ...data },
+    });
+    store.dispatch({
+      type: 'signup/stepper_incremente',
+    });
   };
   if (signupTypeParams !== 'male' && signupTypeParams !== 'female')
     return <Navigate replace to={'/'} />;

@@ -3,6 +3,7 @@ import HomePage from '../Features/homePage/component/HomePage';
 import Login from '../Features/login/component/Login';
 import SignupStepper from '../Features/signup/component/SignupStepper';
 import InitMatchPage from '../Features/initMatch/component/InitMatchPage';
+import ErrorAlert from '../Features/errorAlert/component/ErrorAlert';
 
 const Router = () => {
   return (

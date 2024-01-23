@@ -8,12 +8,15 @@ import '../style/signupStepper.css';
 import MatchmakersPersonalDetails from './signupMatchmakers/MatchmakersPersonalDetails';
 import MatchmakersContactInfo from './signupMatchmakers/MatchmakersContactInfo';
 
+
+
 type Prop = {
   page: number;
   userType: string;
 };
 
 const SignupContainer = ({ page, userType }: Prop) => {
+
   if (userType === 'male' || userType === 'female') {
     return (
       <>

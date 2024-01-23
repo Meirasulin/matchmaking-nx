@@ -1,11 +1,16 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../db/postgresConnection';
 import { MatchmakerType } from '../types/matchmakerType';
-import Female from '../../female/model/tableDefinition';
-import Male from '../../male/model/tableDefinition';
 
 const Matchmakers = sequelize.define<
-  Model<MatchmakerType & {matchmakerid?:  Number, createdAt?: Date; updatedAt?: Date }, MatchmakerType>
+  Model<
+    MatchmakerType & {
+      matchmakerid?: Number;
+      createdAt?: Date;
+      updatedAt?: Date;
+    },
+    MatchmakerType
+  >
 >(
   'matchmaker',
   {
@@ -14,7 +19,7 @@ const Matchmakers = sequelize.define<
       allowNull: false,
     },
     lastname: {
-      type:  DataTypes.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     birthdate: {
@@ -22,12 +27,12 @@ const Matchmakers = sequelize.define<
       allowNull: false,
     },
     phonenumber: {
-      type:  DataTypes.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
       unique: true,
     },
     email: {
-      type:  DataTypes.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
       unique: true,
       validate: {
@@ -42,23 +47,21 @@ const Matchmakers = sequelize.define<
       },
     },
     specialty: {
-      type:  DataTypes.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     password: {
-      type:  DataTypes.TEXT,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
   },
   {
     tableName: 'matchmaker',
     schema: 'matching',
-    timestamps: false
-
+    timestamps: false,
   }
 );
 export default Matchmakers;
-
 
 // export const createMatchmakersTable = async () => {
 //   try {
@@ -68,7 +71,7 @@ export default Matchmakers;
 //     Female.sync({force: true}).then((res) => {
 //       console.log('Table Matchmakers created successfully', res);
 //     });
-    
+
 //     Male.sync({force: true}).then((res) => {
 //       console.log('Table Matchmakers created successfully', res);
 //     });

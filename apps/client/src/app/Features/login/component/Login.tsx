@@ -1,20 +1,17 @@
 import { useForm } from 'react-hook-form';
-import TypeLoginInput from '../types/loginInputType';
+import { TypeLoginInput } from '../types/loginTypes';
 import { emailValidet, passwordValidet } from '../helpers/inputValidtion';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from '../../../Graphql/mutation/loginMutate';
 import ButtonLoading from '../../loading/component/ButtonLoading';
-import { logedUserInfo } from '../../../helpers/logedUserInfo';
-import { useAtom } from 'jotai';
-
+import store from '../../../redux/initRedux';
 
 const Login = () => {
   const [searchParams] = useSearchParams();
   const userTypeParams = searchParams.get('login');
   const [LoginToken, { data, loading, error }] = useMutation(LOGIN_MUTATION);
   const navigate = useNavigate();
-  const [logedUser, setLogedUser] = useAtom(logedUserInfo)
   const {
     register,
     handleSubmit,
@@ -26,16 +23,19 @@ const Login = () => {
   });
 
   const handleClickSubmit = (payload: TypeLoginInput) => {
-
-    
     LoginToken({
       variables: { input: { ...payload, tablename: userTypeParams } },
-    }).then((res) => {
-      localStorage.setItem('TOKEN', res.data.login.loginResponse.jwtToken);
-      setLogedUser(JSON.parse(res.data.login.loginResponse.userDetails))      
+    }).then(({data}) => {
+      localStorage.setItem('TOKEN', data.login.loginResponse.jwtToken);
+      const {userDetails} = data.login.loginResponse
+      store.dispatch({
+        type: 'login/update_loged_simple_user_info',
+        payload: JSON.parse(userDetails),
+      });
       navigate('/initmatchcards');
     });
   };
+
   if (
     userTypeParams !== 'female' &&
     userTypeParams !== 'male' &&
@@ -97,3 +97,7 @@ const Login = () => {
 };
 
 export default Login;
+function uuseEffect(arg0: () => void) {
+  throw new Error('Function not implemented.');
+}
+

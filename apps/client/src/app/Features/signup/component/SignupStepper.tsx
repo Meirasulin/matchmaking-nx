@@ -1,18 +1,18 @@
-import { useAtom } from 'jotai';
 import { useState } from 'react';
-import { stepAtom } from '../helpers/initialAtom';
 import SignupContainer from './SignupContainer.js';
 import { TiTick } from 'react-icons/ti';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import '../style/inputs.css';
 import '../style/signupStepper.css';
 import steps from '../helpers/tabsLists';
+import { useSelector } from 'react-redux';
 
 const SignupStepper = () => {
-  const [complete, setComplete] = useState(false);
-  const [currentStep] = useAtom(stepAtom);
+  const [complete] = useState(false);
+  const currentStep = useSelector((state: any) => state.signup.stepper);
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
+
   const userTypeName =
     signupTypeParams === 'female'
       ? 'משודכות'
@@ -29,6 +29,7 @@ const SignupStepper = () => {
   ) {
     return <Navigate replace to={'/'} />;
   }
+
   return (
     <>
       <h1 className="text-center font-bold">הרשמה ל{userTypeName}</h1>

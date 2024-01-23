@@ -1,22 +1,18 @@
-import { useForm, useWatch, FieldValues } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import {
   emailValidet,
   passwordValidet,
   phoneValidet,
 } from '../../helpers/inputValidtion';
-import { useAtom } from 'jotai';
-import { stepAtom, userInfoAtom } from '../../helpers/initialAtom';
 import { TypeContactInfo } from '../../types/userTypes';
 import '../../style/inputs.css';
 import '../../style/signupStepper.css';
+import store from '../../../../redux/initRedux';
 
 const ContactInfo = () => {
-  const [, setCurrentStep] = useAtom(stepAtom);
-  const [contactInfo, setContactInfo] = useAtom(userInfoAtom);
   const {
     register,
     handleSubmit,
-    reset,
     control,
     formState: { errors, isValid },
   } = useForm<TypeContactInfo>({
@@ -29,10 +25,13 @@ const ContactInfo = () => {
 
   const handleClickSubmit = (data: TypeContactInfo) => {
     const { passwordConfirm, ...filteredData } = data;
-    setCurrentStep((prev) => prev + 1);
-    setContactInfo({
-      ...contactInfo,
-      ...filteredData,
+
+    store.dispatch({
+      type: 'signup/update_user_input_values',
+      payload: { ...filteredData },
+    });
+    store.dispatch({
+      type: 'signup/stepper_incremente',
     });
   };
   return (
