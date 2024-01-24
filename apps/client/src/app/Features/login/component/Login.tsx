@@ -2,38 +2,47 @@ import { useForm } from 'react-hook-form';
 import { TypeLoginInput } from '../types/loginTypes';
 import { emailValidet, passwordValidet } from '../helpers/inputValidtion';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import { LOGIN_MUTATION } from '../../../Graphql/mutation/loginMutate';
 import ButtonLoading from '../../loading/component/ButtonLoading';
-import store from '../../../redux/initRedux';
+import { useAppDispatch, useAppSelector } from '../../../redux/hookStore';
+import { TypeLoginResponse, fetchLogin } from '../redux/loginSlice';
+import { ApolloCache, DefaultContext, MutationFunctionOptions, OperationVariables, useMutation } from '@apollo/client';
+import { LOGIN_MUTATION } from '../../../Graphql/mutation/loginMutate';
 
 const Login = () => {
   const [searchParams] = useSearchParams();
   const userTypeParams = searchParams.get('login');
-  const [LoginToken, { data, loading, error }] = useMutation(LOGIN_MUTATION);
+  const { logedUser, loading, error } = useAppSelector((state) => state.login);
+  const [loginFun] = useMutation(LOGIN_MUTATION)
+
+  const dispatch = useAppDispatch()
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    reset,
-    control,
     formState: { errors, isValid },
   } = useForm<TypeLoginInput>({
     mode: 'onChange',
   });
 
-  const handleClickSubmit = (payload: TypeLoginInput) => {
-    LoginToken({
-      variables: { input: { ...payload, tablename: userTypeParams } },
-    }).then(({data}) => {
-      localStorage.setItem('TOKEN', data.login.loginResponse.jwtToken);
-      const {userDetails} = data.login.loginResponse
-      store.dispatch({
-        type: 'login/update_loged_simple_user_info',
-        payload: JSON.parse(userDetails),
-      });
+
+  const handleClickSubmit = async (payload: TypeLoginInput) => {
+    
+    await dispatch(fetchLogin({email: payload.email, password: payload.password, tablename: userTypeParams as string, loginFun}))
+    
+    
+    // LoginToken({
+    //   variables: { input: { ...payload, tablename: userTypeParams } },
+    // }).then(({data}) => {
+    //   localStorage.setItem('TOKEN', data.login.loginResponse.jwtToken);
+    //   const {userDetails} = data.login.loginResponse
+    //   store.dispatch({
+    //     type: 'login/update_loged_simple_user_info',
+    //     payload: JSON.parse(userDetails),
+    //   });
+    // console.log(logedUser);
+    
       navigate('/initmatchcards');
-    });
+    // });
   };
 
   if (
@@ -42,7 +51,7 @@ const Login = () => {
     userTypeParams !== 'matchmaker'
   )
     return <Navigate replace to={'/'} />;
-  if (error) console.log(error); // handle errors
+  // if (error) console.log(error); // handle errors
 
   return (
     <div>
@@ -97,7 +106,3 @@ const Login = () => {
 };
 
 export default Login;
-function uuseEffect(arg0: () => void) {
-  throw new Error('Function not implemented.');
-}
-

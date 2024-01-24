@@ -6,10 +6,14 @@ import {
 } from '../../helpers/inputValidtion';
 import '../../style/inputs.css';
 import { TypeContactInfoMatchmakers } from '../../types/userTypes';
-import store from '../../../../redux/initRedux';
+import {
+  useAppDispatch,
+} from '../../../../redux/hookStore';
+import { updateUserInfoAndStepper } from '../../redux/signupSlice';
 
 const MatchmakersContactInfo = () => {
-  const currentStep = store.getState().signup.stepper;
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
@@ -26,14 +30,7 @@ const MatchmakersContactInfo = () => {
 
   const handleClickSubmit = (data: TypeContactInfoMatchmakers) => {
     const { passwordconfirm, ...filteredData } = data;
-    store.dispatch({
-      type: 'signup/stepper_incremente',
-    });
-
-    store.dispatch({
-      type: 'signup/update_user_input_values',
-      payload: { ...filteredData },
-    });
+    dispatch(updateUserInfoAndStepper({ ...filteredData }));
   };
   return (
     <>

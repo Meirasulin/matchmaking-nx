@@ -8,13 +8,14 @@ import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../../style/inputs.css';
 import { TypePersonalDetailsMatchmakers } from '../../types/userTypes';
-import store from '../../../../redux/initRedux';
+import { updateUserInfoAndStepper } from '../../redux/signupSlice';
+import { useAppDispatch } from '../../../../redux/hookStore';
 
 const MatchmakersPersonalDetails = () => {
+const dispatch = useAppDispatch()
   const {
     register,
     handleSubmit,
-    reset,
     control,
     formState: { errors, isValid },
   } = useForm<TypePersonalDetailsMatchmakers>({
@@ -22,14 +23,8 @@ const MatchmakersPersonalDetails = () => {
   });
 
   const handleClickSubmit = (data: TypePersonalDetailsMatchmakers) => {
-    store.dispatch({
-      type: 'signup/update_user_input_values',
-      payload: { ...data },
-    });
-    store.dispatch({
-      type: 'signup/stepper_incremente',
-    });
-  };
+    dispatch(updateUserInfoAndStepper({ ...data, birthdate: data.birthdate.toDateString()}));
+  }
   return (
     <>
       <div className="flex ">
@@ -89,6 +84,7 @@ const MatchmakersPersonalDetails = () => {
               render={({ field }) => (
                 <ReactDatePicker
                   onChange={(date) => field.onChange(date)}
+
                   selected={field.value}
                   className={
                     errors.birthdate?.message ? 'inputError' : 'inputSuccess'

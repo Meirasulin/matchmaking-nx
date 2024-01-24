@@ -4,14 +4,16 @@ import { allSignupMutation } from '../../../Graphql/mutation/signupMutate';
 import '../style/inputs.css';
 import '../style/signupStepper.css';
 import ButtonLoading from '../../loading/component/ButtonLoading';
-import store from '../../../redux/initRedux';
+import { useAppDispatch, useAppSelector } from '../../../redux/hookStore';
+import { plusstepper, reststepper } from '../redux/signupSlice';
 
 
 const Payment = () => {
-  const currentInfo = store.getState().signup.inputsValue;
+  const currentInfo = useAppSelector((state)=> state.signup.inputsValue)
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
+  const dispatch = useAppDispatch()
   if (
     signupTypeParams !== 'male' &&
     signupTypeParams !== 'female' &&
@@ -32,14 +34,13 @@ const Payment = () => {
   const [signupMutation, { data, loading, error }] = useMutation(SIGNUP);
 
   const handleClickFinish = async () => {
-    store.dispatch({
-      type: 'signup/stepper_incremente',
-    });
+    
     if (signupTypeParams) {
       await signupMutation({
         variables,
       }).then(() => {
-        navigate('/');
+        navigate(`/login?login=${signupTypeParams}`);
+        dispatch(reststepper());
       });
     }
   };

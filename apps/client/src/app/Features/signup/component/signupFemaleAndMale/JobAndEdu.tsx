@@ -6,9 +6,12 @@ import '../../style/inputs.css';
 import '../../style/signupStepper.css';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import { JobAndEduLists, maleOrFeamle } from '../../helpers/inputLists';
-import store from '../../../../redux/initRedux';
+import { useAppDispatch } from '../../../../redux/hookStore';
+import { updateUserInfoAndStepper } from '../../redux/signupSlice';
 
 const JobAndEdu = () => {
+  const dispatch = useAppDispatch();
+
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
   const [showOption, setShowOption] = useState<
@@ -24,13 +27,7 @@ const JobAndEdu = () => {
   });
 
   const handleClickSubmit = (data: TypeJobAndEdu) => {
-    store.dispatch({
-      type: 'signup/update_user_input_values',
-      payload: { ...data },
-    });
-    store.dispatch({
-      type: 'signup/stepper_incremente',
-    });
+    dispatch(updateUserInfoAndStepper({ ...data }));
   };
   if (signupTypeParams !== 'male' && signupTypeParams !== 'female')
     return <Navigate replace to={'/'} />;

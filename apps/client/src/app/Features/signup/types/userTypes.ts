@@ -6,6 +6,9 @@ export type TypePersonalDetails = {
   fathername: string;
   mothername: string;
 };
+export type TypePersonalDetailsForRedux = {
+  birthdate: string;
+} & Omit<TypePersonalDetails, 'birthdate'>;
 
 export type TypeMatchInfo = {
   origin: string;
@@ -46,6 +49,10 @@ export type TypePersonalDetailsMatchmakers = {
   specialty: string;
   gender: 'male' | 'female';
 };
+export type TypePersonalDetailsMatchmakersForRedux = {
+  birthdate: string;
+} & Omit<TypePersonalDetailsMatchmakers, 'birthdate'>;
+
 export type TypeContactInfoMatchmakers = {
   phonenumber: string;
   email: string;
@@ -60,6 +67,8 @@ export type TypeAtomUserInfo =
   | TypeJobAndEdu
   | TypeUserInfo
   | TypeContactInfo
+  | TypePersonalDetailsForRedux
+  | TypePersonalDetailsMatchmakersForRedux
   | TypePersonalDetails
   | TypeMatchInfo
   | TypeMatchmakerInfo

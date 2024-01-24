@@ -5,10 +5,11 @@ import citysListJSON from '../../helpers/citysList';
 import { MatchinfoInputs, MatchinfoLists } from '../../helpers/inputLists';
 import '../../style/inputs.css';
 import '../../style/signupStepper.css';
-import store from '../../../../redux/initRedux';
+import { useAppDispatch } from '../../../../redux/hookStore';
+import { updateUserInfoAndStepper } from '../../redux/signupSlice';
 
 const MatchInfo = () => {
-
+  const dispatch = useAppDispatch()
   const {
     register,
     handleSubmit,
@@ -19,13 +20,7 @@ const MatchInfo = () => {
 
   const handleClickSubmit = (data: TypeMatchInfo) => {
     data.height = parseInt(data.height as unknown as string);
-    store.dispatch({
-      type: 'signup/update_user_input_values',
-      payload: { ...data, height: data.height },
-    });
-    store.dispatch({
-      type: 'signup/stepper_incremente',
-    });
+    dispatch(updateUserInfoAndStepper({ ...data, height: data.height }));
   };
   return (
     <>

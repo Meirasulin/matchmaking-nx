@@ -7,7 +7,7 @@ const tRPC = createTRPCProxyClient<AppRouter>({
       url: 'http://localhost:3000',
       headers() {
         return {
-          Authorization: String(localStorage.getItem("TOKEN"))
+          Authorization:  String(localStorage.getItem("TOKEN"))
         }
       }
     }),

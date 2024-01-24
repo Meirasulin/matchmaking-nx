@@ -16,9 +16,7 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose }) => {
     TypeMatchmakersList | undefined
   >();
   const {
-    register,
     handleSubmit,
-    formState: { errors, isValid },
   } = useForm({
     mode: 'onSubmit',
   });
@@ -27,7 +25,6 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose }) => {
   useEffect(() => {
     const getMatchmakers = async () => {
       const matchmakers = await getAllMatchmakers();
-
       setMatchmakersList(matchmakers);
     };
     getMatchmakers();
@@ -61,7 +58,6 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose }) => {
               <h3 className="text-lg font-black text-gray-800">
                 לפרטים נוספים והתאמה לשידוך יש לבחור משדכ/ת
               </h3>
-              <p className="text-sm text-gray-500">בחר מתוך הרשימה</p>
             </div>
             <div>
               <form onSubmit={handleSubmit(handleClickChose)}>
@@ -70,19 +66,16 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose }) => {
                   id="select_matchmakers"
                   className="inputs mb-1"
                 >
-                  <option className=""></option>
+                  <option className="text-center" >בחר/י שדכנ/ית מהרשימה</option>
                   {matchmakersList &&
                     matchmakersList.map((matchmaker, i) => (
                       <option
                         key={i}
                         value={matchmaker.email}
-                        className="text-center mb-1"
+                        className="mb-1 text-sm text-gray-500 text-center"
                       >
-                        <div>
-                          <p className="text-sm text-gray-500 text-center">
                             {matchmaker.firstname} {matchmaker.lastname}
-                          </p>
-                        </div>
+
                       </option>
                     ))}
                 </select>

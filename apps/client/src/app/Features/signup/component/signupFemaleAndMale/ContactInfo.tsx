@@ -7,9 +7,11 @@ import {
 import { TypeContactInfo } from '../../types/userTypes';
 import '../../style/inputs.css';
 import '../../style/signupStepper.css';
-import store from '../../../../redux/initRedux';
+import { updateUserInfoAndStepper } from '../../redux/signupSlice';
+import { useAppDispatch } from '../../../../redux/hookStore';
 
 const ContactInfo = () => {
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -25,14 +27,7 @@ const ContactInfo = () => {
 
   const handleClickSubmit = (data: TypeContactInfo) => {
     const { passwordConfirm, ...filteredData } = data;
-
-    store.dispatch({
-      type: 'signup/update_user_input_values',
-      payload: { ...filteredData },
-    });
-    store.dispatch({
-      type: 'signup/stepper_incremente',
-    });
+    dispatch(updateUserInfoAndStepper({ ...filteredData }));
   };
   return (
     <>

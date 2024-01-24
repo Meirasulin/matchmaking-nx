@@ -7,9 +7,12 @@ import '../../style/signupStepper.css';
 import { TypePersonalDetails } from '../../types/userTypes';
 import { PersonalInputs } from '../../helpers/inputLists';
 import { maritalstatusList } from '../../helpers/selectOptionLists';
-import store from '../../../../redux/initRedux';
+import { useAppDispatch } from '../../../../redux/hookStore';
+import { updateUserInfoAndStepper } from '../../redux/signupSlice';
 
 const PersonalDetails = () => {
+  const dispatch = useAppDispatch()
+
   const {
     register,
     handleSubmit,
@@ -20,14 +23,7 @@ const PersonalDetails = () => {
   });
 
   const handleClickSubmit = (data: TypePersonalDetails) => {
-
-    store.dispatch({
-      type: 'signup/update_user_input_values',
-      payload: { ...data },
-    });
-    store.dispatch({
-      type: 'signup/stepper_incremente',
-    });
+    dispatch(updateUserInfoAndStepper({ ...data }));
   };
 
   return (

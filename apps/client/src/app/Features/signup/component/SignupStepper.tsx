@@ -5,12 +5,11 @@ import { Navigate, useSearchParams } from 'react-router-dom';
 import '../style/inputs.css';
 import '../style/signupStepper.css';
 import steps from '../helpers/tabsLists';
-import store from '../../../redux/initRedux.js';
+import { useAppDispatch, useAppSelector } from '../../../redux/hookStore.js';
 
 const SignupStepper = () => {
   const [complete] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
-
+  const currentStep = useAppSelector((state)=> state.signup.stepper)
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
 
@@ -31,11 +30,6 @@ const SignupStepper = () => {
     return <Navigate replace to={'/'} />;
   }
 
-  useEffect(() => {
-    store.subscribe(() => {
-      setCurrentStep(store.getState().signup.stepper);
-    });
-  }, []);
 
   return (
     <>

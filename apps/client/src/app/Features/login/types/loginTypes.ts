@@ -23,7 +23,7 @@ export type TypeLoginInput = {
     fathername?: string | null;
     mothername?: string | null;
     maritalstatus: string;
-    gender: string;
+    gender: 'male' | 'female';
     imglink?: string | null;
     yeshiva?: string | null;
     torahstudystatus?: string | null;
