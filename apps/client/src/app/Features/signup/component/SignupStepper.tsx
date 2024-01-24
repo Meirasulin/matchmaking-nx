@@ -9,9 +9,7 @@ import store from '../../../redux/initRedux.js';
 
 const SignupStepper = () => {
   const [complete] = useState(false);
-  const [currentStep, setCurrentStep] = useState(
-    store.getState().signup.stepper
-  );
+  const [currentStep, setCurrentStep] = useState(1);
 
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
@@ -34,11 +32,11 @@ const SignupStepper = () => {
   }
 
   useEffect(() => {
-    const unsubscribe = store.subscribe(() => {
+    store.subscribe(() => {
       setCurrentStep(store.getState().signup.stepper);
     });
-    return unsubscribe;
   }, []);
+
   return (
     <>
       <h1 className="text-center font-bold">הרשמה ל{userTypeName}</h1>
