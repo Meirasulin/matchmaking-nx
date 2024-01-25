@@ -8,7 +8,7 @@ import '../style/signupStepper.css';
 import ButtonLoading from '../../loading/component/ButtonLoading';
 
 const Payment = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [currentInfo, setCurrentInfo] = useAtom(userInfoAtom);
   const [_, setCurrentStep] = useAtom(stepAtom);
   const [searchParams] = useSearchParams();
@@ -37,7 +37,14 @@ const Payment = () => {
     if (signupTypeParams) {
       await signupMutation({
         variables,
-      });
+      }).then(() => {
+
+        navigate(`/login?login=${signupTypeParams}`);
+      }).catch((error)=>{
+        console.log(error);
+        
+        setCurrentStep(1)
+      })
     }
   };
 

@@ -11,8 +11,6 @@ const Router = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignupStepper />} />
       <Route path="/initmatchcards" element={<InitMatchPage />} />
-      {/* <Route path="/signupfemale" element={<SignupStepperFemale />} />
-      <Route path="/signupmale" element={<SignupStepperFemale />} /> */}
     </Routes>
   );
 };

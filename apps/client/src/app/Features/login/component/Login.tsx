@@ -7,6 +7,7 @@ import { LOGIN_MUTATION } from '../../../Graphql/mutation/loginMutate';
 import ButtonLoading from '../../loading/component/ButtonLoading';
 import { logedUserInfo } from '../../../helpers/logedUserInfo';
 import { useAtom } from 'jotai';
+import '../style/inputs.css'
 
 
 const Login = () => {
