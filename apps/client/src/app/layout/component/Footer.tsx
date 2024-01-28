@@ -1,38 +1,38 @@
+import React from "react";
+
 const Footer = () => {
   return (
-    <footer className="bg-white rounded-lg shadow m-4 dark:bg-gray-800 ">
-      <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-        <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2023{' '}
-          <a href="https://flowbite.com/" className="hover:underline">
-            Flowbite™
+    <footer className="bg-gray-800 text-white fixed bottom-0 w-full">
+      <div className="container mx-auto px-6 py-10">
+        <div className="flex justify-center">
+          <img
+            className="h-20"
+            src="https://cdn.discordapp.com/attachments/1061944547246088242/1192438096722153503/logo-removebg-preview.png"
+            alt="Company Logo"
+          />
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          &copy; Matching 2023 | Created by Meir Asulin
+        </div>
+
+        <div className="mt-8 flex justify-center text-gray-400">
+          <a className="mx-3 hover:underline" href="/about">
+            About
           </a>
-          . All Rights Reserved.
-        </span>
-        <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-          <li>
-            <a href="#" className="hover:underline me-4 md:me-6">
-              About
-            </a>
-          </li>
-          <li>
-            <a href="#" className="hover:underline me-4 md:me-6">
-              Privacy Policy
-            </a>
-          </li>
-          <li>
-            <a href="#" className="hover:underline me-4 md:me-6">
-              Licensing
-            </a>
-          </li>
-          <li>
-            <a href="#" className="hover:underline">
-              Contact
-            </a>
-          </li>
-        </ul>
+          <a className="mx-3 hover:underline" href="/contact">
+            Contact
+          </a>
+          <a className="mx-3 hover:underline" href="/terms">
+            Terms
+          </a>
+          <a className="mx-3 hover:underline" href="/privacy">
+            Privacy
+          </a>
+        </div>
       </div>
     </footer>
   );
 };
+
 export default Footer;
