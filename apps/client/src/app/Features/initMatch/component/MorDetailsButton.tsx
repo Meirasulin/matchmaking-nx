@@ -8,22 +8,34 @@ import { MdOutlineCancel } from "react-icons/md";
 type Prop = {
   open: boolean;
   onClose: () => void;
+  forNextStep: {
+    asked: number,
+    asks: number,
+    asksType: 'male' | 'female',
+  }
 };
 
-const MorDetailsButton: React.FC<Prop> = ({ open, onClose }) => {
+const MorDetailsButton: React.FC<Prop> = ({ open, onClose, forNextStep }) => {
   const getAllMatchmakers = tRPC.matchmaker.getAllMatchmakersForinitMatch.query;
+  const createMatch = tRPC.matching.createMatch.mutate
   const [matchmakersList, setMatchmakersList] = useState<
     TypeMatchmakersList | undefined
   >();
   const {
-    register,
     handleSubmit,
+    register,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onSubmit',
   });
+  const {asked, asks, asksType} = forNextStep
 
-  const handleClickChose = (email: FieldValues) => {};
+
+  const handleClickChose = (data: FieldValues) => {
+    // createMatch({asked, asks, asksType, handler: data })
+    console.log(data);
+    
+  };
   useEffect(() => {
     const getMatchmakers = async () => {
       const matchmakers = await getAllMatchmakers();
@@ -77,6 +89,8 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose }) => {
                         key={i}
                         value={matchmaker.email}
                         className="text-center mb-1"
+                        // id='matchmaker'
+                        {...register('select_matchmakers', {required: true})}
                       >
                         <div>
                           <p className="text-sm text-gray-500 text-center">
@@ -86,7 +100,8 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose }) => {
                       </option>
                     ))}
                 </select>
-                <button className="btn btn-danger w-full" type="submit">
+                <button className="btn btn-danger w-full" type="submit"
+>
                   בחר
                 </button>
               </form>

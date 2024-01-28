@@ -1,11 +1,9 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../../db/postgresConnection';
 import { MatchmakerType } from '../types/matchmakerType';
-import Female from '../../female/model/tableDefinition';
-import Male from '../../male/model/tableDefinition';
 
 const Matchmakers = sequelize.define<
-  Model<MatchmakerType & {matchmakerid?:  Number, createdAt?: Date; updatedAt?: Date }, MatchmakerType>
+  Model<MatchmakerType  & { id?: Number; createdAt?: Date; updatedAt?: Date }, MatchmakerType>
 >(
   'matchmaker',
   {

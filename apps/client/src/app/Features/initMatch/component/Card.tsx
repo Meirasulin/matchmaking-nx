@@ -72,7 +72,7 @@ const Card = ({ user }: Prop) => {
       <button className="btn btn-danger" onClick={() => setOpen(true)}>        פרטים נוספים
       </button>
       </div>
-      <MorDetailsButton open={open} onClose={() => setOpen(false)}>
+      <MorDetailsButton open={open} onClose={() => setOpen(false)} forNextStep={{asked}}>
 
       </MorDetailsButton>
     </div>

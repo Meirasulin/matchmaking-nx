@@ -9,6 +9,16 @@ DROP TABLE matching.female;
 DROP TABLE matching.matchmaker;
 
 
+CREATE TABLE matching.Matcing (
+id serial PRIMARY KEY NOT NULL,
+idMatchmaker TEXT NOT NULL,
+Idfeale TEXT NOT NULL,
+idMale TEXT NOT NULL,
+asks TEXT NOT NULL CHECK (asks = 'male' OR asks = 'female'),
+status TEXT NOT NULL
+);
+
+
 
 
 

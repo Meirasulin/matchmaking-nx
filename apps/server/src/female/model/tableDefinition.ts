@@ -4,7 +4,7 @@ import { FemaleType } from '../types/femaleType';
 
 const Female = sequelize.define<
   Model<
-    FemaleType & { id?: Number; },
+    FemaleType  & { id?: Number },
     FemaleType
   >
 >(
