@@ -46,9 +46,9 @@ const Login = () => {
   if (error) console.log(error); // handle errors
 
   return (
-    <div>
-      <form
-        className="flex  flex-col items-center"
+    <div className='min-h-96 flex justify-center'>
+    <form
+        className="flex  flex-col items-center justify-center"
         onSubmit={handleSubmit(handleClickSubmit)}
       >
         <div>
