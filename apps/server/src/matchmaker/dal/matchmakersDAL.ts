@@ -15,6 +15,7 @@ import { compare,  } from 'bcrypt';
 export const getAllMatchmakersForInitMatch = async () => {
   const matchmakers = await Matchmakers.findAll({
     attributes: [
+      'id',
       'firstname',
       'lastname',
       'email',

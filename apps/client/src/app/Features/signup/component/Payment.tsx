@@ -9,8 +9,11 @@ import ButtonLoading from '../../loading/component/ButtonLoading';
 
 const Payment = () => {
   const navigate = useNavigate();
+
   const [currentInfo, setCurrentInfo] = useAtom(userInfoAtom);
+
   const [_, setCurrentStep] = useAtom(stepAtom);
+
   const [searchParams] = useSearchParams();
   const signupTypeParams = searchParams.get('signup');
   if (
@@ -19,6 +22,7 @@ const Payment = () => {
     signupTypeParams !== 'matchmaker'
   )
     return <Navigate replace to={'/'} />;
+
 
   const variables =
     signupTypeParams === 'male' || signupTypeParams === 'female'

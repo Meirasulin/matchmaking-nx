@@ -27,8 +27,6 @@ const Login = () => {
   });
 
   const handleClickSubmit = (payload: TypeLoginInput) => {
-
-    
     LoginToken({
       variables: { input: { ...payload, tablename: userTypeParams } },
     }).then((res) => {

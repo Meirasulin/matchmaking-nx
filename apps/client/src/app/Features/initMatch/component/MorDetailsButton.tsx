@@ -4,20 +4,20 @@ import React from 'react';
 import { TypeMatchmakersList } from '../types/MatchmakersList';
 import '../style/morDetails.css';
 import { FieldValues, useForm } from 'react-hook-form';
-import { MdOutlineCancel } from "react-icons/md";
+import { MdOutlineCancel } from 'react-icons/md';
 type Prop = {
   open: boolean;
   onClose: () => void;
   forNextStep: {
-    asked: number,
-    asks: number,
-    asksType: 'male' | 'female',
-  }
+    asked: number;
+    asks: number;
+    asksType: 'male' | 'female';
+  };
 };
 
 const MorDetailsButton: React.FC<Prop> = ({ open, onClose, forNextStep }) => {
   const getAllMatchmakers = tRPC.matchmaker.getAllMatchmakersForinitMatch.query;
-  const createMatch = tRPC.matching.createMatch.mutate
+  const createMatch = tRPC.matching.createMatch.mutate;
   const [matchmakersList, setMatchmakersList] = useState<
     TypeMatchmakersList | undefined
   >();
@@ -25,22 +25,29 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose, forNextStep }) => {
     handleSubmit,
     register,
     formState: { errors, isValid },
-  } = useForm({
+  } = useForm<FieldValues>({
     mode: 'onSubmit',
   });
-  const {asked, asks, asksType} = forNextStep
+  const { asked, asks, asksType } = forNextStep;
 
+  const handleClickChose = async ({ select_matchmakers }: FieldValues) => {
+    console.log(select_matchmakers);
 
-  const handleClickChose = (data: FieldValues) => {
-    // createMatch({asked, asks, asksType, handler: data })
-    console.log(data);
-    
+    const res = await createMatch({
+      asked,
+      asks,
+      asksType,
+      handler: Number(select_matchmakers),
+    });
+    console.log(res);
   };
+
   useEffect(() => {
     const getMatchmakers = async () => {
       const matchmakers = await getAllMatchmakers();
-
-      setMatchmakersList(matchmakers);
+      console.log(matchmakers);
+      
+      setMatchmakersList(matchmakers as TypeMatchmakersList);
     };
     getMatchmakers();
   }, []);
@@ -54,7 +61,6 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose, forNextStep }) => {
         ${open ? 'visible bg-black/20' : 'invisible'}
       `}
       >
-        {/* modal */}
         <div
           onClick={(e) => e.stopPropagation()}
           className={`
@@ -66,7 +72,7 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose, forNextStep }) => {
             onClick={onClose}
             className="absolute top-2 right-2 p-1 rounded-lg text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600"
           >
-           <MdOutlineCancel/>
+            <MdOutlineCancel />
           </button>
           <div className="text-center w-56">
             <div className="mx-auto my-4 w-48">
@@ -78,30 +84,24 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose, forNextStep }) => {
             <div>
               <form onSubmit={handleSubmit(handleClickChose)}>
                 <select
-                  name="select_matchmakers"
                   id="select_matchmakers"
                   className="inputs mb-1"
+                  {...register('select_matchmakers', { required: true })}
                 >
                   <option className=""></option>
                   {matchmakersList &&
                     matchmakersList.map((matchmaker, i) => (
                       <option
                         key={i}
-                        value={matchmaker.email}
+                        value={matchmaker.id}
                         className="text-center mb-1"
-                        // id='matchmaker'
-                        {...register('select_matchmakers', {required: true})}
                       >
-                        <div>
-                          <p className="text-sm text-gray-500 text-center">
-                            {matchmaker.firstname} {matchmaker.lastname}
-                          </p>
-                        </div>
+
+                        {matchmaker.firstname} {matchmaker.lastname}
                       </option>
                     ))}
                 </select>
-                <button className="btn btn-danger w-full" type="submit"
->
+                <button className="btn btn-danger w-full" type="submit">
                   בחר
                 </button>
               </form>

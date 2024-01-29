@@ -1,35 +1,26 @@
 import { Navigate } from 'react-router-dom';
 import Card from './Card';
-import tRPC from '../../../../trpc/trpcClient';
-import { useEffect, useState } from 'react';
-import { userInfoTodisplayType } from '../types/userIfnoToDisplay';
 import { useAtom } from 'jotai';
 import { logedUserInfo } from '../../../helpers/logedUserInfo';
-
+import HookFirstMatchCards from '../hooks/GetFirstMatchingCards';
+import LoadingCircle from '../../loading/component/LoadingCircle';
+import ErrorAlert from '../../errors/component/ErrorAlert';
 
 const InitMatchPage = () => {
   const token = localStorage.getItem('TOKEN');
-  const getMatchingCards = tRPC.matching.getAllInitMatchingCards.query;
-  const [matchingCards, setMatchingCards] = useState<userInfoTodisplayType[] | undefined>();
-  const [logedUser] = useAtom(logedUserInfo)
-  if (!logedUser) return <Navigate replace to={'/'}/>
-  
-  
-  useEffect(() => {
-    getMatchingCards(logedUser.gender).then((res) => {
+  const [logedUser] = useAtom(logedUserInfo);
+  const { data, error, isLoading } = HookFirstMatchCards();
 
 
-      setMatchingCards(res as userInfoTodisplayType[])
-    });
-  }, []);
-  
-  if (!token) return <Navigate replace to={'/'} />;
+  if (!token || !logedUser) return <Navigate replace to={'/'} />;
+  if (isLoading) return <LoadingCircle />;
+  if (error !== '') return <ErrorAlert message={error} />;
   return (
-    <div className="flex flex-row flex-wrap justify-center">
-      {matchingCards && matchingCards.map((item, i) => (
-        <Card user={item} key={i} />
-        ))}
-    </div>
+    <>
+      <div className="flex flex-row flex-wrap justify-center">
+        {data && data.map((item, i) => <Card user={item} key={i} />)}
+      </div>
+    </>
   );
 };
 export default InitMatchPage;

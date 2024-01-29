@@ -6,6 +6,10 @@ import { userInfoTodisplayType } from '../types/userIfnoToDisplay';
 import { colorsList } from '../style/colorsList';
 import MorDetailsButton from './MorDetailsButton';
 import { useState } from 'react';
+import { getAge } from '../utils/getAge';
+import { useAtom } from 'jotai';
+import { logedUserInfo } from '../../../helpers/logedUserInfo';
+import { Navigate } from 'react-router-dom';
 
 type Prop = {
   user: userInfoTodisplayType;
@@ -15,12 +19,9 @@ const Card = ({ user }: Prop) => {
   const randomNumber = Math.floor(Math.random() * colorsList.length);
   let bgColor = `#${colorsList[randomNumber].padStart(6, '0')}`;
   const [open, setOpen] = useState(false)
-
-
-  const birthdate = new Date(user.birthdate)
-    const today = new Date();
-    let  age = today.getFullYear() - birthdate.getFullYear();
-    age -= birthdate.getMonth() > today.getMonth() ? 1 : 0;
+  const age = getAge(new Date(user.birthdate))
+  const [logedUser] = useAtom(logedUserInfo)
+  if(!logedUser) return <Navigate replace to={'/'}/>
 
   return (
     <div className={`max-w-72 rounded overflow-hidden shadow-xl m-10`}>
@@ -28,7 +29,7 @@ const Card = ({ user }: Prop) => {
         className={`flex justify-center rounded-full overflow-hidden shadow-lg mb-1 `}
         style={{ backgroundColor: bgColor }}
       >
-        {' '}
+      
         <img
           className="max-w-60 max-h-60  mr-4"
           src="https://cdn.discordapp.com/attachments/1061944547246088242/1196351593398935563/meir_asulin_Love_emoji_icon-removebg-preview_1.png"
@@ -72,7 +73,7 @@ const Card = ({ user }: Prop) => {
       <button className="btn btn-danger" onClick={() => setOpen(true)}>        פרטים נוספים
       </button>
       </div>
-      <MorDetailsButton open={open} onClose={() => setOpen(false)} forNextStep={{asked}}>
+      <MorDetailsButton open={open} onClose={() => setOpen(false)} forNextStep={{asked: logedUser.id!, asks: user.id!, asksType: logedUser.gender }}>
 
       </MorDetailsButton>
     </div>
