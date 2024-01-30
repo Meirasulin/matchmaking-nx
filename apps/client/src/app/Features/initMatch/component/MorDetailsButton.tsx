@@ -31,15 +31,14 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose, forNextStep }) => {
   const { asked, asks, asksType } = forNextStep;
 
   const handleClickChose = async ({ select_matchmakers }: FieldValues) => {
-    console.log(select_matchmakers);
-
     const res = await createMatch({
       asked,
       asks,
       asksType,
       handler: Number(select_matchmakers),
-    });
-    console.log(res);
+    }).then(()=> {
+
+    })
   };
 
   useEffect(() => {
@@ -51,7 +50,6 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose, forNextStep }) => {
     };
     getMatchmakers();
   }, []);
-
   return (
     <>
       <div
@@ -88,7 +86,7 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose, forNextStep }) => {
                   className="inputs mb-1"
                   {...register('select_matchmakers', { required: true })}
                 >
-                  <option className=""></option>
+                  <option className="text-center mb-1"></option>
                   {matchmakersList &&
                     matchmakersList.map((matchmaker, i) => (
                       <option
@@ -101,7 +99,9 @@ const MorDetailsButton: React.FC<Prop> = ({ open, onClose, forNextStep }) => {
                       </option>
                     ))}
                 </select>
-                <button className="btn btn-danger w-full" type="submit">
+                <button 
+                disabled={!isValid}
+                className={!isValid ? 'disableButton btn btn-danger w-full mb-1':  "btn btn-danger w-full mb-1" } type="submit">
                   בחר
                 </button>
               </form>

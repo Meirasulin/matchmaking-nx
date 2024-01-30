@@ -5,6 +5,7 @@ import SignupStepper from '../Features/signup/component/SignupStepper';
 import InitMatchPage from '../Features/initMatch/component/InitMatchPage';
 import ErrorPage from '../Features/errors/component/ErrorPage';
 import Layout from '../layout/component/layout';
+import MatchsPage from '../Features/matchmakers/component/MatchsPage';
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
         <Route path="/signup" element={<SignupStepper />} />
         <Route path="/initmatchcards" element={<InitMatchPage />} />
         <Route path="*" element={<ErrorPage />} />
+        <Route path='/matchspage' element={<MatchsPage/>}/>
       </Route>
     </Routes>
   );

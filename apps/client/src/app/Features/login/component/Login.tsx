@@ -15,7 +15,7 @@ const Login = () => {
   const userTypeParams = searchParams.get('login');
   const [LoginToken, { data, loading, error }] = useMutation(LOGIN_MUTATION);
   const navigate = useNavigate();
-  const [logedUser, setLogedUser] = useAtom(logedUserInfo)
+  const [_, setLogedUser] = useAtom(logedUserInfo)
   const {
     register,
     handleSubmit,

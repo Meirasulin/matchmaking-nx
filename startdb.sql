@@ -7,13 +7,14 @@ CREATE SCHEMA matching
 DROP TABLE matching.Male;
 DROP TABLE matching.female;
 DROP TABLE matching.matchmaker;
+DROP TABLE matching.matching;
 
 
-CREATE TABLE matching.Matcing (
+CREATE TABLE matching.Matching (
 id serial PRIMARY KEY NOT NULL,
-idMatchmaker TEXT NOT NULL,
-Idfeale TEXT NOT NULL,
-idMale TEXT NOT NULL,
+idMatchmaker INTEGER NOT NULL,
+Idfemale INTEGER NOT NULL,
+idMale INTEGER NOT NULL,
 asks TEXT NOT NULL CHECK (asks = 'male' OR asks = 'female'),
 status TEXT NOT NULL
 );

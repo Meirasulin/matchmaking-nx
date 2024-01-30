@@ -1,7 +1,23 @@
+import Female from '../../female/model/tableDefinition';
+import Male from '../../male/model/tableDefinition';
+import { femaleInfoForMatchmakers, maleInfoForMatchmakers } from '../utils/attributesLists';
+import Matching from '../../matching/model/tableDefinition';
 import Matchmakers from '../model/tableDefinition';
 import { LoginMatchmakerType, MatchmakerType } from '../types/matchmakerType';
 import { compare,  } from 'bcrypt';
 
+
+// export const testGetMatchmaker = async () => {
+//   try {
+//     const matchmaker = await Matchmakers.findAll();
+//     if (!matchmaker) throw new Error('error in faind all qurey');
+//     console.log(matchmaker);
+//     return matchmaker;
+//   } catch (error) {
+//     console.log(error);
+//     return Promise.reject(error);
+//   }
+// };
 // export const findUser = async (email: string) => {
 //   try {
 //     const findMatchmaker = await Matchmakers.findOne({
@@ -59,14 +75,34 @@ export const matchmakersLogin = async ({
   }
 };
 
-// export const testGetMatchmaker = async () => {
-//   try {
-//     const matchmaker = await Matchmakers.findAll();
-//     if (!matchmaker) throw new Error('error in faind all qurey');
-//     console.log(matchmaker);
-//     return matchmaker;
-//   } catch (error) {
-//     console.log(error);
-//     return Promise.reject(error);
-//   }
-// };
+
+export const getAllMatchs = async (matchmakerid: number) =>{
+  const matchmaker = await Matchmakers.findOne({
+    where: {
+      id: matchmakerid
+    }
+  })
+  if (!matchmaker) throw new Error ('unvalidated matchmaker')
+  const matchs = await Matching.findAll({
+where:{
+  idmatchmaker: matchmaker.dataValues.id as number
+}})
+if (!matchs) throw new Error ('no matchs yet')
+
+const matchsInfo =  matchs.map(async (match)=>{
+  const male = await Male.findOne({
+    where: {
+      id: match.dataValues.idmale
+    },
+    attributes: maleInfoForMatchmakers
+  })
+  const female = await Female.findOne({
+    where: {
+      id: match.dataValues.idfemale
+    },
+    attributes: femaleInfoForMatchmakers
+  })
+  return {male, female}
+})
+return matchsInfo
+}

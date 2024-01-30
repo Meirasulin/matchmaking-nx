@@ -57,38 +57,47 @@ type changeMatching = {
 };
 
 export const createMatch = async (matchingInfo: changeMatching) => {
-  const asks = await Male.findOne({
+  
+  const male = await Male.findOne({
     where: { id: matchingInfo.asks },
   });
-  const asked = await Female.findOne({
+  const female = await Female.findOne({
     where: { id: matchingInfo.asked },
   });
   const handler = await Matchmakers.findOne({
     where: { id: matchingInfo.handler },
   });
+  if (!handler || !female || !male) throw new Error ('unvalidated matching info')
   let newMatch: TypeMatching | {} = {};
   if (matchingInfo.asksType === 'male') {
     newMatch = {
-      idmale: asks.dataValues.id,
-      Idfemale: asked.dataValues.id,
-      idMatchmaker: handler.dataValues.id,
+      idmale: male.dataValues.id,
+      idfemale: female.dataValues.id,
+      idmatchmaker: handler.dataValues.id,
       status: 'start',
       asks: 'male',
     };
-    // const match = await Matching.create(newMatch);
-    // if (!match) throw new Error('error in createing match');
-    // return match;
+
   } else if (matchingInfo.asksType === 'female') {
     newMatch = {
-      idmale: asked.dataValues.id,
-      Idfemale: asks.dataValues.id,
-      idMatchmaker: handler.dataValues.id,
+      idmale: male.dataValues.id,
+      idfemale: female.dataValues.id,
+      idmatchmaker: handler.dataValues.id,
       status: 'start',
       asks: 'female',
     };
+    
   }
-  if (!newMatch) throw new Error('error in createing match');
+  const ifMatchAllrdyExists = await Matching.findOne({
+    where: {
+      idmale: male.dataValues.id as number,
+      idfemale: female.dataValues.id as number,
+    }
+  })
+  if (ifMatchAllrdyExists) throw new Error('match already exists')
   const match = await Matching.create(newMatch);
+  
   if (!match) throw new Error('error in createing match');
   return match;
 };
+

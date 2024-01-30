@@ -4,7 +4,7 @@ const ErrorAlert = ({ message }: { message: string }) => {
   return (
     <>
       <div
-        className="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+        className="fixed top-0 left-0 z-50 p-4 mb-4 w-full max-w-sm text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
         role="alert"
       >
         <svg
@@ -21,6 +21,8 @@ const ErrorAlert = ({ message }: { message: string }) => {
           <span className="font-medium">{message}</span>
         </div>
       </div>
+      <div className="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity"></div>
+
     </>
   );
 };
